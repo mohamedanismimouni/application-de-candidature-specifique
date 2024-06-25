@@ -1,0 +1,150 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <nb-layout-header class="subheader" subheader>
+            <div class="header-item">
+                <span class="subheader-title">{{ surveyType | titlecase }}</span>
+            </div>
+            <div class="header-item spacer"></div>
+            <div class="header-item">
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="small"
+                    status="primary"
+                    (click)="onAddQuestion()"
+                >
+                    <nb-icon icon="plus-outline"></nb-icon>
+                    Add question
+                </button>
+            </div>
+        </nb-layout-header>
+        <div class="container" cdkDropList (cdkDropListDropped)="onQuestionReorder($event)">
+            <h6 *ngIf="disabledQuestions.length > 0">
+                {{ 'Enabled questions (' + enabledQuestions.length + ')' }}
+            </h6>
+            <div class="no-questions-message" *ngIf="enabledQuestions.length <= 0">
+                <nb-icon icon="alert-circle-outline"></nb-icon>
+                <p>There are no enabled questions for this survey!</p>
+                <p>You should add some questions therefore collaborators can follow their career management workflow.</p>
+            </div>
+            <div
+                class="enabled-question-container"
+                *ngFor="let question of enabledQuestions"
+                cdkDrag
+            >
+                <div class="drag-placeholder" *cdkDragPlaceholder></div>
+                <div class="reorder-handler-container">
+                    <div class="reorder-handler" cdkDragHandle>
+                        <nb-icon icon="chevron-up-outline" status="basic"></nb-icon>
+                        <nb-icon icon="chevron-down-outline" status="basic"></nb-icon>
+                    </div>
+                </div>
+                <nb-card class="question-card">
+                    <nb-card-body>
+                        <nb-icon
+                            class="question-context-menu-icon"
+                            icon="more-vertical-outline"
+                            status="basic"
+                            [nbContextMenuTag]="question.id"
+                            [nbContextMenu]="questionContextMenuItems"
+                            (click)="triggeredQuestionContextMenuTag = question.id;"
+                        ></nb-icon>
+                        <div class="question">
+                            <div
+                                class="position"
+                                [class.emphasized]="question.required"
+                            >{{ question.position }}</div>
+                            {{ question.content }}
+                        </div>
+                        <p class="question-type">{{ questionTypes.get(question.questionType) }}</p>
+                        <p class="scale" *ngIf="question.questionType === ratingScaleQuestionType">
+                            Scale between
+                            <span>{{ question.lowestValue }}</span>
+                            and
+                            <span>{{ question.highestValue }}</span>
+                        </p>
+                        <p class="score" *ngIf="question.questionType === quizChoiceQuestionType">
+                            Score
+                            <span>{{ question.score }}</span>
+                        </p>
+                        <div
+                            class="choices-container"
+                            *ngIf="question.choices && question.choices.length > 0"
+                        >
+                            <p>
+                                Choices
+                                <span class="badge">
+                                    {{ (question.multipleChoices ? 'multiple' : 'single') }}
+                                </span>
+                            </p>
+                            <div
+                                class="choice"
+                                [class.disabled]="!choice.enabled"
+                                *ngFor="let choice of question.choices"
+                            >
+                                <div
+                                    class="position"
+                                    [class.emphasized]="choice.valid"
+                                >{{ choice.position | alphabeticalPosition }}</div>
+                                {{ choice.content }}
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+            <h6 *ngIf="disabledQuestions.length > 0">
+                {{ 'Disabled questions (' + disabledQuestions.length + ')' }}
+            </h6>
+            <div
+                class="disabled-question-container"
+                *ngFor="let question of disabledQuestions"
+            >
+                <nb-card class="question-card">
+                    <nb-card-body>
+                        <nb-icon
+                            class="question-context-menu-icon"
+                            icon="more-vertical-outline"
+                            status="basic"
+                            [nbContextMenuTag]="question.id"
+                            [nbContextMenu]="questionContextMenuItems"
+                            (click)="triggeredQuestionContextMenuTag = question.id;"
+                        ></nb-icon>
+                        <div class="question">{{ question.content }}</div>
+                        <p class="question-type">{{ questionTypes.get(question.questionType) }}</p>
+                        <p class="scale" *ngIf="question.questionType === ratingScaleQuestionType">
+                            Scale between
+                            <span>{{ question.lowestValue }}</span>
+                            and
+                            <span>{{ question.highestValue }}</span>
+                        </p>
+                        <p class="score" *ngIf="question.questionType === quizChoiceQuestionType">
+                            Score
+                            <span>{{ question.score }}</span>
+                        </p>
+                        <div
+                            class="choices-container"
+                            *ngIf="question.choices && question.choices.length > 0"
+                        >
+                            <p>
+                                Choices
+                                <span class="badge">
+                                    {{ (question.multipleChoices ? 'multiple' : 'single') }}
+                                </span>
+                            </p>
+                            <div
+                                class="choice"
+                                *ngFor="let choice of question.choices"
+                            >
+                                <div class="position">
+                                    {{ choice.position | alphabeticalPosition }}
+                                </div>
+                                {{ choice.content }}
+                            </div>
+                        </div>
+                    </nb-card-body>
+                </nb-card>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

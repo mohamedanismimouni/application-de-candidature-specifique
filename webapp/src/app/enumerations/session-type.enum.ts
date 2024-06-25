@@ -1,0 +1,7 @@
+export enum SessionTypeEnum {
+
+    ACCESS = 'ACCESS',
+    ACCOUNT_ACTIVATION = 'ACCOUNT_ACTIVATION',
+    PASSWORD_RESET = 'PASSWORD_RESET'
+
+}

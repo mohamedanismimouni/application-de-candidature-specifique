@@ -1,0 +1,201 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Add a new question</h4>
+        <div class="dialog-content">
+            <form class="form" [formGroup]="createQuestionFormGroup">
+                <div
+                    class="form-group"
+                    *ngIf="createQuestionFormGroup.get('questionType').value !== quizChoiceQuestionType"
+                >
+                    <nb-select
+                        fullWidth
+                        shape="round"
+                        placeholder="Question type"
+                        id="questionType"
+                        formControlName="questionType"
+                        (selectedChange)="onQuestionTypeChange()"
+                        [class.select-error]="formService.checkInputInvalidity(createQuestionFormGroup.get('questionType'))"
+                    >
+                        <nb-option
+                            *ngFor="let questionType of questionTypes"
+                            [value]="questionType.value"
+                        >{{ questionType.name }}</nb-option>
+                    </nb-select>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('questionType'), 'required')"
+                    >This field is required</p>
+                </div>
+                <div class="form-group">
+                    <textarea
+                        nbInput
+                        fullWidth
+                        rows="3"
+                        shape="round"
+                        placeholder="Content"
+                        id="content"
+                        formControlName="content"
+                        [class.textarea-error]="formService.checkInputInvalidity(createQuestionFormGroup.get('content'))"
+                    ></textarea>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('content'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('content'), 'blank')"
+                    >Question content's must have at least one none whitescpace character</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('content'), 'maxlength')"
+                    >Try to keep the question's content within the range of 250 characters</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('content'), 'notUnique')"
+                    >A question with the same content and the same type already exists in this survey</p>
+                </div>
+                <div
+                    class="scale-container"
+                    *ngIf="createQuestionFormGroup.get('questionType').value === ratingScaleQuestionType"
+                >
+                    <p class="scale-label">
+                        {{
+                            'Scale between '
+                            + createQuestionFormGroup.get('lowestValue').value
+                            + ' and '
+                            + createQuestionFormGroup.get('highestValue').value
+                        }}
+                    </p>
+                    <div class="form-group">
+                        <div #sliderElement></div>
+                    </div>
+                </div>
+                <div
+                    class="form-group"
+                    *ngIf="createQuestionFormGroup.get('questionType').value === quizChoiceQuestionType"
+                >
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="Score"
+                        type="number"
+                        min="1"
+                        id="score"
+                        formControlName="score"
+                        [class.input-error]="formService.checkInputInvalidity(createQuestionFormGroup.get('score'))"
+                    >
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('score'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createQuestionFormGroup.get('score'), 'min')"
+                    >Quiz question score should be greater  or equal to 1</p>
+                </div>
+                <div
+                    class="choices-container"
+                    *ngIf="createQuestionFormGroup.get('questionType').value === quizChoiceQuestionType ||
+                        createQuestionFormGroup.get('questionType').value === regularChoiceQuestionType"
+                    formArrayName="choices"
+                >
+                    <p class="choices-label">Choices</p>
+                    <div
+                        class="form-group"
+                        *ngFor="let choice of choices.controls; let i = index;"
+                        [formGroupName]="i"
+                    >
+                        <div class="choice-container">
+                            <div
+                                class="position"
+                                [ngStyle]="{'cursor': (createQuestionFormGroup.get('questionType').value === quizChoiceQuestionType) ? 'pointer' : 'default' }"
+                                [class.valid]="choice.get('valid') && choice.get('valid').value"
+                                (click)="onToggleChoiceValidity(i)"
+                            >{{ (i + 1) | alphabeticalPosition }}</div>
+                            <div class="choice-control">
+                                <input
+                                    nbInput
+                                    fullWidth
+                                    shape="round"
+                                    [placeholder]="'Choice ' + ((i + 1) | alphabeticalPosition)"
+                                    type="text"
+                                    id="content"
+                                    formControlName="content"
+                                    (keyup)="onChoiceContentInputChange(i)"
+                                    [class.input-error]="formService.checkInputInvalidity(choice.get('content'))"
+                                >
+                                <p
+                                    class="error-message"
+                                    *ngIf="formService.checkInputError(choice.get('content'), 'required')"
+                                >This field is required</p>
+                                <p
+                                    class="error-message"
+                                    *ngIf="formService.checkInputError(choice.get('content'), 'blank')"
+                                >Choice content's must have at least one none whitescpace character</p>
+                                <p
+                                    class="error-message"
+                                    *ngIf="formService.checkInputError(choice.get('content'), 'notUnique')"
+                                >A choice with the same content already exists in this question</p>
+                            </div>
+                            <div
+                                class="delete-action"
+                                *ngIf="i > 1"
+                            >
+                                <nb-icon
+                                    icon="close-outline"
+                                    status="basic"
+                                    (click)="onRemoveChoice(i)"
+                                ></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        nbButton
+                        shape="round"
+                        size="small"
+                        (click)="onAddChoice()"
+                    >
+                        <nb-icon icon="plus-outline"></nb-icon>
+                        Add choice
+                    </button>
+                </div>
+                <div
+                    class="form-group"
+                    *ngIf="createQuestionFormGroup.get('questionType').value === quizChoiceQuestionType ||
+                        createQuestionFormGroup.get('questionType').value === regularChoiceQuestionType"
+                >
+                    <nb-toggle formControlName="multipleChoices">
+                        {{ createQuestionFormGroup.get('multipleChoices').value ? 'Multiple choices' : 'Single choice' }}
+                    </nb-toggle>
+                </div>
+                <div class="form-group">
+                    <nb-toggle formControlName="required">
+                        {{ createQuestionFormGroup.get('required').value ? 'Required' : 'Not required' }}
+                    </nb-toggle>
+                </div>
+            </form>
+        </div>
+        <div class="actions-container">
+            <div class="floatright">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onCancel()"
+                >cancel</button>
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="createQuestionFormGroup.invalid || loadingState"
+                    [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

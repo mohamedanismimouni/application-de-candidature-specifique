@@ -1,0 +1,60 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Evaluation survey responses</h4>
+        <div class="dialog-content">
+            <div
+                class="response-container"
+                *ngFor="let response of responses"
+            >
+                <div class="question">
+                    <div
+                        class="position"
+                    >{{ response.question.position }}</div>
+                    {{ response.question.content }}
+                </div>
+                <div class="response">
+                    <ng-container [ngSwitch]="response.question.questionType">
+                        <ng-container *ngSwitchCase="questionType.OPEN_ENDED">
+                            <p>{{ response.content }}</p>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="questionType.RATING_SCALE">
+                            <div class="rating-scale-container">
+                                <app-rating-scale
+                                    [enabled]="false"
+                                    [lowestValue]="response.question.lowestValue"
+                                    [highestValue]="response.question.highestValue"
+                                    [(selectedValue)]="response.rating"
+                                ></app-rating-scale>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="questionType.REGULAR_CHOICE">
+                            <div class="choices-picker-container">
+                                <app-choices-picker
+                                    [enabled]="false"
+                                    [multipleChoices]="response.question.multipleChoices"
+                                    [choices]="response.question.choices"
+                                ></app-choices-picker>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+            <p
+                class="no-responses-message"
+                *ngIf="responses?.length <= 0"
+            >
+                No available responses yet...
+            </p>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onClose()"
+                >close</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

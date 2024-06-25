@@ -1,0 +1,71 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+.feature-module-layout {
+     ::ng-deep {
+        .subheader nav {
+            height: 2em;
+        }
+    }
+}
+
+.column-layout {
+     ::ng-deep {
+        .nb-layout-column {
+            min-width: 100 !important;
+        }
+    }
+}
+
+.collaborator-profile-picture {
+    nb-user {
+         ::ng-deep {
+            .user-container {
+                .info-container {
+                    margin-left: 24px;
+                }
+            }
+        }
+         ::ng-deep {
+            .user-container {
+                .user-picture {
+                    width: 110px;
+                    height: 110px;
+                }
+            }
+        }
+    }
+}
+
+.dashboard {
+    color: var(--text-primary-color);
+    margin-top: 1.5em;
+}
+
+.collaborator-info-container {
+    margin-left: 0 !important;
+    p {
+        margin: 0;
+    }
+    .collaborator-name {
+        font-size: var(--text-heading-5-font-size);
+        font-weight: var(--text-heading-4-font-weight);
+        margin-bottom: 6px;
+    }
+    .collaborator-email {}
+    .years-of-experience {
+        font-size: var(--text-subtitle-2-font-size);
+        font-weight: var(--text-subtitle-2-font-weight);
+        margin-top: 8px;
+    }
+    .link {
+        display: block;
+        width: fit-content;
+        margin-top: 16px;
+        cursor: pointer;
+        font-size: var(--text-caption-font-size);
+        color: var(--color-primary-500);
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

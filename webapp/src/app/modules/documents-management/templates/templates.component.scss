@@ -1,0 +1,146 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+.titleDate {
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+}
+
+.nb-card-header {
+    background-color: rgb(8, 8, 104);
+}
+
+.card {
+    border-radius: 10px;
+    background-color: var(--header-background-color);
+    color: aliceblue;
+    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(150, 147, 147, 0.19);
+    .card-header {
+        border-radius: 10px 10px 0px 0px;
+        background: linear-gradient(90deg, #2CAF93 35%, var(--text-primary-color)100%);
+    }
+}
+
+.container-document {
+    max-width: 900px;
+    margin: 3% auto;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+}
+
+
+
+.actionButton {
+    margin-right: 7px;
+    margin-left: 1px;
+    ;
+    color: var(--text-primary-color)
+}
+
+.h6style {
+    margin-left: 10px;
+}
+
+.stylesearch {
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.cardi {
+    padding: 20px;
+}
+
+.columnwidth {
+    width: 150px;
+    padding: 30px;
+}
+
+.iconmargin {
+    margin-right: 10px;
+    color: var(--text-primary-color)
+}
+
+.icontitle {
+    margin-right: 5px;
+}
+
+.styleTitle {
+    margin-right: 30px;
+    margin-left: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.datatable-header {
+    border-bottom: 1px solid var(--divider-color);
+    .datatable-header-content-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .datatable-header-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            .search-box {
+                flex: 1;
+                input {
+                    max-width: 30%;
+                    animation: show-and-expand 0.3s ease-in forwards;
+                }
+            }
+            .search-box-control {
+                margin-left: 24px;
+                nb-icon {
+                    color: var(--text-primary-color);
+                    cursor: pointer;
+                }
+            }
+        }
+        .datatable-header-item+.datatable-header-item {
+            margin-left: 24px;
+            @include media-breakpoint-down(md) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+        .datatable-header-item.full-width {
+            flex: 1;
+        }
+        .datatable-header-item.filters-container {
+            @include media-breakpoint-down(md) {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    }
+}
+.tab_view{
+    margin-top: 1%;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    color: #2CAF93;
+    border-color: #2CAF93;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+    box-shadow: 0 0 0 0rem #b2eee1;
+}
+/* ::ng-deep .p-tabview .p-tabview-panels{
+    height: 600px;
+} */
+
+:host ::ng-deep {
+    .p-datatable-scrollable-body {
+        height: 300px;
+        border-left: 1px solid rgb(245, 242, 242);
+    }
+}

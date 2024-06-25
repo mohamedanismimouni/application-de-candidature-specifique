@@ -1,0 +1,235 @@
+<div class="datatable-container">
+    <div class="datatable-header">
+        <form [formGroup]="datatableHeaderFormGroup">
+            <div class="datatable-header-content-container">
+                <div class="datatable-header-item full-width">
+                    <div class="search-box">
+                        <h6 *ngIf="!search">{{ configuration.title }}</h6>
+                        <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text"
+                            [placeholder]="'Search ' + configuration.title.toLowerCase() + '...'" id="keyword"
+                            formControlName="keyword" (keyup)="onDatatableHeaderChange()">
+                    </div>
+                    <div class="search-box-control">
+                        <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" (click)="toggleSearch()">
+                        </nb-icon>
+                    </div>
+                </div>
+                <div class="datatable-header-item filters-container" *ngIf="filters && filters.length > 0"
+                    formArrayName="filters">
+                    <div class="filter" *ngFor="let filter of filters.controls; let i = index;">
+                        <nb-select shape="round" size="small" [placeholder]="filtersInformation[i].placeholder"
+                            [id]="filtersInformation[i].id" [formControlName]="i"
+                            (selectedChange)="onDatatableHeaderChange()">
+                            <nb-option>All</nb-option>
+                            <nb-option *ngFor="let value of filtersInformation[i].values" [value]="value">{{ value }}
+                            </nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="datatable-body">
+        <table class="datatable" aria-describedby="datatable">
+            <tr class="header-row">
+
+                <th *ngFor="let header of configuration.columns" [id]="header.id" >
+                    {{ header.name }}
+                </th>
+                <th *ngIf="inputStatus">
+                    Actions
+                </th>
+                <th class="action" id="action"
+                    *ngIf="(configuration.rowContextMenuItems && configuration.rowContextMenuItems.length > 0)"></th>
+
+            </tr>
+            <tr class="data-row" *ngFor="let row of page">
+                <td *ngFor="let column of configuration.columns">
+                        <div *ngIf="column.name!='Account status' && (!(row[configuration.rowId]===userSelected.id)|| !inputStatus)">
+                          {{ row[column.id] }}
+                        </div>
+
+                        <div class="merginLeft" *ngIf="column.name==='Account status'">
+                            <nb-icon *ngIf="row[column.id]==='Active'" icon="person-done-outline" nbTooltip="Active Account"
+                            nbTooltipStatus="success" status="success"></nb-icon>
+                            <nb-icon *ngIf="row[column.id]==='Inactive'" icon="person-delete-outline"
+                            nbTooltip="Inactive Account" nbTooltipStatus="primary" status="primary"></nb-icon>
+                            <nb-icon *ngIf="row[column.id]==='Suspended'" icon="person-remove-outline"
+                            nbTooltip="Suspended Account" nbTooltipStatus="danger" status="danger"></nb-icon>
+                         </div>
+
+                        <div *ngIf="column.name!='Account status' && ((row[configuration.rowId]===userSelected.id) && inputStatus) ">
+                        <form class="form" [formGroup]="updateUserFormGroup">
+                            <div class="form-group" *ngIf="column.name==='Name'" >
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">
+                                        <input class="firstInput"
+                                         nbInput
+                                         fullWidth
+                                         shape="round"
+                                         placeholder="User First Name"
+                                         type="text"
+                                         id="firstName"
+                                         formControlName="firstName"
+                                         autofocus
+                                         [(ngModel)]="firstName"
+                                        >
+                                        </div>
+                                        <div class="col-6">
+                                            <input
+                                            nbInput
+                                            fullWidth
+                                            shape="round"
+                                            placeholder="User Last Name"
+                                            type="text"
+                                            id="lastName"
+                                            formControlName="lastName"
+                                            autofocus
+                                            [(ngModel)]="lastName"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row error-message messagePosition"
+                                            *ngIf="(formService.checkInputError(updateUserFormGroup.get('firstName'), 'required')) && column.name==='Name'">
+                                            This field is required
+                                            </div>
+                                            <div class="row error-message messagePosition"
+                                            *ngIf="(formService.checkInputError(updateUserFormGroup.get('firstName'), 'whitespace'))
+                                             && !(formService.checkInputError(updateUserFormGroup.get('firstName'), 'required')) && column.name==='Name'">
+                                             At least one none whitescpace character
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row error-message messagePosition"
+                                            *ngIf="(formService.checkInputError(updateUserFormGroup.get('lastName'), 'required')) && column.name==='Name'">
+                                            This field is required
+                                            </div>
+                                            <div class="row error-message messagePosition"
+                                            *ngIf="(formService.checkInputError(updateUserFormGroup.get('lastName'), 'whitespace'))
+                                             && !(formService.checkInputError(updateUserFormGroup.get('lastName'), 'required')) && column.name==='Name'">
+                                             At least one none whitescpace character
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"  *ngIf="(formService.checkInputError(updateUserFormGroup.get('firstName'), 'whitespace'))
+                                    && !(formService.checkInputError(updateUserFormGroup.get('firstName'), 'required')) && column.name==='Name'">&nbsp;</div>
+                                </div>
+                             </div>
+
+                            <div class="form-group" *ngIf="column.name==='Email'">
+                                    <div class="container">
+                                        <div class="row">
+                                                <input
+                                                nbInput
+                                                fullWidth
+                                                shape="round"
+                                                placeholder="User email"
+                                                type="text"
+                                                id="email"
+                                                autofocus
+                                                formControlName="email"
+                                                autofocus
+                                                [(ngModel)]="email"
+                                           >
+                                         </div>
+                                    <div class="row error-message messagePosition"
+                                    *ngIf="formService.checkInputError(updateUserFormGroup.get('email'), 'required') && column.name==='Email'">
+                                    This field is required
+                                    </div>
+                                    <div class="row error-message messagePosition"
+                                    *ngIf="(formService.checkInputError(updateUserFormGroup.get('email'), 'whitespace'))
+                                     && !(formService.checkInputError(updateUserFormGroup.get('email'), 'required')) && column.name==='Email'">
+                                    At least one none whitescpace character
+                                    </div>
+                                    <div class="row error-message messagePosition"
+                                    *ngIf="(formService.checkInputError(updateUserFormGroup.get('email'), 'pattern'))
+                                     && !(formService.checkInputError(updateUserFormGroup.get('email'), 'required')) && !(formService.checkInputError(updateUserFormGroup.get('email'), 'whitespace')) && column.name==='Email'">
+                                     This field should respect the email pattern
+                                    </div>
+                                    <div class="row"  *ngIf="(formService.checkInputError(updateUserFormGroup.get('firstName'), 'whitespace'))
+                                    && !(formService.checkInputError(updateUserFormGroup.get('firstName'), 'required')) ">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="container">
+                                <div class="form-group" *ngIf="column.name==='Profile type'">
+                                    <div class="row">
+                                        <nb-select  [(selected)]="profileType" shape="round"  id="profileType">
+                                            <nb-option value="COLLABORATOR">Collaborator</nb-option>
+                                            <nb-option value="MANAGER">Manager</nb-option>
+                                            <nb-option value="HR_RESPONSIBLE">HR Responsible</nb-option>
+                                            <nb-option value="DIRECTOR">Director</nb-option>
+                                          </nb-select>
+                                    </div>
+                                    <div class="row"  *ngIf="(formService.checkInputError(updateUserFormGroup.get('firstName'), 'whitespace'))
+                                    && !(formService.checkInputError(updateUserFormGroup.get('firstName'), 'required')) ">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                </td>
+                <td *ngIf="!(row[configuration.rowId]===userSelected.id) && inputStatus"></td>
+                <td  *ngIf="(row[configuration.rowId]===userSelected.id) && inputStatus">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="cancelButton"
+                                nbButton
+                                size="small"
+                                >
+                                <nb-icon icon="close-outline" class="cancelIcon" (click)="cancel()"
+                                  ></nb-icon>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="cancelButton"
+                                nbButton
+                                size="small"
+                                (click)="processChanges(updateUserFormGroup)"
+                                >
+                                <nb-icon  icon="checkmark-outline" class="confirmIcon"></nb-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="action"
+                    *ngIf="(configuration.rowContextMenuItems && configuration.rowContextMenuItems.length > 0)">
+                    <nb-icon icon="more-vertical-outline" [nbContextMenuTag]="row[configuration.rowId]"
+                        [nbContextMenu]="configuration.rowContextMenuItems" nbContextMenuPlacement="left"
+                        (click)="triggeredRowContextMenuTag = row[configuration.rowId];"></nb-icon>
+                </td>
+            </tr>
+        </table>
+        <div class="no-data-message" *ngIf="page.length <= 0">No data...</div>
+    </div>
+    <div class="datatable-footer">
+        <div class="datatable-footer-item" *ngFor="let datatableAction of configuration.datatableActions">
+            <button nbButton hero shape="round" size="small" status="primary" (click)="datatableAction.action()">
+                <nb-icon [icon]="datatableAction.icon"></nb-icon>
+                {{ datatableAction.title }}
+            </button>
+        </div>
+        <div class="datatable-footer-item pagination-container" *ngIf="filteredData.length > 0">
+            <div class="pagination-information">
+                {{ (pageFrom + 1) + ' - ' + (pageTo + 1) + ' of ' + (filteredData.length) }}
+            </div>
+            <div class="pagination-control">
+                <nb-icon [status]="(pageFrom <= 0) ? 'basic' : ''"
+                    [ngStyle]="{'cursor': (pageFrom <= 0) ? 'default' : 'pointer' }" icon="chevron-left-outline"
+                    (click)="onPreviousPage()"></nb-icon>
+                <nb-icon [status]="(pageTo >= filteredData.length - 1) ? 'basic' : ''"
+                    [ngStyle]="{'cursor': (pageTo >= filteredData.length - 1) ? 'default' : 'pointer' }"
+                    icon="chevron-right-outline" (click)="onNextPage()"></nb-icon>
+            </div>
+        </div>
+    </div>
+</div>

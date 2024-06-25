@@ -1,0 +1,180 @@
+<div
+    class="survey-opening-container"
+    *ngIf="questionPosition === 0"
+>
+    <ng-container [ngSwitch]="surveyType">
+        <ng-container *ngSwitchCase="surveyTypes.AWARENESS">
+            <p>
+                The main goal of the awareness survey, is to help you to visualize
+                your strengths and weaknesses, to detect your values and to more precisely describe
+                your personality
+                <br>
+                “Knowing yourself is the beginning of all wisdom” --Aristotle
+            </p>
+        </ng-container>
+        <ng-container *ngSwitchCase="surveyTypes.EXPLORATION">
+            <p>
+                The following Quiz will test your knowledge about your work environment,
+                and will help you discover the available opportunities and options
+                <br>
+                You may as well learn new information along the way, have fun!
+            </p>
+        </ng-container>
+        <ng-container *ngSwitchCase="surveyTypes.EVALUATION">
+            <p *ngIf="isEvaluationReady">
+                Exercitation id id eu fugiat ex cupidatat sint eu fugiat ullamco.
+                Esse eu duis irure deserunt officia tempor laborum aute enim adipisicing et consequat fugiat.
+                Lorem ipsum ullamco ullamco laborum officia aute exercitation.
+            </p>
+            <p *ngIf="!isEvaluationReady && evaluation">
+                You cannot start your evaluation survey before
+                <strong>{{ evaluation.evaluationDate | date: 'MMM d, yyyy' }}</strong>
+            </p>
+            <p *ngIf="!isEvaluationReady && !evaluation">
+                <strong>Your evaluation is not yet ready!</strong>
+            </p>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="(surveyType === surveyTypes.EVALUATION && isEvaluationReady) || surveyType !== surveyTypes.EVALUATION">
+        <button
+            class="action"
+            *ngIf="questions?.length > 0"
+            nbButton
+            hero
+            shape="round"
+            size="medium"
+            status="primary"
+            (click)="initializeSurvey()"
+        >{{ (responses?.length > 0) ? 'Review your responses' : 'Start the survey' }}</button>
+        <span
+            class="action"
+            *ngIf="!questions || questions.length <= 0"
+        >
+            <strong>Survey is not yet ready!</strong>
+        </span>
+    </ng-container>
+</div>
+<div
+    class="question-container"
+    *ngIf="questionPosition > 0 && questionPosition <= questions?.length"
+>
+    <div class="survey-progress-bullets-container">
+        <div
+            class="bullet"
+            [class.active]="i === questionPosition - 1"
+            *ngFor="let bullet of questions; let i = index;"
+        ></div>
+    </div>
+    <p class="question">
+        {{ questions[questionPosition - 1].content }}
+    </p>
+    <div class="response">
+        <ng-container [ngSwitch]="questions[questionPosition - 1].questionType">
+            <div *ngSwitchCase="questionType.OPEN_ENDED">
+                <form
+                    class="form"
+                    [formGroup]="openEndedResponseFormGroup"
+                    *ngIf="!questions[questionPosition - 1].response"
+                >
+                    <div class="form-group">
+                        <textarea
+                            nbInput
+                            fullWidth
+                            rows="5"
+                            shape="round"
+                            placeholder="Your response..."
+                            id="content"
+                            formControlName="content"
+                            [class.textarea-error]="formService.checkInputInvalidity(openEndedResponseFormGroup.get('content'))"
+                            (keyup)="checkNextEnabledStatus()"
+                        ></textarea>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(openEndedResponseFormGroup.get('content'), 'required')"
+                        >This question is required</p>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(openEndedResponseFormGroup.get('content'), 'maxlength')"
+                        >Try to keep your response within the range of 500 characters</p>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(openEndedResponseFormGroup.get('content'), 'blank')"
+                        >Response must have at least one none whitescpace character</p>
+                    </div>
+                </form>
+                <p
+                    class="response-content"
+                    *ngIf="questions[questionPosition - 1].response"
+                >
+                    <span>Your response:</span>
+                    {{ questions[questionPosition - 1].response.content }}
+                </p>
+            </div>
+            <div *ngSwitchCase="questionType.RATING_SCALE">
+                <app-rating-scale
+                    [enabled]="!questions[questionPosition - 1].response"
+                    [clearable]="true"
+                    [lowestValue]="questions[questionPosition - 1].lowestValue"
+                    [highestValue]="questions[questionPosition - 1].highestValue"
+                    [(selectedValue)]="rating"
+                ></app-rating-scale>
+            </div>
+            <div *ngSwitchDefault>
+                <app-choices-picker
+                    [enabled]="!questions[questionPosition - 1].response"
+                    [multipleChoices]="questions[questionPosition - 1].multipleChoices"
+                    [choices]="questions[questionPosition - 1].choices"
+                    [(selectedChoices)]="selectedChoices"
+                ></app-choices-picker>
+            </div>
+        </ng-container>
+    </div>
+    <p
+        class="question-hint"
+        *ngIf="!questions[questionPosition - 1].response && questions[questionPosition - 1].questionType !== questionType.OPEN_ENDED && questions[questionPosition - 1].required"
+    >
+        This question is required
+    </p>
+    <p
+        class="question-hint"
+        *ngIf="!questions[questionPosition - 1].response && questions[questionPosition - 1].questionType === questionType.REGULAR_CHOICE && questions[questionPosition - 1].multipleChoices"
+    >
+        Multiple choices are possible
+    </p>
+    <div class="survey-controls-container">
+        <div
+            class="control"
+            [class.disabled]="questionPosition <= 1"
+            (click)="onPreviousQuestion()"
+        >
+            <nb-icon icon="chevron-left-outline"></nb-icon>
+            <span>previous</span>
+        </div>
+        <div class="divider"></div>
+        <div
+            class="control"
+            [class.disabled]="!nextEnabled"
+            (click)="onNextQuestion()"
+        >
+            <span>next</span>
+            <nb-icon icon="chevron-right-outline"></nb-icon>
+        </div>
+    </div>
+</div>
+<div
+    class="survey-closure-container"
+    *ngIf="questionPosition > questions?.length"
+>
+    <p>
+        <strong>End of survey!</strong>
+    </p>
+    <button
+        class="action"
+        nbButton
+        hero
+        shape="round"
+        size="medium"
+        status="primary"
+        (click)="initializeSurvey()"
+    >Review your responses</button>
+</div>

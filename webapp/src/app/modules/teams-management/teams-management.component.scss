@@ -1,0 +1,358 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+.container {
+    height: 100%;
+    padding: var(--layout-padding);
+    box-sizing: border-box;
+    .grid {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: auto auto;
+        .cell {
+            &:nth-child(1) {
+                padding: 0 18px 18px 0;
+                @include media-breakpoint-down(md) {
+                    padding: 0;
+                    grid-column: span 2;
+                }
+            }
+            &:nth-child(2) {
+                padding: 0 0 18px 18px;
+                @include media-breakpoint-down(md) {
+                    grid-column: span 2;
+                }
+            }
+            &:nth-child(3) {
+                padding: 18px 0 0 0;
+                grid-column: span 2;
+            }
+        }
+        .cell+.cell {
+            @include media-breakpoint-down(md) {
+                padding: 24px 0 0 0;
+            }
+        }
+    }
+}
+
+.teams-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 2%;
+}
+
+.item-header {
+    direction: rtl;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: 30px;
+    .icon {
+        width: 24px;
+        height: 27px;
+        color: #8f9bb3;
+        margin-left: 10px;
+    }
+    .team-manager {
+        padding: 0px 5px;
+        span {
+            margin: 0;
+            font-weight: var(--text-subtitle-font-weight);
+            color: #8f9bb3;
+        }
+    }
+}
+
+nb-accordion {
+    nb-accordion-item {
+        nb-accordion-item-body {
+             ::ng-deep {
+                .item-body {
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2%;
+}
+
+:host {
+	display: block ;
+	font-size: inherit ;
+}
+.pagination ::ng-deep .ngx-pagination .current {
+    border-radius: 25%;
+    background: var(--button-hero-primary-left-background-color);
+}
+
+.datatable-header-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 600px;
+    margin-left: auto;
+    .search-box {
+        flex: 1;
+        margin-left: auto;
+        input {
+            max-width: 400px;
+            animation: show-and-expand 0.3s ease-in forwards;
+            background-color: rgb(255, 255, 255);
+        }
+    }
+    .search-box-control {
+        margin-right: 15px;
+        margin-left: auto;
+        nb-icon {
+            cursor: pointer;
+        }
+    }
+    .filter {
+        nb-select {
+            width: 100%;
+            max-width: none;
+        }
+    }
+    .filter+.filter {
+        margin-left: 24px;
+        @include media-breakpoint-down(md) {
+            margin-left: 0;
+            margin-top: 12px;
+        }
+    }
+}
+
+.datatable-header-item+.datatable-header-item {
+    margin-left: 24px;
+    @include media-breakpoint-down(md) {
+        margin-left: 0;
+        margin-top: 12px;
+    }
+}
+
+.datatable-header-item.full-width {
+    flex: 1;
+}
+
+.datatable-header-item.filters-container {
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.cancelButton{
+    background-color: white !important; 
+    border-color:white !important; 
+    margin:5px 5px 5px 5px !important;
+}
+.cancelIcon{
+    color:gray !important; 
+    transform: scale(2) !important;
+    margin:5px 5px 5px 5px !important;
+    cursor: pointer;
+}
+.confirmButton{
+    background-color: white !important; 
+    border-color:white !important; 
+    margin:5px 5px 5px 5px!important;
+}
+.confirmIcon{
+    color:#1D4D91 !important; 
+    transform: scale(2) !important
+}
+
+
+
+
+
+@media (max-width: 368px){
+    .container {
+        height: 100%;
+        padding:4px;
+        box-sizing: border-box;
+        .grid {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: auto auto;
+            .cell {
+                &:nth-child(1) {
+                    padding: 0 18px 18px 0;
+                    @include media-breakpoint-down(md) {
+                        padding: 0;
+                        grid-column: span 2;
+                    }
+                }
+                &:nth-child(2) {
+                    padding: 0 0 18px 18px;
+                    @include media-breakpoint-down(md) {
+                        grid-column: span 2;
+                    }
+                }
+                &:nth-child(3) {
+                    padding: 18px 0 0 0;
+                    grid-column: span 2;
+                }
+            }
+            .cell+.cell {
+                @include media-breakpoint-down(md) {
+                    padding: 24px 0 0 0;
+                }
+            }
+        }
+    }
+    
+    .teams-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 2%;
+    }
+    
+    .item-header {
+        direction: rtl;
+        display: flex;
+        justify-content: flex-start;
+        margin-left: auto;
+        margin-right: 30px;
+        .icon {
+            width: 24px;
+            height: 27px;
+            color: #8f9bb3;
+            margin-left: 10px;
+        }
+        .team-manager {
+            padding: 0px 5px;
+            span {
+                margin: 0;
+                font-weight: var(--text-subtitle-font-weight);
+                color: #8f9bb3;
+            }
+        }
+    }
+    
+    nb-accordion {
+        nb-accordion-item {
+            nb-accordion-item-body {
+                 ::ng-deep {
+                    .item-body {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2%;
+    }
+    
+    :host {
+        display: block ;
+        font-size: inherit ;
+    }
+    .pagination ::ng-deep .ngx-pagination .current {
+        border-radius: 25%;
+        background: var(--button-hero-primary-left-background-color);
+    }
+    
+    .datatable-header-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 600px;
+        margin-left: auto;
+        .search-box {
+            flex: 1;
+            margin-left: auto;
+            input {
+                max-width: 400px;
+                animation: show-and-expand 0.3s ease-in forwards;
+                background-color: rgb(255, 255, 255);
+            }
+        }
+        .search-box-control {
+            margin-right: 15px;
+            margin-left: auto;
+            nb-icon {
+                cursor: pointer;
+            }
+        }
+        .filter {
+            nb-select {
+                width: 100%;
+                max-width: none;
+            }
+        }
+        .filter+.filter {
+            margin-left: 24px;
+            @include media-breakpoint-down(md) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+    }
+    
+    .datatable-header-item+.datatable-header-item {
+        margin-left: 24px;
+        @include media-breakpoint-down(md) {
+            margin-left: 0;
+            margin-top: 12px;
+        }
+    }
+    
+    .datatable-header-item.full-width {
+        flex: 1;
+    }
+    
+    .datatable-header-item.filters-container {
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+    
+    .cancelButton{
+        background-color: white !important; 
+        border-color:white !important; 
+        margin:5px 5px 5px 5px !important;
+    }
+    .cancelIcon{
+        color:gray !important; 
+        transform: scale(2) !important;
+        margin:5px 5px 5px 5px !important;
+        cursor: pointer;
+    }
+    .confirmButton{
+        background-color: white !important; 
+        border-color:white !important; 
+        margin:5px 5px 5px 5px!important;
+    }
+    .confirmIcon{
+        color:#1D4D91 !important; 
+        transform: scale(2) !important
+    }
+    
+
+}
+
+@media (max-width: 281px){
+
+.size-mobile {
+    width: 113px;
+    margin-right: 19px;
+}
+ 
+}
+

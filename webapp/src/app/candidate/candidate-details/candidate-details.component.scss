@@ -1,0 +1,122 @@
+*{
+    z-index: 10000000;
+}
+#svg {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+.main{
+    display: flex;
+    z-index: 2;
+    color: white;
+}
+img{
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    border: white;
+    margin-left: 80px;
+    margin-top: 20px;
+    padding: 5px;
+    border: 3px solid white;
+}
+
+
+button{
+   
+    width:60px;
+    text-align: center;
+    height: 60px;
+}
+
+
+nb-card-header{
+    background-color: #1d4d91;
+    color:white;
+    text-align: center;
+}
+
+.nope-anim{
+
+    cursor:pointer;
+  }
+
+  .nope-anim:hover{
+
+    animation:nope 0.8s forwards;
+    animation-delay:20ms;
+  }
+
+  @keyframes nope {
+      0% {
+          transform:translateY(0px);
+      }
+      
+      20% {
+        transform:translateY(-2px);
+    }
+
+
+    40% {
+        transform:translateY(2px);
+    }
+
+    60% {
+        transform:translateY(-2px);
+    }
+
+    80%{
+
+        transform: translateY(2px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+    
+  }
+
+
+  .product-item {
+    .product-item-content {
+        border: 1px solid var(--surface-d);
+        border-radius: 3px;
+        margin: .3rem;
+        text-align: center;
+        padding: 2rem 0;
+    }
+
+}
+
+
+
+button{
+    background-color: #1D4D91 ;
+
+    color: white;
+    border-radius: 10px;
+    border: 3px solid #1d6591;
+    width: 120px;
+    height: 40px;
+    text-align: center;
+}
+button:hover{
+    color: #1D4D91;
+    background-color: white;
+}
+
+.workflowStyle{
+    
+    font-weight: bold;
+    
+}
+
+
+
+
+
+
+

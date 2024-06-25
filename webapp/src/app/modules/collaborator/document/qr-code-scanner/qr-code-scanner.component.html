@@ -1,0 +1,22 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <div class="dialog-content">
+
+
+            <P style=" font-size: large;">
+                <nb-icon icon="camera"></nb-icon>
+                Please <span class="span">scan</span> the QR code
+            </P>
+
+            <zxing-scanner #scanner start="true" [autofocusEnabled]="true" [enable]="true" [device]="currentDevice" scannerEnabled="true" torch="on" [tryHarder]="true" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']">
+            </zxing-scanner>
+            <div class="dialog-actions">
+                <div class="actions-container right">
+                    <button nbButton shape="round" size="medium" (click)="onCancelDialog()">CANCEL</button>
+                </div>
+            </div>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>

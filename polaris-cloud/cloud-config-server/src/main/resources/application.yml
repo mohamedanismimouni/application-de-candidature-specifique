@@ -1,0 +1,15 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: polaris-config-service
+  jmx:
+    default-domain: polaris-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${user.home}/polaris-config/
+
+
+

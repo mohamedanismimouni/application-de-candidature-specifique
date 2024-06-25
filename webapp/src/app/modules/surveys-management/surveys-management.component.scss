@@ -1,0 +1,208 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    box-sizing: border-box;
+}
+
+h6 {
+    margin-left: 32px;
+
+    &:first-child {
+        margin-top: 0px;
+    }
+}
+
+.no-questions-message {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 48px;
+    text-align: center;
+
+    nb-icon {
+        color: var(--text-hint-color);
+        font-size: var(--text-heading-2-font-size);
+    }
+
+    p {
+        color: var(--text-hint-color);
+        font-size: var(--text-heading-6-font-size);
+        line-height: var(--text-heading-5-line-height);
+    }
+}
+
+.enabled-question-container,
+.disabled-question-container {
+    margin-bottom: 30px;
+}
+
+.enabled-question-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.disabled-question-container {
+    margin-left: 32px;
+}
+
+.reorder-handler-container {
+    width: 32px;
+
+    .reorder-handler {
+        padding-right: 12px;
+        cursor: grab;
+    }
+}
+
+.question-card {
+    flex: 1;
+    margin: 0;
+
+    nb-card-body {
+        padding: 24px;
+        position: relative;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .question-context-menu-icon {
+        cursor: pointer;
+        position: absolute;
+        top: 27px;
+        right: 18px;
+    }
+
+    .question {
+        width: 90%;
+        font-size: var(--text-subtitle-font-size);
+        font-weight: var(--text-subtitle-font-weight);
+        line-height: var(--text-subtitle-line-height);
+    }
+
+    .position {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        border-radius: 50%;
+        font-size: var(--text-caption-font-size);
+        font-weight: var(--text-subtitle-font-weight);
+        line-height: 24px;
+        text-align: center;
+    }
+
+    .emphasized {
+        color: var(--text-control-color);
+        background-image: linear-gradient(to right, var(--button-hero-primary-left-background-color), var(--button-hero-primary-right-background-color));
+    }
+
+    .question-type {
+        margin-top: 8px;
+        font-size: var(--text-caption-font-size);
+        color: var(--text-hint-color);
+    }
+
+    .badge {
+        margin: 0px 12px;
+        padding: 4px 12px;
+        border-radius: 1.5rem;
+        text-transform: uppercase;
+        font-size: var(--text-button-tiny-font-size);
+        font-weight: var(--text-subtitle-font-weight);
+    }
+
+    .scale,
+    .score {
+        margin-top: 12px;
+
+        span {
+            font-weight: var(--text-subtitle-font-weight);
+        }
+    }
+
+    .choices-container {
+
+        p {
+            margin: 12px 0px;
+        }
+
+        .choice {
+            padding-left: 12px;
+            font-size: var(--text-paragraph-2-font-size);
+        }
+
+        .choice+.choice {
+            margin-top: 8px;
+        }
+
+        .disabled {
+            color: var(--text-hint-color);
+        }
+    }
+}
+
+.enabled-question-container .question-card {
+
+    .position {
+        background-color: var(--background-basic-color-3);
+    }
+
+    .badge {
+        background-color: var(--background-basic-color-3);
+    }
+}
+
+.disabled-question-container .question-card {
+    background-color: var(--background-basic-color-4);
+    box-shadow: none;
+
+    .question {
+        color: var(--text-hint-color);
+    }
+
+    .position {
+        color: var(--text-hint-color);
+        background-color: var(--background-basic-color-2);
+    }
+
+    .badge {
+        color: var(--text-hint-color);
+        background-color: var(--background-basic-color-2);
+    }
+
+    .scale,
+    .score {
+        color: var(--text-hint-color);
+
+        span {
+            color: var(--text-hint-color);
+        }
+    }
+
+    .choices-container {
+
+        p {
+            color: var(--text-hint-color);
+        }
+
+        .choice {
+            color: var(--text-hint-color);
+        }
+    }
+}
+
+.drag-placeholder {
+    min-height: 120px;
+    margin: 0px 0px 30px 32px;
+    border: dashed 3px var(--text-hint-color);
+    border-radius: 1rem;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.container.cdk-drop-list-dragging .enabled-question-container:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

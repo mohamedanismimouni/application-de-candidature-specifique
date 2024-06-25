@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.talan.polaris</groupId>
+    <artifactId>root</artifactId>
+    <version>${version.major}.${version.minor}.${version.patch}</version>
+
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>Root project</description>
+
+    <developers>
+        <developer>
+            <name>Nader DEBBABI</name>
+            <email>nader.debbabi.30@gmail.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <version.major>2</version.major>
+        <version.minor>0</version.minor>
+        <version.patch>0</version.patch>
+
+        <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
+    </properties>
+
+    <modules>
+        <module>api</module>
+        <module>webapp</module>
+		<module>liquibase</module>
+    </modules>
+
+    <build>
+
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.4</version>
+                <executions>
+                    <execution>
+                        <id>agent-for-ut</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${sonar.jacoco.reportPaths}</destFile>
+                            <append>true</append>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

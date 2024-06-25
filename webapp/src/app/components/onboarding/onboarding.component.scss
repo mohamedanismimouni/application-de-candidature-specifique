@@ -1,0 +1,24 @@
+ul {
+    max-height: 140px;
+    overflow-y: auto;
+}
+
+.form {
+    margin-top: 48px;
+
+    .form-group {
+        text-align: center;
+
+        input {
+            text-align: center;
+            text-transform: uppercase;
+        }
+    }
+
+}
+
+button {
+    display: block;
+    margin-left: auto;
+    margin-top: 48px;
+}

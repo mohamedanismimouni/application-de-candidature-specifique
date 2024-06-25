@@ -1,0 +1,33 @@
+.response-container {
+
+    .question {
+        font-weight: var(--text-subtitle-font-weight);
+        line-height: var(--text-subtitle-line-height);
+
+        .position {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            border-radius: 50%;
+            background-color: var(--background-basic-color-3);
+            font-size: var(--text-caption-font-size);
+            font-weight: var(--text-subtitle-font-weight);
+            line-height: 24px;
+            text-align: center;
+        }
+    }
+}
+
+.response-container+.response-container {
+    margin-top: 24px;
+}
+
+.rating-scale-container,
+.choices-picker-container {
+    margin-top: 24px;
+}
+
+.no-responses-message {
+    margin: 48px 0px;
+}

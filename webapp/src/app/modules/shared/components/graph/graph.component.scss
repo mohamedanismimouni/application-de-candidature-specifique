@@ -1,0 +1,74 @@
+.graph-container {
+    height: 100%;
+}
+
+.node {
+
+    circle {
+        stroke: var(--color-primary-500);
+        fill: none;
+    }
+
+    rect {
+        stroke-width: 2px;
+    }
+
+    .reachable {
+        fill: var(--color-primary-400);
+        stroke: var(--color-primary-500);
+    }
+
+    .unreachable {
+        fill: var(--color-primary-200);
+        stroke: var(--color-primary-200);
+    }
+
+    .covered {
+        fill: var(--color-primary-500);
+        stroke: var(--color-primary-500);
+    }
+
+    .selected {
+        stroke-width: 6px;
+    }
+
+    .selected.unreachable {
+        stroke: var(--color-primary-400);
+    }
+
+    .selected.covered {
+        stroke: var(--color-primary-300);
+    }
+
+    text {
+        fill: #FFFFFF;
+    }
+}
+
+.selectable {
+    cursor: pointer;
+
+    &:hover {
+
+        rect.reachable {
+            fill: var(--color-primary-500);
+        }
+
+        rect.unreachable {
+            fill: var(--color-primary-400);
+            stroke: var(--color-primary-400);
+        }
+
+        rect.covered {
+            fill: var(--color-primary-400);
+            stroke: var(--color-primary-400);
+        }
+    }
+}
+
+.edge {
+
+    .line {
+        stroke: var(--color-primary-300);
+    }
+}

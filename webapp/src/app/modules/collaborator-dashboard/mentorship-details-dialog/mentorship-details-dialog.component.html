@@ -1,0 +1,163 @@
+<nb-card  >
+    <nb-card-body >
+        <h4 class="dialog-title">Mentorship details</h4>
+        <div class="dialog-content">
+            <h6 class="skill-label">{{ data.mentorship.skill.label }}</h6>
+            <p class="skill-level-detail">
+                Required level
+                <span class="chip">{{ data.requiredSkill.requiredLevelFormated }}</span>
+            </p>
+            <p class="skill-level-detail">
+                Acquired level
+                <span class="chip">{{ acquiredSkillLevel.name }}</span>
+            </p>
+            <ng-container *ngIf="data.mentorship.status !== mentorshipStatus.TERMINATED && data.settings.isMentor">
+                <p class="skill-level-evaluation-label">
+                    How do you judge your mentee's acquired level for this skill?
+                </p>
+                <div class="slider-container">
+                    <div class="single-handler selectable-lowest-value" #acquiredSkillLevelSliderElement></div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="data.mentorship.status !== mentorshipStatus.TERMINATED && (data.settings.isMentor || data.settings.isSelf)">
+                <p class="evaluation-title">
+                    Your evaluation
+                </p>
+                <p>
+                    How do you feel about this mentorship experience?
+                </p>
+                <app-rating-scale
+                    [clearable]="false"
+                    [lowestValue]="-2"
+                    [highestValue]="2"
+                    [(selectedValue)]="mentorshipRating"
+                ></app-rating-scale>
+                <form class="form" [formGroup]="mentorshipFormGroup">
+                    <div class="form-group">
+                        <textarea
+                            nbInput
+                            fullWidth
+                            rows="4"
+                            shape="round"
+                            placeholder="Be more expressive..."
+                            id="mentorshipFeedback"
+                            formControlName="mentorshipFeedback"
+                            [class.textarea-error]="formService.checkInputInvalidity(mentorshipFormGroup.get('mentorshipFeedback'))"
+                            (keyup)="onMentorshipFeedbackChange()"
+                        ></textarea>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(mentorshipFormGroup.get('mentorshipFeedback'), 'required')"
+                        >This field is required</p>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(mentorshipFormGroup.get('mentorshipFeedback'), 'maxlength')"
+                        >Try to keep your feedback within the range of 250 characters</p>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(mentorshipFormGroup.get('mentorshipFeedback'), 'blank')"
+                        >Feedback must have at least one none whitescpace character</p>
+                    </div>
+                </form>
+            </ng-container>
+            <ng-container *ngIf="data.mentorship.status === mentorshipStatus.TERMINATED || data.settings.isSelf || (!data.settings.isMentor && (data.settings.isManager || data.settings.isSupervisor))">
+                <p
+                    class="evaluation-title"
+                    *ngIf="data.settings.isSelf"
+                >
+                    Your mentor's evaluation
+                </p>
+                <p
+                    class="evaluation-title"
+                    *ngIf="data.settings.isMentor"
+                >
+                    Your evaluation
+                </p>
+                <p
+                    class="evaluation-title"
+                    *ngIf="!data.settings.isMentor && (data.settings.isManager || data.settings.isSupervisor)"
+                >
+                    Mentor evaluation
+                </p>
+                <p *ngIf="data.mentorship.mentorRating === undefined && !data.mentorship.mentorFeedback">
+                    {{ data.mentorship.mentor.firstName + ' has not yet submitted his evaluation...' }}
+                </p>
+                <p *ngIf="data.mentorship.mentorRating !== undefined">
+                    {{ (data.settings.isMentor ? 'You' : data.mentorship.mentor.firstName) + ' was ' }}
+                    <strong>{{ data.mentorship.mentorRating | rating | lowercase }}</strong>
+                    {{ ' about this mentorship experience (' }}
+                    <strong>{{ data.mentorship.mentorRating }}</strong>
+                     on a scale of -2 to 2 )
+                </p>
+                <p *ngIf="data.mentorship.mentorFeedback">
+                    {{ (data.settings.isMentor ? 'Your' : data.mentorship.mentor.firstName + '\'s') + ' feedback: ' }}
+                    <em>{{ '"' + data.mentorship.mentorFeedback + '"' }}</em>
+                </p>
+            </ng-container>
+            <ng-container *ngIf="data.mentorship.status === mentorshipStatus.TERMINATED || data.settings.isMentor || data.settings.isManager || data.settings.isSupervisor">
+                <p
+                    class="evaluation-title"
+                    *ngIf="data.settings.isMentor"
+                >
+                    Your mentee's evaluation
+                </p>
+                <p
+                    class="evaluation-title"
+                    *ngIf="data.settings.isSelf"
+                >
+                    Your evaluation
+                </p>
+                <p
+                    class="evaluation-title"
+                    *ngIf="!data.settings.isMentor && !data.settings.isSelf"
+                >
+                    Mentee evaluation
+                </p>
+                <p *ngIf="data.mentorship.menteeRating === undefined && !data.mentorship.menteeFeedback">
+                    {{ data.mentorship.careerPosition.collaborator.firstName + ' has not yet submitted his evaluation...' }}
+                </p>
+                <p *ngIf="data.mentorship.menteeRating !== undefined">
+                    {{ (data.settings.isSelf ? 'You' : data.mentorship.careerPosition.collaborator.firstName) + ' was ' }}
+                    <strong>{{ data.mentorship.menteeRating | rating | lowercase }}</strong>
+                    {{ ' about this mentorship experience (' }}
+                    <strong>{{ data.mentorship.menteeRating }}</strong>
+                    on a scale of -2 to 2 )
+                </p>
+                <p *ngIf="data.mentorship.menteeFeedback">
+                    {{ (data.settings.isSelf ? 'Your' : data.mentorship.careerPosition.collaborator.firstName + '\'s') + ' feedback: ' }}
+                    <em>{{ '"' + data.mentorship.menteeFeedback + '"' }}</em>
+                </p>
+            </ng-container>
+            <div
+                class="mentorship-status-toggle-container"
+                *ngIf="data.mentorship.status !== mentorshipStatus.TERMINATED && data.settings.isMentor"
+            >
+                <nb-toggle
+                    checked="true"
+                    [disabled]="mentorshipRating === undefined || !mentorshipFormGroup.get('mentorshipFeedback').value || data.mentorship.menteeRating === undefined || !data.mentorship.menteeFeedback"
+                    (checkedChange)="onMentorshipStatusChange($event)"
+                >
+                    This mentorship is active
+                </nb-toggle>
+            </div>
+        </div>
+        <div
+            class="dialog-actions"
+            *ngIf="data.mentorship.status !== mentorshipStatus.TERMINATED && (data.settings.isMentor || data.settings.isSelf)"
+        >
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="!canSubmit || loadingState"
+                    [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

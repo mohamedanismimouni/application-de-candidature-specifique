@@ -1,0 +1,33 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <div class="container">
+            <nb-layout-header class="subheader centered" subheader>
+                <div
+                    class="career-management-navigation-item"
+                    [class.disabled]="!careerManagementNavigationItem.enabled"
+                    [class.enabled]="careerManagementNavigationItem.enabled"
+                    [class.fulfilled]="careerManagementNavigationItem.fulfilled"
+                    [class.active]="isCareerManagementNavigationItemActive(careerManagementNavigationItem.route)"
+                    *ngFor="let careerManagementNavigationItem of careerManagementNavigationItems; let i = index;"
+                >
+                    <div
+                        class="navigation-divider-container"
+                        *ngIf="i !== 0"
+                    >
+                        <div class="divider"></div>
+                    </div>
+                    <div
+                        class="navigation-item-container"
+                        (click)="onCareerManagementNavigationItemClick(careerManagementNavigationItem)"
+                    >
+                        <div class="icon-container">
+                            <nb-icon [icon]="careerManagementNavigationItem.icon"></nb-icon>
+                        </div>
+                        <div class="title-container">{{ careerManagementNavigationItem.title }}</div>
+                    </div>
+                </div>
+            </nb-layout-header>
+            <router-outlet></router-outlet>
+        </div>
+    </nb-layout-column>
+</nb-layout>

@@ -1,0 +1,38 @@
+<div class="card-doc">
+    <div class="card-header">
+        <nb-icon icon="smiling-face"></nb-icon>
+        How do you feel today ?
+        <div class="score">
+                
+            <div>
+               <h6 class="badge bg-warning  second">
+                       <img [src]="'assets/imgs/money.png'" width="20px" height="20px" alt="Sirius HR logo">
+                       &nbsp;<span>{{score }} </span>&nbsp;&nbsp;&nbsp;&nbsp; 
+               </h6>
+           </div>
+       </div>
+    </div>
+    <div class="card-body">
+   <div class="row">
+    <div   class="col-lg-4 col-lg-mobile icon-position">     
+   <img  class="zoom icon-size" [ngClass] = "{'img-picked': selectedMood===1}" src="assets/imgs/sad.png" nbTooltip="sad" nbTooltipPlacement="top" nbTooltipStatus="control" alt="sad" (click)="addMood(1)"  />
+    </div>
+
+    <div  class="col-lg-4 col-lg-mobile icon-position">     
+        <img  class="zoom icon-size" [ngClass] = "{'img-picked': selectedMood===2}"  src="assets/imgs/angry.png" nbTooltip="angry" nbTooltipPlacement="top" nbTooltipStatus="control" alt="angry" (click)="addMood(2)"  />
+         </div>
+
+         <div  class="col-lg-4 col-lg-mobile icon-position">     
+            <img  class="zoom icon-size" [ngClass] = "{'img-picked': selectedMood===3}"  src="assets/imgs/disappointed.png" nbTooltip="disappointed" nbTooltipPlacement="top" nbTooltipStatus="control" alt="sad" (click)="addMood(3)"  />
+             </div>
+
+
+    <div class="col-lg-4 col-lg-mobile icon-position">
+    <img   class="zoom icon-size" [ngClass] = "{'img-picked': selectedMood===4}"  src="assets/imgs/neutral.png" nbTooltip="neutral" nbTooltipPlacement="top" nbTooltipStatus="control"   alt="neutral" (click)="addMood(4)" />
+</div>
+  <div class="col-lg-4 col-lg-mobile icon-position">
+   <img  class="zoom icon-size" [ngClass] = "{'img-picked': selectedMood===5}"  src="assets/imgs/happy.png" nbTooltip="happy" nbTooltipPlacement="top" nbTooltipStatus="control"  alt="happy" (click)="addMood(5)" />
+</div> 
+</div>
+    </div>
+</div> 

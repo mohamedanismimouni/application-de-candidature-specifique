@@ -1,0 +1,12 @@
+ .container {
+     padding: 0px!important;
+     padding-right: 0px!important;
+     padding-left: 1px!important;
+     width: auto;
+ }
+ 
+ @media (max-width: 300px) {
+     .container {
+         display: block!important;
+     }
+ }

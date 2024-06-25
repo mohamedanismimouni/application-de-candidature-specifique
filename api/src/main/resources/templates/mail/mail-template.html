@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Sirius Mail Template</title>
+        <style type="text/css">
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: 100vh !important;
+                color: #222B45 !important;
+                font-family: Open-Sans, sans-serif !important;
+                font-size: 18px !important;
+                font-weight: lighter !important;
+                line-height: 28px !important;
+                letter-spacing: 0 !important;
+            }
+            table,
+            td {
+                mso-table-lspace: 0pt !important;
+                mso-table-rspace: 0pt !important;
+            }
+            th {
+                font-weight: lighter !important;
+            }
+            table {
+                border-spacing: 0 !important;
+                border-collapse: collapse !important;
+                table-layout: fixed !important;
+                margin: 0 auto !important;
+            }
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+            a,
+            a:link,
+            a:visited,
+            a:hover {
+                text-decoration: none !important;
+                cursor: pointer !important;
+            }
+            p {
+                margin: 0 !important;
+                margin-bottom: 12px !important;
+            }
+            .im {
+                color: inherit !important;
+            }
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td {
+                line-height: 28px !important;
+            }
+            .ExternalClass {
+                width: 100% !important;
+            }
+            .main {
+                height: 100% !important;
+            }
+            .main tr td {
+                background-color: #EDF1F7 !important;
+            }
+            .container {
+                max-width: 512px !important;
+                margin: auto !important;
+            }
+            .card tr td {
+                background-color: #ffffff !important;
+                border-radius: 16px !important;
+            }
+            .btn-primary {
+                display: block;
+                margin: 24px 0;
+                padding: 8px 20px;
+                border-radius: 24px;
+                background-color: #1D4D91;
+                color: #FFFFFF !important;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .btn-primary:hover {
+                background-color: #4B7FBD;
+            }
+            .center-text {
+                text-align: center;
+            }
+            .greeting {
+                padding: 36px 0 48px 0;
+                font-size: 22px;
+                font-weight: bold;
+            }
+            .signature {
+                padding: 48px 0 32px 0;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            @media screen and (max-width: 512px) {
+                .container {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                    margin: auto !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="main">
+            <tr>
+                <td>
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="512" align="center" class="container">
+                        <tr>
+                            <td style="padding: 64px 24px;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="card">
+                                    <tr>
+                                        <td style="padding: 24px;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
+                                                <tr>
+                                                    <td class="center-text greeting" th:text="${greeting}">Dear John,</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center-text" th:utext="${content}">
+                                                        <p>
+                                                            Ipsum in cillum enim incididunt cillum. Magna reprehenderit exercitation nisi amet ullamco nisi enim magna excepteur
+                                                            labore reprehenderit. Exercitation commodo aliquip dolore dolore proident do exercitation proident magna irure. Magna eu
+                                                            labore mollit Lorem. Nisi mollit eiusmod enim fugiat veniam ut esse in. Laboris aliqua ut sit elit aliquip dolor quis
+                                                            dolor in ipsum tempor. Anim dolor labore Lorem amet ea commodo adipisicing sit.
+                                                        </p>
+                                                        <a
+                                                            class="btn-primary"
+                                                            href="https://www.google.com"
+                                                            rel="noopener noreferrer"
+                                                            target="_blank"
+                                                        >ACTIVATION LINK</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="center-text signature" th:text="${signature}">Best regards.</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

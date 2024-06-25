@@ -1,0 +1,13 @@
+<div *ngFor="let result of resultTest">
+    <p class="question"><i class="fa fa-question-circle-o" aria-hidden="true"></i>Question {{resultTest.indexOf(result)+1}} / {{resultTest.length}}</p>
+    <p>{{result.statement}}</p>
+    <ul *ngFor="let response of result.resultResponseDtoList">
+        <li *ngIf="response.checked === true && response.correct === true" class="checkedAndCorrect"><i class="pi pi-check-circle
+"></i>  {{response.value}}</li>
+        <li *ngIf="response.checked === true && response.correct === false" class="checkedAndFalse"><i class="pi pi-check-circle
+"></i>  {{response.value}}</li>
+        <li *ngIf="response.checked === false && response.correct === true" class="NotcheckedAndCorrect"><i class="fa fa-circle-thin" aria-hidden="true"></i>  {{response.value}}</li>
+        <li *ngIf="response.checked ===  false && response.correct === false" class="NotcheckedAndFalse"><i class="fa fa-circle-thin" aria-hidden="true"></i>  {{response.value}}</li>
+    </ul>
+</div>
+<p class="score">Final Score: {{resultTest[0].scoreTotal.toFixed(2)}} / 100</p>

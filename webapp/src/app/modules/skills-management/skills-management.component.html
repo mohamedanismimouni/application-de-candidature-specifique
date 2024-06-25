@@ -1,0 +1,35 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+
+
+        <div class="container">
+            <app-spinner *ngIf="loading"></app-spinner>
+            <div class="grid" *ngIf="!loading">
+                <div class="cell">
+                    <nb-accordion class="broad-accordion">
+                        <nb-accordion-item *ngFor="let skillType of skillTypes" [expanded]="selectedSkillType === skillType.value">
+                            <nb-accordion-item-header (click)="onAccordionItemClick(skillType.value)">
+                                {{ skillType.name }}
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <form class="form" [formGroup]="searchFormGroup">
+                                    <div class="form-group">
+                                        <input nbInput fullWidth shape="round" fieldSize="small" placeholder="Search skill..." type="text" id="keyword" formControlName="keyword" (keyup)="onSearch()">
+                                    </div>
+                                </form>
+                                <div class="skills-container">
+                                    <div class="chip" *ngFor="let skill of displayedSkills">{{ skill.label }}</div>
+                                    <p *ngIf="displayedSkills.length <= 0">No available skills...</p>
+                                </div>
+                                <button nbButton hero shape="round" size="small" status="primary" (click)="onAddSkill()">
+                                    <nb-icon icon="plus-outline"></nb-icon>
+                                    Add skill
+                                </button>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+                    </nb-accordion>
+                </div>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

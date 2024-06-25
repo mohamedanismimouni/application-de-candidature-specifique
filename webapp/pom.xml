@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.talan.polaris</groupId>
+	<artifactId>webapp</artifactId>
+    <version>${version.major}.${version.minor}.${version.patch}</version>
+
+    <packaging>war</packaging>
+
+	<name>${project.artifactId}</name>
+	<description>Webapp project</description>
+
+    <developers>
+        <developer>
+            <name>Nader DEBBABI</name>
+            <email>nader.debbabi.30@gmail.com</email>
+        </developer>
+    </developers>
+
+    <properties>
+        <version.major>2</version.major>
+        <version.minor>0</version.minor>
+        <version.patch>0</version.patch>
+        <buildDomain>http://localhost:8081</buildDomain>
+        <buildKeycloak>http://localhost:9000</buildKeycloak>
+        <bh>/</bh>
+    </properties>
+
+	<build>
+
+		<finalName>ROOT</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <configuration>
+                    <nodeVersion>v14.15.0</nodeVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                    </execution>
+
+                      <execution>
+                        <id>setting app domain</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run updateBuild -- ${buildDomain}</arguments>
+                        </configuration>
+                    </execution>
+
+                       <execution>
+                        <id>setting keycloak config</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>run updateKeycloak -- ${buildKeycloak}</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm run build for production</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+<!--                            <arguments>run build-prod &#45;&#45; &#45;&#45;baseHref=${bh}</arguments>-->
+                            <arguments>run build-prod</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.2</version>
+                <executions>
+                    <execution>
+                        <id>default-copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${project.build.directory}/ROOT/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>dist/webapp</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+	</build>
+
+</project>

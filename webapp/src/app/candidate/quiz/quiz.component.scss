@@ -1,0 +1,41 @@
+.body{
+    padding: 0px;
+    margin: 0px;
+}
+
+.shape-right{
+    padding: 0px;
+    margin: 0px;
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    width: 200px;
+
+}
+.shape-left{
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 350px;
+}
+.p-carousel{
+    width: 400px;
+}
+
+:host ::ng-deep .p-carousel{
+    width: 1000px;
+    margin-left: 50px;
+}
+
+
+.terminate{
+    width: 100px;
+    background: #1D4D91;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 400px;
+    margin-bottom: 10px;
+}

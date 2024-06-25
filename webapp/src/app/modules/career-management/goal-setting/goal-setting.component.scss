@@ -1,0 +1,309 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+
+
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+
+    .blank-card {
+
+        nb-card-body {
+            position: relative;
+
+            .careers-card-body-container {
+                padding: 24px;
+
+                .careers-graph-container {
+                    height: 400px;
+                }
+            }
+        }
+    }
+}
+
+.career-step-drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-width: 300px;
+    width: 100%;
+    height: 100%;
+    padding: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background-color: var(--card-background-color);
+    border-top-right-radius: var(--card-border-radius);
+    border-bottom-right-radius: var(--card-border-radius);
+    border-left: 1px solid var(--border-basic-color-4);
+    animation: expand 0.6s ease-out forwards;
+
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+        border-left: 0px;
+        border-top-left-radius: var(--card-border-radius);
+        border-bottom-left-radius: var(--card-border-radius);
+    }
+
+    .hide-btn {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        height: 32px;
+        width: 32px;
+        cursor: pointer;
+    }
+
+    h6 {
+        display: inline-block;
+        font-size: 1rem;
+        line-height: 32px;
+        margin: 0px 0px 24px 0px;
+    }
+
+    .career-step-details-container {
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        h6 {
+            max-width: 200px;
+            flex-shrink: 0;
+            margin-bottom: 12px;
+        }
+
+        .career-step-position-status {
+            display: inline-block;
+            width: fit-content;
+            padding: 4px 12px;
+            border-radius: 1.5rem;
+            text-transform: uppercase;
+            font-size: var(--text-button-tiny-font-size);
+            font-weight: var(--text-subtitle-font-weight);
+            background-color: var(--background-basic-color-3);
+        }
+
+        p {
+            margin-top: 12px;
+            flex-shrink: 0;
+        }
+
+        .inbound-career-paths-container {
+            overflow-y: auto;
+
+            .inbound-career-path {
+                margin: 0;
+                font-size: var(--text-paragraph-2-font-size);
+                font-weight: var(--text-subtitle-2-font-weight);
+
+                .years-of-experience {
+                    font-size: var(--text-paragraph-font-size);
+                    font-weight: var(--text-paragraph-font-weight);
+                }
+            }
+
+            .inbound-career-path + .inbound-career-path {
+                margin-top: 8px;
+            }
+        }
+    }
+
+    .career-step-profiles-container {
+        height: 50%;
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        h6 {
+            flex-shrink: 0;
+        }
+
+        .profiles-container {
+            overflow-y: auto;
+
+            .profile {
+                padding: 6px 24px;
+                border-radius: 1rem;
+                background: var(--background-basic-color-2);
+                cursor: pointer;
+
+                &:hover {
+                    background: var(--background-basic-color-3);
+                }
+            }
+
+            .profile + .profile {
+                margin-top: 8px;
+            }
+
+            .selected {
+                background: var(--background-basic-color-4);
+            }
+
+            .occupied {
+                color: var(--color-basic-100);
+                background-image: linear-gradient(to right, var(--button-hero-primary-left-background-color), var(--button-hero-primary-right-background-color));
+
+                &:hover {
+                    color: var(--color-basic-100);
+                    background-image: linear-gradient(to right, var(--button-hero-primary-left-background-color), var(--button-hero-primary-right-background-color));
+                }
+            }
+        }
+    }
+
+    .career-step-details-container,
+    .career-step-profiles-container {
+        width: 100%;
+    }
+}
+
+.profile-drawer {
+    position: absolute;
+    top: 0;
+    right: 300px;
+    width: 100%;
+    max-width: calc(100% - 300px);
+    height: 100%;
+    padding: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background-color: var(--card-background-color);
+    border-top-left-radius: var(--card-border-radius);
+    border-bottom-left-radius: var(--card-border-radius);
+    animation: expand 0.6s ease-out forwards;
+
+    @include media-breakpoint-down(md) {
+        right: 0;
+        max-width: 100%;
+        border-top-right-radius: var(--card-border-radius);
+        border-bottom-right-radius: var(--card-border-radius);
+    }
+
+    .hide-btn {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        height: 32px;
+        width: 32px;
+        cursor: pointer;
+    }
+
+    .profile-details-container {
+        padding-bottom: 24px;
+
+        h6 {
+            display: inline-block;
+            font-size: 1rem;
+            line-height: 32px;
+            margin: 0px 0px 12px 0px;
+        }
+
+        .profile-position-status {
+            display: block;
+            width: fit-content;
+            padding: 4px 12px;
+            border-radius: 1.5rem;
+            text-transform: uppercase;
+            font-size: var(--text-button-tiny-font-size);
+            font-weight: var(--text-subtitle-font-weight);
+            background-color: var(--background-basic-color-3);
+        }
+
+        .goal-details {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+
+            @include media-breakpoint-down(md) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            p {
+                flex: 1;
+            }
+        }
+    }
+
+    .required-skills-container {
+        flex: 1;
+
+        nb-list.skills-list {
+            height: 146px;
+            overflow-y: auto;
+
+            nb-list-item {
+                padding: 12px 0px;
+
+                &:first-child {
+                    border-top: 0px;
+                }
+
+                &:last-child {
+                    border-bottom: 0px;
+                }
+
+                .skill-container {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    .skill-label {
+                        flex: 1;
+                        min-width: 0;
+                        padding-right: 24px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .skill-weight {
+                        max-width: 104px;
+                        padding-right: 24px;
+
+                        .chip {
+                            width: 80px;
+                            padding: 4px 12px;
+                            border-radius: 1.5rem;
+                            text-transform: uppercase;
+                            text-align: center;
+                            font-size: var(--text-button-tiny-font-size);
+                            font-weight: var(--text-subtitle-font-weight);
+                            background-color: var(--background-basic-color-3);
+                        }
+                    }
+
+                    .skill-level {
+                        min-width: 30%;
+
+                        @include media-breakpoint-down(md) {
+                            min-width: 100px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .profile-details-container,
+    .required-skills-container {
+        width: 100%;
+    }
+}

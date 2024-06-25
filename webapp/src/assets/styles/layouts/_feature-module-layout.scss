@@ -1,0 +1,90 @@
+.feature-module-layout {
+    .subheader nav {
+        height: 1em;
+        box-shadow: none;
+        box-sizing: border-box;
+        align-items: stretch;
+        padding: 20px 28px;
+        .header-item {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+        }
+        .header-item+.header-item {
+            margin-left: 20px;
+        }
+        .header-item.spacer {
+            flex: 1;
+        }
+        .header-item .subheader-title {
+            font-size: var(--text-heading-6-font-size);
+        }
+    }
+    .subheader.centered nav {
+        max-width: 992px;
+        margin: 0 auto;
+        padding: 20px;
+        @include media-breakpoint-down(md) {
+            max-width: 100%;
+        }
+    }
+    .scrollable-container {
+        height: 100% !important;
+        min-width: 400px;
+        .layout {
+            nb-layout-column {
+                padding: 0 !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 330px) {
+    .feature-module-layout {
+        .subheader nav {
+            height: fit-content;
+            min-height: var(--header-height);
+            box-shadow: none;
+            box-sizing: border-box;
+            align-items: stretch;
+            padding: 20px 17px;
+            padding-left: 2px !important;
+            padding-right: 23px !important;
+            .header-item {
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: center;
+            }
+            .header-item+.header-item {
+                margin-left: 20px;
+            }
+            .header-item.spacer {
+                flex: 1;
+            }
+            .header-item .subheader-title {
+                font-size: var(--text-heading-6-font-size);
+            }
+        }
+        .subheader.centered nav {
+            max-width: 992px;
+            margin: 0 auto;
+            padding: 20px;
+            @include media-breakpoint-down(md) {
+                max-width: 100%;
+            }
+        }
+        .scrollable-container {
+            height: 100% !important;
+            .layout {
+                min-height: 100% !important;
+                nb-layout-column {
+                    padding: 0 !important;
+                }
+            }
+        }
+    }
+}

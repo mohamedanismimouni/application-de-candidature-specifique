@@ -1,0 +1,132 @@
+.app-layout {
+    .header nav {
+        box-sizing: border-box;
+        align-items: stretch;
+        .header-item {
+            box-sizing: border-box;
+            display: flex;
+        }
+        .header-item+.header-item {
+            margin-left: 20px;
+        }
+        .header-item+.header-item.logo-container {
+            margin-left: 28px;
+        }
+        .header-item.sidebar-toggle-button {
+            button {
+                padding: 4px 2px !important;
+                border-width: 0px !important;
+                nb-icon {
+                    width: 2rem;
+                    height: 2rem;
+                    font-size: 2rem;
+                    vertical-align: middle;
+                }
+            }
+        }
+        .divider {
+            height: 32px;
+            width: var(--divider-width);
+            margin: 2px 0px;
+            background-color: var(--divider-color);
+        }
+        .header-item.logo-container {
+            max-width: 110px;
+            img {
+                height: 100%;
+            }
+        }
+        .header-item.spacer {
+            flex: 1;
+        }
+        .header-item.actions-container {
+            nb-actions {
+                nb-action {
+                    a {
+                        &:hover {
+                            nb-icon {
+                                color: var(--menu-item-hover-text-color);
+                            }
+                        }
+                    }
+                }
+                .active {
+                    a {
+                        nb-icon {
+                            color: var(--menu-item-active-text-color);
+                        }
+                    }
+                }
+            }
+        }
+        .clickable {
+            cursor: pointer;
+        }
+    }
+    .sidebar {
+        z-index: 999;
+        .main-container {
+            .scrollable {
+                padding: 16px 0px;
+                .sidebar-menu {
+                    .menu-items {
+                        .menu-item {
+                            .menu-items {
+                                padding: 0 !important;
+                                a.active {
+                                    background: #eeeded;
+                                    .menu-title {
+                                        color: var(--text-primary-color);
+                                    }
+                                }
+                            }
+                            a {
+                                color: rgb(61, 61, 61);
+                                height: 40px;
+                                padding: 12px 26px !important;
+                                .menu-icon {
+                                    margin: 0px !important;
+                                    width: 24px;
+                                    height: 24px;
+                                    font-size: 24px;
+                                    vertical-align: middle;
+                                }
+                                .menu-title {
+                                    margin-left: 20px;
+                                }
+                            }
+                            a.active {
+                                height: 40px;
+                                padding: 12px 26px !important;
+                                background: linear-gradient(90deg, #038C81 35%, var(--text-primary-color)100%);
+                                .menu-icon {
+                                    margin: 0px !important;
+                                    width: 24px;
+                                    height: 24px;
+                                    font-size: 24px;
+                                    vertical-align: middle;
+                                    color: aliceblue;
+                                }
+                                .menu-title {
+                                    margin-left: 20px;
+                                    color: aliceblue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .app-layout-column {
+        padding: 0 !important;
+    }
+}
+
+@media (max-width: 573px) {
+    .app-layout-column {
+        padding: 0 !important;
+        padding-left: 1px!important;
+        padding-right: 1px!important;
+    }
+}

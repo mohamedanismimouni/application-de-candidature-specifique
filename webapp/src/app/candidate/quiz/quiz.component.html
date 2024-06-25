@@ -1,0 +1,31 @@
+<nb-layout class="page-layout">
+    <nb-layout-column class="page-layout-column">
+        <div class="page-layout-main-container">
+            <div class="columns-container" *ngIf="this.showQuestions">
+                <div class="column" style="margin-top: 80px;">
+                    <span> <span style="font-weight: 600 !important"><i class="fa fa-question-circle-o" aria-hidden="true"></i> Question {{this.index+1}}/{{this.questions.length}}</span> &nbsp;&nbsp; - {{this.question.question.prmTechnology.technologyName}} </span>
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>Temps écoulé : {{this.counter}} / {{this.tempsTotal}}
+                    <nb-card  style="height: 300px" status="primary" >
+                        <nb-card-header >
+                            {{this.question.question.statement}}
+                        </nb-card-header>
+                        <nb-card-body>
+                            <div *ngFor="let response of question.question.responses" class="field-checkbox">
+                                <p-checkbox name="group2" value="response" [value]="response"  [(ngModel)]="selectedResponses" [inputId]="response.id" ></p-checkbox>
+                                <label [for]="response.id" style="margin-left: 20px; margin-top: 20px; font-weight: bold; ">{{response.value}}</label>
+                            </div>
+                        </nb-card-body>
+                        <button (click)="getNextQuestion2()" class="terminate">Question suivante</button>
+                    </nb-card>
+                    </div>
+                 </div>
+              </div>
+
+        <div class="page-layout-background-container">
+            <div class="background-shapes-container">
+                <img class="background-shape background-shape-top-right" src="assets/imgs/shape-top-right.svg">
+                <img class="background-shape background-shape-bottom-left" src="assets/imgs/shape-bottom-left.svg">
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

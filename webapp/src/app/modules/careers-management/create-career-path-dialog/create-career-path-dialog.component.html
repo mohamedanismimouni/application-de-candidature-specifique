@@ -1,0 +1,122 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Add a new career path</h4>
+        <div class="dialog-content">
+            <form class="form" [formGroup]="createCareerPathFormGroup">
+                <div
+                    class="column"
+                    [ngStyle]="{'flex-direction': careerPathOrientation ? 'column' : 'column-reverse' }"
+                >
+                    <p class="selected-career-step">
+                        {{ careerPathOrientation ? 'From ' : 'To ' }}
+                        <span>{{ data.selectedCareerStep.label.toLowerCase() }}</span>
+                    </p>
+                        <div class="form-group">
+                            <nb-select
+                                fullWidth
+                                shape="round"
+                                [placeholder]="careerPathOrientation ? 'To career step' : 'From career step'"
+                                id="careerStep"
+                                formControlName="careerStep"
+                                [class.select-error]="formService.checkInputInvalidity(createCareerPathFormGroup.get('careerStep'))"
+                                *ngIf="!newCareerStep"
+                            >
+                                <nb-option
+                                    *ngFor="let careerStep of data.possibleCareerPathEdges"
+                                    [value]="careerStep.id"
+                                >{{ careerStep.label }}</nb-option>
+                                <nb-option disabled *ngIf="data.possibleCareerPathEdges.length <= 0">
+                                    No available career steps
+                                </nb-option>
+                            </nb-select>
+                            <input
+                                nbInput
+                                fullWidth
+                                shape="round"
+                                [placeholder]="careerPathOrientation ? 'To career step' : 'From career step'"
+                                type="text"
+                                id="careerStep"
+                                formControlName="careerStep"
+                                [class.input-error]="formService.checkInputInvalidity(createCareerPathFormGroup.get('careerStep'))"
+                                *ngIf="newCareerStep"
+                            >
+                            <p
+                                class="error-message"
+                                *ngIf="formService.checkInputError(createCareerPathFormGroup.get('careerStep'), 'required')"
+                            >This field is required</p>
+                            <p
+                                class="error-message"
+                                *ngIf="newCareerStep && formService.checkInputError(createCareerPathFormGroup.get('careerStep'), 'blank')"
+                            >Career step's label must have at least one none whitescpace character</p>
+                            <p
+                                class="error-message"
+                                *ngIf="newCareerStep && formService.checkInputError(createCareerPathFormGroup.get('careerStep'), 'notUnique')"
+                            >A career step with the same label already exists</p>
+                        </div>
+                </div>
+                <div class="form-action-buttons-container">
+                    <button
+                        nbButton
+                        shape="round"
+                        size="small"
+                        (click)="onReverse()"
+                    >
+                        <nb-icon icon="sync-outline"></nb-icon>
+                        Reverse
+                    </button>
+                    <button
+                        nbButton
+                        shape="round"
+                        size="small"
+                        (click)="onChangeCareerStepSelectionMode()"
+                    >
+                        <nb-icon [icon]="newCareerStep ? 'archive-outline' : 'plus-outline'"></nb-icon>
+                        {{ newCareerStep ? 'Choose from existing' : 'Create new career step' }}
+                    </button>
+                </div>
+                <div class="form-group">
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="Years of experience"
+                        type="number"
+                        min="1"
+                        id="yearsOfExperience"
+                        formControlName="yearsOfExperience"
+                        [class.input-error]="formService.checkInputInvalidity(createCareerPathFormGroup.get('yearsOfExperience'))"
+                    >
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createCareerPathFormGroup.get('yearsOfExperience'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createCareerPathFormGroup.get('yearsOfExperience'), 'min')"
+                    >A minimum of one year of experience is required</p>
+                </div>
+            </form>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onCancel()"
+                >cancel</button>
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="createCareerPathFormGroup.invalid || loadingState"
+                    [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

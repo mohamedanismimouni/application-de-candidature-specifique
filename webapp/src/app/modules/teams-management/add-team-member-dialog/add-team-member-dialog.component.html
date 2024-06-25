@@ -1,0 +1,73 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Add a team members</h4>
+        <div class="dialog-content content">
+          <div  *ngIf="this.collaboratorMultiCtrl?.value?.length!==0 && this.collaboratorMultiCtrl?.value!==null">
+              <p-multiSelect  class="multiSelect" [formControl]="collaboratorMultiCtrl" [options]="collaborators"  defaultLabel="Select a collaborator" optionLabel="name" display="chip"></p-multiSelect>
+              <p-table class="table" [value]="collaboratorMultiCtrl?.value" [paginator]="true" [rows]="3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Selected collaborators:</th> 
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-collaborator>
+                    <tr>
+                      <td>{{collaborator.firstName + ' ' + collaborator.lastName}}</td> 
+                    </tr>
+                </ng-template>
+            </p-table>
+          </div>
+          
+          <div class="nomultiSelect" *ngIf="this.collaboratorMultiCtrl?.value?.length==0 || this.collaboratorMultiCtrl?.value==null">
+            <p-multiSelect [formControl]="collaboratorMultiCtrl" [options]="collaborators"  defaultLabel="Select a collaborator" optionLabel="name" display="chip"></p-multiSelect>
+          </div>
+          <div class="noSelected" *ngIf="(this.collaboratorMultiCtrl?.value?.length==0 || this.collaboratorMultiCtrl?.value==null) && collaborators.length !== 0">
+            <p-table [value]="list">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th>Selected collaborators:</th> 
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-li>
+                  <tr>
+                    <td>No available selected collaborators</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+          </div>
+          <div class="noSelected" *ngIf="collaborators.length <= 0">
+            <p-table [value]="list">
+              <ng-template pTemplate="header">
+                  <tr>
+                      <th>Selected collaborators:</th> 
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-li>
+                  <tr>
+                    <td>No available unassigned collaborators</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+          </div>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onCancel()"
+                >cancel</button>
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="this.collaboratorMultiCtrl?.value?.length==0 || this.collaboratorMultiCtrl?.value==null"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

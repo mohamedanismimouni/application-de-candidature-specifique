@@ -1,0 +1,214 @@
+<!--Title-->
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <!--Upload Interface-->
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <div *ngIf="!loading" class="container-document">
+            <!-- Add new request-->
+            <div class="card card-request">
+                <!--header-->
+                <div class="card-header">
+                    <nb-icon icon="plus-circle-outline" class="header-icon"></nb-icon>
+                    Add new Request
+                </div>
+                <!--content-->
+                <div class="card-body text-center">
+                    <div class="form" nbSpinnerStatus="primary" [nbSpinner]="loadingState">
+
+
+                        <p-autoComplete styleClass="text-left" [inputStyle]="{'border-radius':'30px','background-color':'#f7f9fc', 'width':'250px'}" [(ngModel)]="selectedCollab" [suggestions]="filteredCollab" (completeMethod)="filterCollabs($event)" field="collabName" placeholder="Collaborator"
+                            [minLength]="1">
+                            <ng-template let-collab pTemplate="item">
+                                <div *ngIf="collab.collabInformation.accountStatus=='ACTIVE'">
+                                    <div>{{collab.collabName}}</div>
+                                </div>
+                                <div *ngIf="collab.collabInformation.accountStatus=='SUSPENDED'" class="inActiveCollaborator">
+                                    <div>{{collab.collabName}} - SUSPENDED</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+
+                        <p-dropdown [options]="requestTypes" styleClass="ui-dropdown  text-left" [(ngModel)]="selectedType" optionLabel="label" filterBy="label" [showClear]="true" placeholder="Request Type">
+                            <ng-template pTemplate="selectedItem">
+                                <div class="collab-item collab-item-value" *ngIf="selectedType">
+                                    <div *ngIf="selectedType.label==='WORK_CERTIFICATE'">Work certificate</div>
+                                    <div *ngIf="selectedType.label==='SALARY_CERTIFICATE'">Salary certificate</div>
+                                    <div *ngIf="selectedType.label=='MISSION_CERTIFICATE'">
+                                        Mission Certificate
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-requestTypes pTemplate="item">
+                                <div class="collab-item">
+                                    <div *ngIf="requestTypes.label==='WORK_CERTIFICATE'">Work Certificate</div>
+                                    <div *ngIf="requestTypes.label==='SALARY_CERTIFICATE'">Salary Certificate</div>
+                                    <div *ngIf="requestTypes.label=='MISSION_CERTIFICATE'">
+                                        Mission Certificate
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                        <input maxlength="255" class="input-motif" nbInput shape="round" fullWidth placeholder="Request's Motif" [(ngModel)]="motif" type="text" id="name">
+
+                        <button nbButton shape="round" class="cancel-btn" [disabled]="selectedType == null && selectedCollab?.collabName== null || loadingState" size="small" (click)="onCancel()">cancel</button>
+                        <button nbButton hero shape="round" [disabled]="selectedType == null || selectedCollab.collabName== null || loadingState" size="small" class="add-btn" (click)="onSubmit()" status="primary">
+                            <nb-icon icon="plus-outline"></nb-icon>Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <!--header-->
+                <div class="card-header">
+                    <nb-icon icon="clock-outline"></nb-icon>
+                    In Waiting Requests
+                </div>
+                <!--content-->
+
+                <div class="card-body">
+                    <div class="row">
+                        <!-- validate all-->
+                        <div class="col-3">
+                            <div class="actions-container">
+                                <button nbButton hero shape="round" size="small" status="primary" (click)="onValidateDocumentRequest()" [disabled]="!selectedRequests || !selectedRequests.length">
+                                    <nb-icon icon="checkmark-outline"></nb-icon>
+                                    Validate requests
+                                </button>
+                            </div>
+                        </div>
+                        <!-- search-->
+                        <div class="col-9">
+                            <div class="text-right stylesearch">
+                                <div class="actions-container right">
+                                    <div class="datatable-header ">
+                                        <div class="datatable-header-content-container">
+                                            <div class="datatable-header-item full-width" style="margin-bottom: 3%;">
+                                                <div class="search-box">
+                                                    <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text" [placeholder]="'Search ...'" id="keyword" (input)="applyFilterGlobal($event, 'contains')">
+                                                </div>
+                                                <div class="search-box-control">
+                                                    <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" (click)="toggleSearch()">
+                                                    </nb-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--table -->
+                    <p-table #dt [autoLayout]="true" styleClass="p-datatable-gridlines" [value]="documentRequestsList" dataKey="id" [rowHover]="true" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [(selection)]="selectedRequests" [globalFilterFields]="['createdAt','collaborator.firstName','collaborator.lastName','collaborator.matricule','type.label']" [alwaysShowPaginator]="false">
+                        <!--header-->
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="checkboxStyle" (click)="deleteRequestsWithoutTemplate()">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th pSortableColumn="createdAt" class="textCenter">Date
+                                    <p-sortIcon field="createdAt"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="collaborator.matricule" class="columnregistration textCenter">Registration Number
+                                    <p-sortIcon field="collaborator.matricule">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="collaborator.firstName" class="textCenter">Collaborator
+                                    <p-sortIcon field="collaborator.firstName">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="type.label" class="columntype textCenter">Document Type
+                                    <p-sortIcon field="type.label"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="status.label" class="columnmotif textCenter">Motif
+                                    <p-sortIcon field="status.label"></p-sortIcon>
+                                </th>
+                                <th class="columnwidth"> Actions</th>
+                            </tr>
+
+                        </ng-template>
+                        <!--Table Content-->
+                        <ng-template pTemplate="body" let-request>
+                            <tr [pSelectableRow]="request">
+                                <td class="checkboxStyle" *ngIf="request.withoutTemplate == false">
+                                    <p-tableCheckbox [value]="request"></p-tableCheckbox>
+                                </td>
+                                <td class="checkboxStyle" *ngIf="request.withoutTemplate == true"></td>
+                                <td class="textCenter">
+
+                                    {{request.createdAt | date:"yyyy-MM-dd"}}
+                                </td>
+                                <td class="columnregistration textCenter">
+                                    <span class="image-text">{{request.collaborator.matricule}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="image-text">
+                                        {{request.collaborator.firstName}}
+                                        {{request.collaborator.lastName}}
+                                    </span>
+                                </td>
+                                <td class="columntype textCenter">
+                                    <table>
+                                        <tr>
+                                            <td class="columnPercent">
+
+                                                <span *ngIf="request.type.label==='WORK_CERTIFICATE'" class="image-text">
+                                                    Work Certificate
+                                                </span>
+                                                <span *ngIf="request.type.label==='SALARY_CERTIFICATE'" class="image-text">
+                                                    Salary Certificate
+                                                </span>
+
+                                            </td>
+                                            <td class="typewidth">
+                                                <!--request without template-->
+                                                <nb-icon *ngIf="request.withoutTemplate" icon="alert-circle-outline" class="dangerFlag" nbTooltipStatus="primary" nbTooltip="No template is associated with this type" nbTooltipPlacement="top">
+                                                </nb-icon>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="columnmotif">
+                                    <!--motif-->
+                                    <nb-icon *ngIf="request.requestMotif" class="motifStyle" icon="message-circle-outline" nbTooltipStatus="primary" nbTooltip="{{request.requestMotif}}" [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}" nbTooltipPlacement="top" nbTooltipPlacement="bottom"></nb-icon>
+
+                                </td>
+                                <td class="columnwidth">
+                                    <!--Rejection-->
+                                    <span>
+                                        <nb-icon icon="close-circle-outline" class="actionButton"
+                                            (click)="onRejectDocumentRequest(request)"
+                                            nbTooltip="Reject Document Request" nbTooltipPlacement="top"
+                                            nbTooltipStatus="primary"></nb-icon>
+                                    </span>
+                                    <!--validate Request-->
+                                    <nb-icon *ngIf="!request.withoutTemplate" icon="checkmark-circle-2-outline" nbTooltipStatus="primary" class="actionButton" nbTooltip="Validate Request" (click)="ValidateRequest(request)" nbTooltipPlacement="top"></nb-icon>
+                                    <!--download-->
+                                    <span>
+                                        <nb-icon *ngIf="!request.withoutTemplate" icon="download-outline"
+                                            nbTooltipStatus="primary" class="actionButton" nbTooltip="Download File"
+                                            (click)="downloadTemplate(request)" nbTooltipPlacement="top"></nb-icon>
+                                    </span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <!--empty list-->
+                        <ng-template pTemplate="emptymessage">
+                            <tr class="emptyMsgTr text-center">
+                                <div class="emptyMsg">
+                                    No requests found.
+                                </div>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+
+        </div>

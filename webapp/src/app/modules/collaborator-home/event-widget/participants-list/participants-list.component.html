@@ -1,0 +1,75 @@
+<nb-card class="dialog dialogParti">
+    <nb-card-body>
+        <!--title-->
+        <h4 class="dialog-title">Event participants</h4>
+        <div class="dialog-content">
+            <div class="event-info-organizer">
+                <nb-icon icon="person" class="material-icons"></nb-icon>Organizer: {{event.creator.firstName}}
+                {{event.creator.lastName}}
+            </div>
+            <div class="event-info">
+                <nb-icon icon="text-outline" class="material-icons"></nb-icon> {{event.title}}
+            </div>
+            <div class="event-info">
+                <nb-icon icon="calendar-outline" class="material-icons"></nb-icon> {{event.date}}
+            </div>
+            <div class="event-info" *ngIf="event.numberMaxParticipation">
+                <nb-icon icon="people-outline" class="material-icons"></nb-icon>
+                Max participants {{event.numberMaxParticipation}}
+            </div>
+            <div class="event-info"
+                *ngIf="event.numberMaxParticipation && event.numberMaxParticipation-event.collaborators.length>0">
+                <nb-icon icon="person-add-outline" class="material-icons"></nb-icon>
+                {{event.numberMaxParticipation-event.collaborators.length}} available places
+            </div>
+            <hr>
+            <!--search-->
+            <div class="datatable-container data-con">
+                <div class="datatable-header ">
+                    <div class="datatable-header-content-container">
+                        <div class="datatable-header-item full-width search-bottom">
+                            <div class="search-box">
+                                <h6 *ngIf="!search">{{event.collaborators.length}} Participants</h6>
+                                <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text"
+                                    [placeholder]="'Search collaborator ...'" id="keyword" [(ngModel)]="keyword">
+                            </div>
+                            <div class="search-box-control">
+                                <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" title='test'
+                                    (click)="toggleSearch()">
+                                </nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--collaborators list-->
+            <table class="tabletop">
+                <tr *ngFor="let collab of event.collaborators| filter: keyword | paginate: config; index as i;">
+                    <td>
+                        <nb-user  [name]="collab.firstName + ' ' + collab.lastName"
+                            onlyPicture nbTooltip="{{collab.firstName}}  {{collab.lastName}}"
+                            nbTooltipPlacement="bottom" nbTooltipStatus="primary"></nb-user>
+                    </td>
+                    <td>
+                        <p class="infoStyle">
+                            {{collab.firstName}} {{collab.lastName}}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <!--pagination-->
+            <pagination-controls class="pagination" (pageChange)="pageChanged($event)">
+            </pagination-controls>
+        </div>
+        <!--buttons action-->
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <!--close-->
+                <button nbButton class="cancel-btn" shape="round" size="medium" (click)="onCancel()">
+                    <nb-icon icon="close-outline"></nb-icon>
+                    close
+                </button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

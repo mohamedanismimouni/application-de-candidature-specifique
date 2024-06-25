@@ -1,0 +1,16 @@
+.link {
+    display: block;
+    width: fit-content;
+    margin-bottom: 24px;
+    margin-left: auto;
+    cursor: pointer;
+    font-size: var(--text-caption-font-size);
+    color: var(--color-primary-500);
+    text-decoration: none;
+    font-weight: bold;
+
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

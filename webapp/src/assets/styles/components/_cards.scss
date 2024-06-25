@@ -1,0 +1,55 @@
+.simple-card {
+    margin: 0;
+
+    nb-card-body {
+        padding: 24px;
+
+        .simple-card-title {
+            margin-top: 0.5em;
+            margin-bottom: 1.5em;
+        }
+    }
+}
+
+.blank-card {
+    height: 100%;
+    margin: 0;
+
+    nb-card-body {
+        height: 100%;
+        padding: 0;
+        overflow: hidden;
+    }
+}
+
+.chart-card {
+    height: 100%;
+    margin: 0;
+
+    nb-card-body {
+        height: 100%;
+        padding: 0;
+    }
+}
+
+.datatable-card {
+    margin: 0;
+
+    nb-card-body {
+        padding: 0;
+        overflow: hidden;
+    }
+}
+
+@media (max-width: 281px){
+    .chart-card {
+        height: 100%;
+        margin: 0;
+    
+        nb-card-body {
+            height: 100%;
+            padding: 0;
+            margin-left: -19px;
+        }
+    }
+}

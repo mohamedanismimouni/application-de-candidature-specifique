@@ -1,0 +1,184 @@
+<div id="shadow"   class="col-lg-8 mx-auto bg-white rounded " style=" box-shadow: 3px 3px 3px 3px  #9fa8b9; height:92%; margin-top:30px;position:relative;z-index:0; ">
+    <div  class="col-md-12">
+         <div style="background-color: #1d4d91; margin-top:-15px;height:65px; width:100%">
+          <div class="row">
+              <div class="col-md-3">
+          <img style=" margin-top:-28px; margin-left:-10px;width:90px;height:90px" src="data:image/png;base64,{{candidat.candidateImg}}" alt="Admin">    
+          </div>
+          <div class="col-md-9">
+          <h1 style="color:white; margin-left:80px;"><span style=" text-transform: capitalize;">{{candidat.firstName}}</span> <span style=" text-transform:capitalize"> {{candidat.lastName}}</span>
+            <i style="margin-left:270px;position:fixed" (click)="moveInput()" class="fa fa-pencil"  aria-hidden="true"></i></h1>
+          <h2 style="color:white; margin-left:105px;font-style: italic; margin-top:-20px"> <span style=" text-transform:capitalize"> {{candidat.posteActuel}}</span></h2>
+          </div>
+        </div>
+        </div>
+      
+     </div>
+  <div  class="row">
+      <div class="col-md-6">
+          <nb-card  style="margin-top:10px;margin-left:3px;height:220px;" >
+              <nb-card-header>Coordonnées</nb-card-header>
+              <nb-card-body >
+                  
+                  <h4 style="margin-top:-10px; "><span style="font-weight: bold;  margin-left:0px">Phone Number:</span> {{candidat.phoneNumber}}</h4>
+                  <h4 style="margin-top:-20px" ><span style="font-weight: bold ;  margin-left:0px">Date_naissance:</span> {{candidat.dateNaissance}}</h4>
+                  <h4  style="margin-top:-20px"><span style="font-weight: bold;   margin-left:0px">Email:</span> {{candidat.email}}</h4>
+                  <h4  style="margin-top:-20px"><span style="font-weight: bold;  margin-left:0px">Email_secondaire:</span> {{candidat.emailSecondaire}}</h4>
+                  
+                  <h4 style="margin-top:-20px" ><span style="font-weight: bold;margin-left:0px">Societé_actuelle:</span> {{ candidat.societeActuelle}}</h4>
+                  <h4  style="margin-top:-20px"><span style="font-weight: bold; margin-left:0px">Université:</span> {{candidat.universite}}</h4> 
+              </nb-card-body>
+              
+            </nb-card>
+        </div>
+  <div class="col-md-6">
+      <nb-card style="margin-top:10px;margin-left:-10px; height:220px;margin-right:4px" >
+          <nb-card-header>Skills</nb-card-header>
+          <nb-card-body>
+              <mat-chip-list aria-label="Dog selection">
+                  <mat-chip style="background-color:#038c81" *ngFor="let skill of candidat.candidateSkills">
+                    {{skill.skillName}}
+                    
+                  </mat-chip>
+                  </mat-chip-list>
+          </nb-card-body>
+          
+        </nb-card>
+        </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3" id="1" (click)="move()" (mousemove)="play()">
+            <span style="margin-left:90px; font-weight: bold;">Offers</span><img src="https://cdn-icons-png.flaticon.com/128/664/664457.png" style="width:70px;height:70px;margin-top:-5px;">
+          </div>
+
+          <div class="col-md-3" id="2" (click)="show(candidat.id)" (mousemove)="play()">
+            <span style="margin-left:92px;font-weight: bold;">Quiz</span> <img src="https://cdn-icons.flaticon.com/png/128/3261/premium/3261259.png?token=exp=1651415888~hmac=7b9edb2e5768d57249dc3a39ce69f196" style="width:70px;height:65px;margin-top:-5px;">
+              </div>
+
+              <div class="col-md-3" id="3" (mousemove)="play()">
+                <span style="margin-left:92px;font-weight: bold;">Entretiens</span>  <img src="https://cdn-icons-png.flaticon.com/128/4415/4415839.png" style="width:70px;height:65px;margin-top:-5px;">
+                  </div>
+
+                  <div class="col-md-3"id="4" (click)="moveWorkflow()" (mousemove)="play()">
+                    <span style="margin-left:75px;font-weight: bold;">Workflow</span><img src="https://cdn-icons-png.flaticon.com/128/3078/3078895.png"style="width:70px;height:65px;margin-top:-5px;margin-left:60px">
+                      </div>
+                      </div>
+
+                     <div style="display:none;"id="carousel1">
+                      <p-carousel [style]="{'width':'730px'}"  [value]="candidat.offerEntities" >
+                        
+                        <ng-template let-offer pTemplate="item">
+                            <div class="product-item">
+                                <div class="product-item-content">
+                                    
+                                    <div>
+                                        
+                                        <h2 style="background-color:#038c81;border-radius:12px;color:black;">Reference</h2><h3>{{offer.reference}}</h3> 
+                                      
+                                        <h2 style="background-color:#038c81;border-radius:12px;color:black;">Sujet</h2><h3>{{offer.subject}}</h3> 
+                                      
+                                        <h2 style="background-color:#038c81;border-radius:12px;color:black;">Description</h2><h3>{{offer.description}}
+                             
+                                        </h3> 
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-carousel>
+                    </div>  
+                    
+                    
+<div style="display:none" id="workflowCard" class="card">
+    
+    <p-timeline   [style]="{'width':'100%','margin-left':'30px'}" [value]="events" layout="horizontal" >
+        <ng-template  pTemplate="marker" let-event>
+            <span >
+                <i  [ngClass]="event.icon"></i>
+            </span>
+        </ng-template>
+       
+        <ng-template   pTemplate="content" let-event>
+           
+          <h4 class="workflowStyle">{{event.status}}</h4>
+          <br>
+         <h3 style="margin-top:-40px;"> {{event.date}}</h3>
+         
+            
+        </ng-template>
+    </p-timeline>
+    </div>
+
+
+
+
+     </div>
+    
+
+
+
+
+
+<div id="shadow2"  class="col-lg-8 mx-auto bg-white rounded " style=" box-shadow: 3px 3px 3px 3px  #9fa8b9;margin-top: 20px; display:none">
+
+
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h4 class="mb-0" style="font-weight:bold; color:black">Date de naissance:</h4>
+            </div>
+            <div class="col-sm-7 text-secondary">
+                <input type="date" class="form-control"   required
+                       [(ngModel)]="candidat.dateNaissance"  placeholder="22/12/1998">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h4 class="mb-0"style="font-weight:bold;color:black">Email_secondaire:</h4>
+            </div>
+            <div class="col-sm-7 text-secondary">
+                <input type="text" class="form-control"   required
+                       [(ngModel)]="candidat.emailSecondaire"  placeholder="john@example.com">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h4 class="mb-0" style="font-weight:bold;color:black">Poste_actuel:</h4>
+            </div>
+            <div class="col-sm-7 text-secondary">
+                <input type="text" class="form-control"   required
+                       [(ngModel)]="candidat.posteActuel"  placeholder="etudiant">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h4 class="mb-0" style="font-weight:bold; color:black">Societé_actuelle:</h4>
+            </div>
+            <div class="col-sm-7 text-secondary">
+                <input type="text" class="form-control"   required
+                       [(ngModel)]="candidat.societeActuelle"  placeholder="Talan_tunisie">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <h4 class="mb-0"style="font-weight:bold; color:black">Université:</h4>
+            </div>
+          
+            <div class="col-sm-7 text-secondary">
+                <input type="text" class="form-control"   required
+                       [(ngModel)]="candidat.universite"  placeholder="Faculté de science de tunis">
+            </div>
+        </div>
+
+
+
+        <button  style=" margin-left:300px;border-radius: 20px;" (click)="update()">Save Changes</button>
+        
+
+
+
+    </div>
+
+
+

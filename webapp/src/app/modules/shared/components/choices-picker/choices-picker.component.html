@@ -1,0 +1,15 @@
+<div class="choices-picker-container">
+    <div
+        class="choice"
+        [class.disabled]="!enabled"
+        [class.selected]="choice.selected"
+        *ngFor="let choice of choices"
+        (click)="onChoiceSelection(choice)"
+    >
+        <nb-icon
+            *ngIf="choice.valid !== undefined"
+            [icon]="choice.valid ? 'checkmark-circle-2-outline' : 'close-circle-outline'"
+        ></nb-icon>
+        <div class="content">{{ choice.content }}</div>
+    </div>
+</div>

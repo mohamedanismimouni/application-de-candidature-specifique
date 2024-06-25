@@ -1,0 +1,215 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+.team-name {
+    padding: 12px;
+    span {
+        font-size: var(--text-subtitle-2-font-size);
+        line-height: normal;
+    }
+    h4 {
+        margin: 0;
+        line-height: normal;
+    }
+}
+
+.team-evaluation-date {
+    padding: 12px;
+    border-radius: 1rem;
+    text-align: right;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--background-basic-color-3);
+    }
+    span {
+        font-size: var(--text-subtitle-2-font-size);
+        line-height: normal;
+    }
+    h4 {
+        margin: 0;
+        line-height: normal;
+    }
+}
+
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+}
+
+.search-box-items-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-box-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        .keyword-search {
+            flex: 1;
+            h6 {
+                margin: 0;
+                font-size: 1rem;
+                line-height: 32px;
+                animation: fade-in 0.3s ease-in forwards;
+            }
+            input {
+                max-width: none;
+                animation: show-and-expand 0.3s ease-in forwards;
+            }
+        }
+        .keyword-search-control {
+            margin-left: 24px;
+            nb-icon {
+                cursor: pointer;
+            }
+        }
+        .filter {
+            nb-select {
+                width: 100%;
+            }
+        }
+        .filter+.filter {
+            margin-left: 24px;
+            @include media-breakpoint-down(md) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+    }
+    .search-box-item+.search-box-item {
+        margin-left: 24px;
+        @include media-breakpoint-down(md) {
+            margin-left: 0;
+            margin-top: 12px;
+        }
+    }
+    .search-box-item.keyword-search-item-container {
+        flex: 1;
+    }
+    .search-box-item.filters-items-container {
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+}
+
+.team-members-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    grid-gap: 24px;
+    grid-auto-rows: minmax(160px, auto);
+    padding: 36px 0px;
+    .team-member-card {
+        border-bottom: solid 0.2em #1ABC9C;
+        width: auto;
+        cursor: pointer;
+        &:hover {
+            box-shadow: var(--elevated-shadow);
+        }
+        nb-card-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            nb-user {
+                 ::ng-deep {
+                    .user-container {
+                        .info-container {
+                            margin-left: 0;
+                        }
+                    }
+                }
+                 ::ng-deep {
+                    .user-container {
+                        .user-picture {
+                            width: 64px;
+                            height: 64px;
+                        }
+                    }
+                }
+            }
+            .team-member-name {
+                text-align: center;
+                margin-bottom: 0;
+                margin-top: 10%;
+                color: var(--text-primary-color);
+            }
+        }
+    }
+    .uninitialized {
+        background-image: linear-gradient(to right, var(--button-hero-primary-left-background-color), var(--button-hero-primary-right-background-color));
+        nb-card-body {
+            nb-user {
+                 ::ng-deep {
+                    .user-container {
+                        .user-picture {
+                            color: var(--text-control-color);
+                        }
+                    }
+                }
+            }
+            .team-member-name {
+                color: var(--text-control-color);
+            }
+        }
+    }
+}
+
+.no-data-message {
+    padding-bottom: 36px;
+}
+
+.team-icon {
+    margin-top: 1%;
+    margin-right: 1%;
+    color: var(--text-primary-color);
+}
+
+.teamUser {
+    color: var(--text-primary-color);
+}
+
+@media (max-width: 573px) {
+    .container {
+         ::ng-deep {
+            padding-left: 0px!important;
+            padding-right: 0px!important;
+        }
+    }
+    .team-members-cards-container {
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+    }
+    nb-select {
+        width: 50%;
+    }
+}
+
+.feature-module-layout {
+     ::ng-deep {
+        .subheader.centered {
+            padding: 0px !important;
+        }
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2%;
+}
+
+.pagination ::ng-deep .ngx-pagination .current {
+    border-radius: 25%;
+    background: var(--button-hero-primary-left-background-color);
+}

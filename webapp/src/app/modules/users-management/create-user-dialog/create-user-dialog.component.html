@@ -1,0 +1,152 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Add a new user</h4>
+        <div class="dialog-content">
+            <form class="form" [formGroup]="createUserFormGroup">
+                <div class="form-group">
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="First name"
+                        type="text"
+                        id="firstName"
+                        formControlName="firstName"
+                        [class.input-error]="formService.checkInputInvalidity(createUserFormGroup.get('firstName'))"
+                    >
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('firstName'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('firstName'), 'blank')"
+                    >User's first name must have at least one none whitescpace character</p>
+                </div>
+                <div class="form-group">
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="Last name"
+                        type="text"
+                        id="lastName"
+                        formControlName="lastName"
+                        [class.input-error]="formService.checkInputInvalidity(createUserFormGroup.get('lastName'))"
+                    >
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('lastName'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('lastName'), 'blank')"
+                    >User's last name must have at least one none whitescpace character</p>
+                </div>
+                <div class="form-group">
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="Email address"
+                        type="email"
+                        id="email"
+                        formControlName="email"
+                        [class.input-error]="formService.checkInputInvalidity(createUserFormGroup.get('email'))"
+                    >
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('email'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('email'), 'customEmail')"
+                    >Invalid email address</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('email'), 'notUnique')"
+                    >An account with the same email address already exists</p>
+                </div>
+                <div class="form-group">
+                    <nb-select
+                        fullWidth
+                        shape="round"
+                        placeholder="Profile type"
+                        id="profileType"
+                        formControlName="profileType"
+                        (selectedChange)="onProfileTypeChange()"
+                        [class.select-error]="formService.checkInputInvalidity(createUserFormGroup.get('profileType'))"
+                    >
+                        <nb-option
+                            *ngFor="let profileType of profileTypes"
+                            [value]="profileType.value"
+                        >{{ profileType.name }}</nb-option>
+                    </nb-select>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('profileType'), 'required')"
+                    >This field is required</p>
+                </div>
+                <div
+                    class="form-group"
+                    *ngIf="createUserFormGroup.get('profileType').value === profileType.COLLABORATOR"
+                >
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="Recruited at"
+                        id="recruitedAt"
+                        formControlName="recruitedAt"
+                        [nbDatepicker]="recruitedAt"
+                        [class.input-error]="formService.checkInputInvalidity(createUserFormGroup.get('recruitedAt'))"
+                    >
+                    <nb-datepicker #recruitedAt></nb-datepicker>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createUserFormGroup.get('recruitedAt'), 'required')"
+                    >This field is required</p>
+                </div>
+                <div
+                    class="form-group"
+                    *ngIf="createUserFormGroup.get('profileType').value === profileType.COLLABORATOR"
+                >
+                    <nb-select
+                        fullWidth
+                        shape="round"
+                        placeholder="Member of"
+                        id="memberOf"
+                        formControlName="memberOf"
+                    >
+                        <nb-option [value]="null">Assign to a team later</nb-option>
+                        <nb-option
+                            *ngFor="let team of teams"
+                            [value]="{ id: team.id }"
+                        >{{ team.name }}</nb-option>
+                    </nb-select>
+                </div>
+            </form>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onCancel()"
+                >cancel</button>
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="createUserFormGroup.invalid || loadingState"
+                    [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

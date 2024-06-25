@@ -1,0 +1,44 @@
+<div *ngIf="!loading"  class="container-document">
+    <div  class="card">
+        <div class="card-header">
+            <nb-icon icon="list-outline"></nb-icon>
+            Attacher votre  CV
+        </div>
+        <div class="card-body">
+            <div class="divUpload">
+
+
+                <!--upload File-->
+                <div class="cont heightStyleUpload" appDnd (fileDropped)="onFileDropped($event)" title="">
+                    <input type="file" #fileDropRef id="fileDropRef" (change)="selectFile($event)" title="" />
+
+                    <i class="fa fa-upload iconUpload" aria-hidden="true"></i>
+                    <h2></h2>
+                    <span class="uploadText" id="fileDropRef">Drag and drop your resume here  or <span
+                        class="textUploadColor">
+                                    <u>Browse for file </u></span>
+                            </span>
+
+                </div>
+                <div class="files-list">
+                    <div class="single-file" *ngFor="let file of files; let i = index">
+                        <img src="assets/img/dnd/ic-file.svg" width="3%;" alt="file">
+                        <div class="info">
+                            <h4 class="name">
+                                {{ file?.name }}
+                            </h4>
+                            <p class="size">
+                                {{ formatBytes(file?.size) }}
+                            </p>
+                        </div>
+                        <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="2%" alt="file" (click)="deleteFile(i)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top:150px">
+    <button type="button" (click)="prevPage()" style="margin-bottom:-800px ;margin-left:900px;">Précedent</button>
+    <button type="button" (click)="nextPage()" style="margin-left:5px">Suivant</button>
+</div>

@@ -1,0 +1,28 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+
+
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+}
+@media (max-width: 573px)
+{
+     
+      .container{
+
+      
+            
+               
+                padding-left: 0px!important;
+                padding-right: 0px!important;
+            
+        
+        }
+    
+    }

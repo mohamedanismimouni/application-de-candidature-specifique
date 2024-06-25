@@ -1,0 +1,136 @@
+<div class="container">
+    <app-spinner *ngIf="loading"></app-spinner>
+
+    <div class="team-member-initialization-button-container" *ngIf="careerPositions?.length <= 0 && !loading">
+        <button nbButton hero shape="round " size="medium " status="primary " (click)="onInitializeTeamMember() ">Initialize team member</button>
+    </div>
+    <div class="team-member-career-progress-information-container " *ngIf="careerPositions?.length> 0 && !loading">
+        <nb-card class="simple-card career-progress-card">
+            <nb-card-header class="card-header">Information</nb-card-header>
+            <nb-card-body>
+                <div class="selected-career-position-information-container" *ngIf="selectedCareerPosition">
+                    <ng-container [ngSwitch]="selectedCareerPosition.status">
+                        <h6 *ngSwitchCase="careerPositionStatusEnum.PREVIOUS">
+                            {{ 'Previously a ' + selectedCareerPosition.profile.careerStep.label.toLowerCase() }}
+                        </h6>
+                        <h6 *ngSwitchCase="careerPositionStatusEnum.CURRENT">
+                            {{ 'Currently a ' + selectedCareerPosition.profile.careerStep.label.toLowerCase() }}
+                        </h6>
+                        <h6 *ngSwitchCase="careerPositionStatusEnum.NEXT">
+                            {{ progressToNextCareerPosition + '% to become a ' + selectedCareerPosition.profile.careerStep.label.toLowerCase() }}
+                        </h6>
+                    </ng-container>
+                    <div class="divInfo">
+                        <span *ngIf="selectedCareerPosition.profile.team" class="selected-career-position-information-label">Team</span>
+                        <span *ngIf="selectedCareerPosition.profile.team" class="selected-career-position-information">
+                            {{ selectedCareerPosition.profile.team.name }}
+                        </span>
+                    </div>
+                    <div class="divInfo">
+                        <span class="selected-career-position-information-label">Profile</span>
+
+                        <span *ngIf="closeDropDown">{{ selectedCareerPosition.profile.label }}</span>
+                        <nb-icon *ngIf="closeDropDown && this.isManager" class="editBtn" icon="edit-2-outline" (click)="switchEditMode()"> </nb-icon>
+                        <p-dropdown *ngIf="!closeDropDown" class="col-lg-sm-9" styleClass="ui-dropdown" [options]="this.profiles" [(ngModel)]="selectedProfil" placeholder="{{ selectedCareerPosition.profile.label }}" optionLabel="label" [showClear]="true">
+                        </p-dropdown>
+                        <nb-icon *ngIf="!closeDropDown" class="editBtn" icon="checkmark-outline" (click)="updateCareerPostion()"> </nb-icon>
+                        <nb-icon *ngIf="!closeDropDown" class="closeBtn" icon="close-outline" (click)="cancel()"> </nb-icon>
+
+                    </div>
+                    <div class="divInfo" *ngIf="selectedCareerPosition.supervisor">
+                        <span class="selected-career-position-information-label">Supervisor</span>
+                        <span class="selected-career-position-information">
+                            {{ selectedCareerPosition.supervisor.firstName + ' ' + selectedCareerPosition.supervisor.lastName }}
+                        </span>
+                    </div>
+                    <div class="divInfo" *ngIf="selectedCareerPosition.status !== careerPositionStatusEnum.NEXT">
+                        <span class="selected-career-position-information-label">Since</span>
+                        <span class="selected-career-position-information">
+                            {{ selectedCareerPosition.startedAt }}
+                        </span>
+                    </div>
+                </div>
+                <div class="career-path-graph-container" *ngIf="careerPositions?.length > 1">
+                    <app-graph [nodes]="nodes" [links]="links" [(selectedNode)]="selectedNode" [configuration]="graphConfiguration"></app-graph>
+                </div>
+            </nb-card-body>
+        </nb-card>
+        <nb-card class="blank-card skills-card" *ngIf="selectedCareerPosition">
+            <nb-card-header class="card-header">Skills</nb-card-header>
+
+            <nb-card-body>
+                <div class="skills-container">
+                    <nb-accordion class="compacted-accordion">
+                        <nb-accordion-item *ngFor="let skillType of skillTypes" [expanded]="selectedSkillType === skillType.value">
+                            <nb-accordion-item-header (click)="onAccordionItemClick(skillType.value)">
+                                {{ skillType.name }}
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <nb-list class="skills-list">
+                                    <nb-list-item [class.clickable]="collaboratorDashboardSettings.isSelf || collaboratorDashboardSettings.isManager || collaboratorDashboardSettings.isSupervisor || (collaboratorDashboardSettings.isMentor && skill.mentorshipStatus)" [class.selected]="selectedSkill?.id === skill.id"
+                                        *ngFor="let skill of skills" (click)="onSkillSelection(skill)">
+                                        <div class="skill-container">
+                                            <div class="skill-label">
+                                                {{ skill.label }}
+                                                <span class="mentorship-status" [class.active-mentorship]="skill.mentorshipStatus === mentorshipStatus.ACTIVE" *ngIf="skill.mentorshipStatus"></span>
+                                            </div>
+                                            <div class="skill-weight">
+                                                <div class="chip">{{ skill.weight }}</div>
+                                            </div>
+                                            <div class="skill-level">
+                                                <app-linear-gauge [primaryPercentage]="skill.acquiredLevelValue" [secondaryPercentage]="skill.requiredLevelValue"></app-linear-gauge>
+                                            </div>
+                                        </div>
+                                    </nb-list-item>
+                                    <nb-list-item *ngIf="skills?.length <= 0">{{ 'No ' + skillType.name.toLowerCase() + ' for ' + selectedCareerPosition.profile.label + ' profile...' }}</nb-list-item>
+                                </nb-list>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+                    </nb-accordion>
+                </div>
+                <div class="selected-skill-drawer" *ngIf="selectedSkill">
+                    <nb-icon class="hide-btn" status="basic" icon="chevron-right-outline" (click)="hideSelectedSkillDrawer()"></nb-icon>
+                    <div class="skill-details-container">
+                        <h6 class="skill-label">{{ selectedSkill.label }}</h6>
+                        <p>
+                            Skill weight
+                            <span class="chip">{{ selectedSkill.weight }}</span>
+                        </p>
+                        <p>
+                            Required level
+                            <span class="chip">{{ selectedSkill.requiredLevelFormated }}</span>
+                        </p>
+                        <div class="skill-level">
+                            <app-linear-gauge [secondaryPercentage]="selectedSkill.requiredLevelValue"></app-linear-gauge>
+                        </div>
+                        <p>
+                            Acquired level
+                            <span class="chip">
+                                {{ selectedSkill.acquiredLevelFormated ? selectedSkill.acquiredLevelFormated : 'Not acquired' }}
+                            </span>
+                        </p>
+                        <div class="skill-level">
+                            <app-linear-gauge [primaryPercentage]="selectedSkill.acquiredLevelValue"></app-linear-gauge>
+                        </div>
+                    </div>
+                    <div class="mentorship-container" *ngIf="selectedSkill.mentorship" (click)="onMentorshipClick()">
+                        <h6>Mentorship</h6>
+                        <div class="mentor-container">
+                            <div class="mentor-profile-picture">
+                                <nb-user [name]="selectedSkill.mentorship.mentor.firstName + ' ' + selectedSkill.mentorship.mentor.lastName" size="large" onlyPicture></nb-user>
+                            </div>
+                            <div class="mentor-info-container">
+                                <p class="mentor-name">{{ selectedSkill.mentorship.mentor.firstName + ' ' + selectedSkill.mentorship.mentor.lastName }}</p>
+                                <p class="mentor-email">{{ selectedSkill.mentorship.mentor.email }}</p>
+                            </div>
+                        </div>
+                        <p class="mentorship-status">
+                            Mentorship status
+                            <span class="chip">{{ selectedSkill.mentorship.statusFormated }}</span>
+                        </p>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Initialize team member</h4>
+        <div class="dialog-content">
+            <form class="form" [formGroup]="initializeTeamMemberFormGroup">
+                <div class="form-group">
+                    <nb-select fullWidth shape="round" placeholder="Career step" id="careerStep" formControlName="careerStep" (selectedChange)="onCareerStepSelectionChange()" [class.select-error]="formService.checkInputInvalidity(initializeTeamMemberFormGroup.get('careerStep'))">
+                        <nb-option disabled *ngIf="careerSteps?.length <= 0">
+                            No available career steps
+                        </nb-option>
+                        <nb-option *ngFor="let careerStep of careerSteps" [value]="careerStep">{{ careerStep.label }}</nb-option>
+                    </nb-select>
+                    <p class="error-message" *ngIf="formService.checkInputError(initializeTeamMemberFormGroup.get('careerStep'), 'required')">This field is required</p>
+                </div>
+                <div class="form-group" *ngIf="initializeTeamMemberFormGroup.get('careerStep').value">
+                    <nb-select fullWidth shape="round" placeholder="Profile" id="profile" formControlName="profile" [class.select-error]="formService.checkInputInvalidity(initializeTeamMemberFormGroup.get('profile'))">
+                        <nb-option *ngFor="let profile of profiles" [value]="profile">{{ profile.label }}</nb-option>
+                    </nb-select>
+                    <p class="error-message" *ngIf="formService.checkInputError(initializeTeamMemberFormGroup.get('profile'), 'required')">This field is required</p>
+                </div>
+                <form [formGroup]="supervisorsSearchFormGroup">
+                    <div class="search-box-items-container">
+                        <div class="search-box-item keyword-search-item-container">
+                            <div class="keyword-search">
+                                <h6 *ngIf="!searchSupervisors">Supervisors</h6>
+                                <input *ngIf="searchSupervisors" nbInput shape="round" fieldSize="small" type="text" placeholder="Search a supervisor by name..." id="keyword" formControlName="keyword" (keyup)="onSupervisorsKeywordInputChange()">
+                            </div>
+                            <div class="keyword-search-control">
+                                <nb-icon [icon]="searchSupervisors ? 'close-outline' : 'search-outline'" (click)="toggleSupervisorsSearch()"></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <nb-list>
+                    <nb-list-item class="clickable" *ngFor="let supervisor of displayedSupervisors" (click)="onSupervisorSelection(supervisor)" [class.selected]="selectedSupervisor?.id === supervisor.id">
+                        <nb-user [name]="supervisor.firstName + ' ' + supervisor.lastName"></nb-user>
+                    </nb-list-item>
+                    <nb-list-item *ngIf="displayedSupervisors?.length <= 0">No available supervisors...</nb-list-item>
+                </nb-list>
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Started at" id="startedAt" formControlName="startedAt" [nbDatepicker]="startedAt" [class.input-error]="formService.checkInputInvalidity(initializeTeamMemberFormGroup.get('startedAt'))">
+                    <nb-datepicker #startedAt [min]="minStartedAtDate" [max]="maxStartedAtDate"></nb-datepicker>
+                    <p class="error-message" *ngIf="formService.checkInputError(initializeTeamMemberFormGroup.get('startedAt'), 'required')">This field is required</p>
+                </div>
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Evaluation date" id="evaluationDate" formControlName="evaluationDate" [nbDatepicker]="evaluationDate" [class.input-error]="formService.checkInputInvalidity(initializeTeamMemberFormGroup.get('evaluationDate'))">
+                    <nb-datepicker #evaluationDate [min]="minEvaluationDate"></nb-datepicker>
+                    <p class="error-message" *ngIf="formService.checkInputError(initializeTeamMemberFormGroup.get('evaluationDate'), 'required')">This field is required</p>
+                </div>
+                <div class="form-group" *ngIf="requiresOnboardingProcess">
+                    <input nbInput fullWidth shape="round" placeholder="Onboarding process secret word" type="text" id="onboardingProcessSecretWord" formControlName="onboardingProcessSecretWord" [class.input-error]="formService.checkInputInvalidity(initializeTeamMemberFormGroup.get('onboardingProcessSecretWord'))">
+                    <p class="error-message" *ngIf="formService.checkInputError(initializeTeamMemberFormGroup.get('onboardingProcessSecretWord'), 'required')">This field is required</p>
+                    <p class="error-message" *ngIf="formService.checkInputError(initializeTeamMemberFormGroup.get('onboardingProcessSecretWord'), 'blank')">Secret word must have at least one none whitescpace character</p>
+                </div>
+            </form>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button nbButton shape="round" size="medium" (click)="onCancel()">cancel</button>
+                <button nbButton hero shape="round" size="medium" status="primary" [disabled]="initializeTeamMemberFormGroup.invalid || !selectedSupervisor || loadingState" [nbSpinner]="loadingState" nbSpinnerStatus="control" (click)="onSubmit()">submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

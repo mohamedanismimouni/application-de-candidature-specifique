@@ -1,0 +1,48 @@
+<div class="container">
+    <nb-card class="blank-card">
+        <nb-card-body>
+            <div class="careers-card-body-container">
+                <div class="careers-graph-container">
+                    <app-graph
+                        [nodes]="nodes"
+                        [links]="links"
+                        [(selectedNode)]="selectedNode"
+                        [configuration]="graphConfiguration"
+                    ></app-graph>
+                </div>
+            </div>
+            <div class="career-step-drawer" *ngIf="selectedCareerStep">
+                <nb-icon
+                    class="hide-btn"
+                    status="basic"
+                    icon="chevron-right-outline"
+                    (click)="hideCareerStepDrawer()"
+                ></nb-icon>
+                <div class="career-step-label-container">
+                    <h6>{{ selectedCareerStep.label }}</h6>
+                </div>
+                <div class="career-step-details-container">
+                    <p *ngIf="selectedCareerStep.id === startingPoint.id">
+                        A fresh recruit with no experience years starts here
+                    </p>
+                    <p *ngIf="inboundCareerPaths.length <= 0 && selectedCareerStep.id !== startingPoint.id">
+                        An initial career step
+                    </p>
+                    <p *ngIf="inboundCareerPaths.length > 0 && selectedCareerStep.id !== startingPoint.id">
+                        Required years of experience coming from:
+                    </p>
+                    <div class="career-path-container" *ngFor="let careerPath of inboundCareerPaths; let i = index;">
+                        <div class="career-path-details">
+                            <p class="from-career-step-label">
+                                {{ careerPath.fromCareerStep.label }}
+                                <span class="years-of-experience">
+                                    {{ ' - ' + careerPath.yearsOfExperience + ' year' + ((careerPath.yearsOfExperience > 1) ? 's' : '') }}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

@@ -1,0 +1,121 @@
+<!--Title-->
+<nb-layout class="feature-module-layout">
+
+    <nb-layout-column>
+        <nb-layout-header class="subheader" subheader>
+            <div class="header-item">
+                <span class="subheader-title">PayRoll Upload</span>
+            </div>
+            <div class="header-item spacer"></div>
+        </nb-layout-header>
+
+        <app-spinner *ngIf="loading"></app-spinner>
+        <!--Upload Interface-->
+        <div *ngIf="!loading" class="container-document">
+            <div class="card">
+                <div class="card-header">
+                    <nb-icon icon="list-outline"></nb-icon>
+                    Upload PayRoll File
+                </div>
+                <div class="card-body">
+                    <!--Registration Number information-->
+                    <h2>
+                        <p class="textUploadColor animation">
+                            <nb-icon icon="info-outline"></nb-icon>
+                            Check the update of the registration number before loading payroll or reminder !
+                        </p>
+                    </h2>
+                    <!--myDiv-->
+                    <div class="divUpload">
+                        <!--date calendar-->
+                        <div class="row justify-content-center">
+                            <div class="form-group">
+                                <input type="text" [(ngModel)]="payrollDate" class="form-control datePickerInput" onkeydown="return false" (bsValueChange)="onValueChange($event)" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [bsConfig]="bsConfig" #dp="bsDatepicker" [maxDate]="maxDate"
+                                    placeholder="Select payroll month" bsDatepicker>
+                            </div>
+                            <div class="form-group calenderIcon">
+                                <nb-icon icon="calendar-outline" (click)="dp.toggle()"></nb-icon>
+                            </div>
+                        </div>
+                        <!--payroll or reminder radio Butoon-->
+                        <div class="radiofileType">
+                            <div class="p-d-flex p-flex-column">
+                                <table class="grayText">
+                                    <tr>
+                                        <td class="widthHalf">
+                                            <p-radioButton name="groupname" value="PayRoll" [(ngModel)]="selectedFileType" label="Payroll"></p-radioButton>
+                                        </td>
+                                        <td>
+                                            <p-radioButton name="groupname" value="Reminder" [(ngModel)]="selectedFileType" label="Reminder"></p-radioButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!--upload File-->
+                        <div class="cont heightStyleUpload" appDnd (fileDropped)="onFileDropped($event)" title="">
+                            <input type="file" #fileDropRef id="fileDropRef" (change)="selectFile($event)" title="" />
+                            <i class="fa fa-upload iconUpload" aria-hidden="true"></i>
+                            <h2></h2>
+                            <span class="uploadText" id="fileDropRef">Drag and drop Excel file here or <span
+                                    class="textUploadColor">
+                                    <u>Browse for file </u></span>
+                            </span>
+                        </div>
+                        <!--uploaded file-->
+                        <div class="files-list">
+                            <div class="single-file" *ngFor="let file of files; let i = index">
+                                <img src="assets/img/dnd/ic-file.svg" width="3%;" alt="file">
+                                <div class="info">
+                                    <h4 class="name">
+                                        {{ file?.name }}
+                                    </h4>
+                                    <p class="size">
+                                        {{ formatBytes(file?.size) }}
+                                    </p>
+                                    <app-progress [progress]="file?.progress">
+                                    </app-progress>
+                                </div>
+                                <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="2%" alt="file" (click)="deleteFile(i)">
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!--Radio button-->
+                    <table class="fullwidth">
+                        <tr>
+                            <td>
+                                <div class="dateMarge">
+                                    <div class="p-d-flex p-flex-column">
+                                        <!--payroll & reminder Date-->
+                                        <p class="titleDate" *ngIf="uploadPayRollDate">
+                                            <nb-icon icon="calendar-outline"></nb-icon>
+                                            Last upload of PayRoll : {{uploadPayRollDate | date:"dd-MM-yyyy h:mm:s"}}
+                                        </p>
+                                        <p class="titleDate" *ngIf="!uploadPayRollDate">
+                                            <nb-icon icon="alert-circle-outline"></nb-icon>
+                                            PayRoll Is Never Uploaded
+                                        </p>
+                                        <p class="titleDate" *ngIf="uploadReminderDate">
+                                            <nb-icon icon="calendar-outline"></nb-icon>
+                                            Last upload of Reminder : {{uploadReminderDate | date:"dd-MM-yyyy h:mm:s"}}
+                                        </p>
+                                        <p class="titleDate" *ngIf="!uploadReminderDate">
+                                            <nb-icon icon="alert-circle-outline"></nb-icon>
+                                            Reminder Never Uploaded
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                            </td>
+                            <div class="actions-container right">
+                                <button nbButton class="cancel-btn" shape="round" size="medium" (click)="cancel()" [disabled]="IsEmptydate">cancel</button>
+                                <button nbButton hero shape="round" size="medium" status="primary" [disabled]="!submitButton || loadingState || IsEmptydate" nbSpinnerStatus="control" [nbSpinner]="loadingState" (click)="uploadPayRollFile()">submit</button>
+                            </div>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>

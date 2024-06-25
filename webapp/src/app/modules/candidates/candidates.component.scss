@@ -1,0 +1,91 @@
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5rem;
+    text-align: center;
+}
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td  {
+    text-align: center;
+}
+:host ::ng-deep .p-datatable{
+    margin: 10px;
+}
+:host ::ng-deep .p-datatable tr  .details{
+    background: transparent;
+    border: transparent;
+}
+:host ::ng-deep .p-datatable tr .details:hover {
+    background: transparent;
+    border: transparent;
+}
+.user-image{
+    border-radius: 50%;
+    width: 50px;
+}
+.eye{
+    cursor: pointer;
+}
+.flex{
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+}
+.flex button{
+    margin: 10px;
+    border-radius: 10px;
+}
+i{
+    margin-right: 30px;
+}
+:host ::ng-deep .candidacyType{
+    border-radius: 20px;
+    width: 250px;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #1D4D91;
+    border: 2px solid #1D4D91;
+}
+:host ::ng-deep .p-dropdown:hover{
+    border: 2px solid #1D4D91;
+}
+:host ::ng-deep .p-dropdown:active{
+    border: 2px solid #0e2c68;
+}
+:host ::ng-deep .p-dropdown-label{
+    display: flex;
+}
+
+:host ::ng-deep .p-confirm-popup {
+
+}
+table{
+    margin-left: 70px;
+    background: white;
+    width: 100%;
+}
+table  td {
+    margin: 100px;
+}
+:host ::ng-deep table .p-dropdown{
+    width: 200px;
+    margin: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

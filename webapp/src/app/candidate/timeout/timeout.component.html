@@ -1,0 +1,32 @@
+<nb-layout class="page-layout">
+    <nb-layout-column class="page-layout-column">
+        <div class="page-layout-main-container">
+            <div class="columns-container">
+                <div class="column">
+                    <nb-card class="simple-card" style="text-align: left; width: 600px;
+                                                        box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+                                                        margin-top: 150px;
+                                                        margin-left: 300px;
+                                                        padding: 30px;">
+                        <img src="">
+                        <h5>Merci <span style="text-transform: uppercase; font-weight: bold">{{candidate.firstName}}  {{candidate.lastName}}</span>  pour  le passage  du quiz  </h5>
+                        <p>Vous avez rester {{this.testDuration}}</p>
+                        <p>votre score est <span style="font-weight: bold;">{{test.totalScore}}</span></p>
+                        <p> Si vos resultat sont favorable, notre responsable RH vous contacte pour passer les entretiens dans les brefs délais.</p>
+                        <p>A bientôt!</p>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+        <div class="page-layout-background-container">
+            <div class="background-shapes-container">
+                <img class="background-shape background-shape-top-right" src="assets/imgs/shape-top-right.svg" >
+                <img class="background-shape background-shape-bottom-left" src="assets/imgs/shape-bottom-left.svg">
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>
+
+
+
+

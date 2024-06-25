@@ -1,0 +1,41 @@
+:host {
+   
+        overflow: auto!important;
+
+    
+  }
+ 
+.skill-label {
+    margin: 0px 0px 24px 0px;
+}
+
+.skill-level-detail {
+    margin: 12px 0px 0px 0px;
+}
+
+.chip {
+    margin: 0px 12px;
+    padding: 4px 12px;
+    border-radius: 1.5rem;
+    text-transform: uppercase;
+    font-size: var(--text-button-tiny-font-size);
+    font-weight: var(--text-subtitle-font-weight);
+    background-color: var(--background-basic-color-3);
+}
+
+.skill-level-evaluation-label {
+    margin: 24px 0px;
+}
+
+.slider-container {
+    padding: 0px 11px;
+}
+
+.evaluation-title {
+    margin: 24px 0px 12px 0px;
+    font-weight: var(--text-subtitle-font-weight);
+}
+
+.mentorship-status-toggle-container {
+    margin-top: 24px;
+}

@@ -1,0 +1,96 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <div class="container">
+            <div class="grid">
+                <div class="cell">
+                    <nb-card class="chart-card">
+                        <nb-card-body>
+                            <app-pie-chart [title]="'Collaborators teams assignment'" [data]="collaboratorsTeamsAssignmentChartData"></app-pie-chart>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                <div class="cell">
+                    <nb-card class="chart-card">
+                        <nb-card-body>
+                            <app-pie-chart [title]="'Managers teams assignment'" [data]="managersTeamsAssignmentChartData"></app-pie-chart>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                <div class="cell">
+                    <div class="teams-header">
+                        <h6>{{ 'Teams (' + teams.length + ')' }}</h6>
+                        <div class="datatable-header-item ">
+                            <div class="search-box">
+                                <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text" [placeholder]="'Search team ...'" id="keyword" [(ngModel)]="keyword">
+                            </div>
+                            <div class="search-box-control">
+                                <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" (click)="toggleSearch()">
+                                </nb-icon>
+                            </div>
+                        </div>
+                        <button class="size-mobile" nbButton hero shape="round" size="small" status="primary" (click)="onAddTeam()">
+                            <nb-icon icon="plus-outline"></nb-icon>
+                            Add team
+                        </button>
+                    </div>
+                    <nb-accordion class="broad-accordion">
+                        <nb-accordion-item *ngFor="let team of teams  | filter: keyword| paginate: config">
+                            <nb-accordion-item-header (click)="onAccordionItemClick(team.teamInformation.id)">
+                                <div>
+                                    <form class="form" [formGroup]="updateTeamNameFormGroup">
+                                        <div *ngIf="( team.teamInformation === selectedTeam )" class="form-group">
+                                            <input #inputBox (click)="fireEvent($event)" nbInput fullWidth shape="round" placeholder="Team name" type="text" id="name" formControlName="pendingValue" autofocus [(ngModel)]="pendingValue" (keydown.Enter)="processChanges()" (keydown.Meta.Enter)="processChanges()"
+                                                (keydown.Escape)="cancel()" (keydown.space)="$event.stopPropagation()" (keydown.Enter)="$event.stopPropagation()" (keydown.Meta.Enter)="$event.stopPropagation()">
+                                            <p class="error-message" *ngIf="formService.checkInputError(updateTeamNameFormGroup.get('pendingValue'), 'required')">This field is required
+                                            </p>
+                                            <p class="error-message" *ngIf="(formService.checkInputError(updateTeamNameFormGroup.get('pendingValue'), 'whitespace'))
+                                        && !(formService.checkInputError(updateTeamNameFormGroup.get('pendingValue'), 'required'))">Team's name must have at least one none whitescpace character</p>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div *ngIf="( team.teamInformation === selectedTeam )">
+
+                                    <button class="cancelButton" nbButton size="small" (click)="cancel()" (keydown.Enter)="cancel()" (click)="$event.stopPropagation()">
+                                                <nb-icon icon="close-outline" class="cancelIcon" (click)="cancel()"
+                                                (keydown.Enter)="cancel()"
+                                                (click)="$event.stopPropagation()"></nb-icon>
+                                        </button>
+                                    <button class="confirmButton" *ngIf="!(formService.checkInputError(updateTeamNameFormGroup.get('pendingValue'), 'required')) 
+                                        && !(formService.checkInputError(updateTeamNameFormGroup.get('pendingValue'), 'whitespace'))" nbButton size="small" (click)="processChanges()" [disabled]="updateTeamNameFormGroup.invalid || loadingState" [nbSpinner]="loadingState"
+                                        nbSpinnerStatus="control" (click)="$event.stopPropagation()"> 
+                                                <nb-icon icon="checkmark-outline" class="confirmIcon"></nb-icon>
+                                         </button>
+
+                                </div>
+                                <div *ngIf="( team.teamInformation !== selectedTeam ) ">
+                                    {{ team.teamInformation.name }}
+                                    <nb-icon class="icon" (click)="edit( team)" icon="edit-outline" (click)="$event.stopPropagation()"></nb-icon>
+                                </div>
+                                <div class="item-header">
+                                    <nb-actions size="small" *ngIf="team.TeamMembersNumber>0">
+                                        <nb-action icon="people-outline" [badgeText]=team.TeamMembersNumber badgeStatus="primary">
+                                        </nb-action>
+                                    </nb-actions>
+                                    <nb-actions size="small" *ngIf="team.TeamMembersNumber==0">
+                                        <nb-action icon="people-outline" badgeText="0" badgeStatus="primary">
+                                        </nb-action>
+                                    </nb-actions>
+
+
+                                </div>
+
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body>
+                                <app-datatable [configuration]="teamMembersDatatableConfiguration" [data]="teamMembersData" [userSelected]="userSelected"></app-datatable>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+                    </nb-accordion>
+                    <pagination-controls class="pagination" (pageChange)="pageChanged($event)"></pagination-controls>
+                </div>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

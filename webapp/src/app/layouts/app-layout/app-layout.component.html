@@ -1,0 +1,86 @@
+<nb-layout class="app-layout">
+    <!--header-->
+    <nb-layout-header fixed class="header">
+        <div class="header-item sidebar-toggle-button" *ngIf="userAppLayoutSettings.hasSidebar">
+            <button nbButton ghost status="primary" shape="round" (click)="toggleSidebar()">
+                <nb-icon icon="menu-outline"></nb-icon>
+            </button>
+        </div>
+        <div class="header-item" *ngIf="userAppLayoutSettings.hasSidebar">
+            <div class="divider"></div>
+        </div>
+        <div class="header-item logo-container logo-responsive">
+            <img [src]="'assets/imgs/logoSirius-' + currentTheme + '.png'" alt="Sirius HR logo">
+        </div>
+        <div class="header-item spacer menu-responsive"></div>
+        <div class="header-item actions-container" *ngIf="userAppLayoutSettings.hasHeaderActions">
+            <!--add class button-responsive to the button-->
+            <nb-icon class="button-responsive" icon="menu-outline" (click)="sidebarService.toggle()"></nb-icon>
+            <!--add class menu-responsive to nb-actions-->
+            <nb-actions class="menu-responsive">
+                <nb-action *ngFor="let action of userAppLayoutSettings.headerActions" [icon]="action.icon" [link]="action.link" [title]="action.title" [class.active]="isActionItemActive(action.link)">
+                </nb-action>
+            </nb-actions>
+
+            <nb-sidebar #sidebar state="collapsed" class="button-responsive" fixed>
+                <nb-sidebar-header>
+                    <img [src]="'assets/imgs/logoSirius-' + currentTheme + '.png'" alt="Sirius HR logo" width="30%">
+                    <nb-icon (click)="sidebarService.toggle()" style="float: right;" icon="close-outline"></nb-icon>
+                </nb-sidebar-header>
+                <nb-menu [items]="userAppLayoutSettings.headerActions" (click)="sidebarService.toggle()"></nb-menu>
+                <nb-menu [items]="userContextMenuItems" (click)="sidebarService.toggle()"></nb-menu>
+            </nb-sidebar>
+
+
+        </div>
+        <div class="header-item menu-responsive" *ngIf="userAppLayoutSettings.hasHeaderActions">
+            <div class="divider menu-responsive"></div>
+        </div>
+        <div class="header-item clickable menu-responsive">
+            <div class="score">
+                <div>
+                <!--  <img [src]="'assets/imgs/logoTalan.png'" width="60px" height="60px" alt="Sirius HR logo"> -->
+                </div>
+                 <div>
+                    <h6 class="badge bg-warning  second">
+                            <img [src]="'assets/imgs/money.png'" width="20px" height="20px" alt="Sirius HR logo">
+                            &nbsp;<span>{{ score }} </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </h6>
+                </div>
+            </div>
+
+            <nb-user class="menu-responsive" [name]="currentUser.firstName + ' ' + currentUser.lastName" [title]="currentUser.profileType" [nbContextMenuTag]="userContextMenuTag" [nbContextMenu]="userContextMenuItems"></nb-user>
+        </div>
+        <div class="user-responsive header-item actions-container">
+            <nb-user class="user-responsive" [name]="currentUser.firstName + ' ' + currentUser.lastName" [title]="currentUser.profileType" [showName]=false [showTitle]=false [nbContextMenuTag]="userContextMenuTag" [nbContextMenu]="userContextMenuItems"></nb-user>
+            <div  class="score-responsive">
+                <div>
+                <!--  <img [src]="'assets/imgs/logoTalan.png'" width="60px" height="60px" alt="Sirius HR logo"> -->
+                </div>
+                 <div>
+                    <h6 class="badge bg-warning  second">
+                            <img [src]="'assets/imgs/money.png'" width="20px" height="20px" alt="Sirius HR logo">
+                            &nbsp;<span>{{ score }} </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </nb-layout-header>
+    <!--sidebar web version-->
+    <nb-sidebar class="sidebar webClasss" *ngIf="userAppLayoutSettings.hasSidebar" [tag]="sidebarTag" responsive>
+        <nb-menu class="sidebar-menu" [items]="userAppLayoutSettings.sidebarMenuItems" >
+        </nb-menu>
+    </nb-sidebar>
+    <!--sidebar mobile version-->
+    <nb-sidebar class="sidebar mobileclass" *ngIf="userAppLayoutSettings.hasSidebar" [tag]="sidebarTag" responsive>
+        <nb-menu class="sidebar-menu" [items]="userAppLayoutSettings.sidebarMenuItems" (click)="toggleSidebar()"></nb-menu>
+    </nb-sidebar>
+    <!--body-->
+    <nb-layout-column class="app-layout-column">
+        <router-outlet></router-outlet>
+    </nb-layout-column>
+    <!--footer-->
+    <nb-layout-footer class="fixed-bottom">
+        <app-footer></app-footer>
+    </nb-layout-footer>
+</nb-layout>

@@ -1,0 +1,9 @@
+export enum ProfileTypeEnum {
+
+    DIRECTOR = 'DIRECTOR',
+    HR_RESPONSIBLE = 'HR_RESPONSIBLE',
+    MANAGER = 'MANAGER',
+    COLLABORATOR = 'COLLABORATOR',
+    SUPPORT = 'SUPPORT_ADMIN'
+
+}

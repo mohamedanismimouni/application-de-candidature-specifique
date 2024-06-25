@@ -1,0 +1,113 @@
+<div class="container">
+    <nb-card class="simple-card">
+        <nb-card-body>
+            <form [formGroup]="searchSkillsFormGroup">
+                <div class="search-box-items-container">
+                    <div class="search-box-item keyword-search-item-container">
+                        <div class="keyword-search">
+                            <h6 *ngIf="!searchSkills">Search skills</h6>
+                            <input
+                                *ngIf="searchSkills"
+                                nbInput
+                                shape="round"
+                                fieldSize="small"
+                                type="text"
+                                placeholder="Search skills..."
+                                id="keyword"
+                                formControlName="keyword"
+                                (keyup)="onSearchSkillsKeywordInputChange()"
+                            >
+                        </div>
+                        <div class="keyword-search-control">
+                            <nb-icon
+                                [icon]="searchSkills ? 'close-outline' : 'search-outline'"
+                                (click)="toggleSkillsKeywordSearch()"
+                            ></nb-icon>
+                        </div>
+                    </div>
+                    <div class="search-box-item filters-items-container">
+                        <div class="filter">
+                            <nb-select
+                                shape="round"
+                                size="small"
+                                placeholder="Skill type"
+                                id="skillType"
+                                formControlName="skillType"
+                                (selectedChange)="onSearchSkillsSkillTypeSelectChange()"
+                            >
+                                <nb-option
+                                    *ngFor="let skillType of skillTypes"
+                                    [value]="skillType.value"
+                                >{{ skillType.name }}</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div
+                class="skills-container"
+                *ngIf="skills?.length > 0 || acquiredSkills?.length > 0"
+            >
+                <div class="displayed-skills-conatiner">
+                    <div
+                        class="chip selectable"
+                        *ngFor="let skill of displayedSkills"
+                        (click)="onAddNewAcquiredSkill(skill)"
+                    >{{ skill.label }}</div>
+                    <div class="no-availabe">
+                    <p
+                        class="message"
+                        *ngIf="displayedSkills?.length <= 0"
+                    >There are no available skills...</p></div>
+
+                </div>
+                <div class="acquired-skills-container">
+                    <div
+                        class="new-acquired-skill-container"
+                        [style.display]="(newAcquiredSkill.skillType === searchSkillsFormGroup.get('skillType').value) ? 'flex' : 'none'"
+                        *ngFor="let newAcquiredSkill of newAcquiredSkills"
+                    >
+                        <nb-icon
+                            icon="close-outline"
+                            (click)="onRemoveNewAcquiredSkill(newAcquiredSkill)"
+                        ></nb-icon>
+                        <div class="chip">{{ newAcquiredSkill.label }}</div>
+                        <div class="spacer"></div>
+                        <div class="single-handler" #newAcquiredSkillLevelSlider></div>
+                    </div>
+                    <div
+                        class="acquired-skill-container"
+                        *ngFor="let acquiredSkill of acquiredSkillsBySelectedSkillType"
+                    >
+                        <div class="chip">{{ acquiredSkill.skill.label }}</div>
+                        <div class="spacer"></div>
+                        <app-linear-gauge
+                            [primaryPercentage]="acquiredSkill.progress[acquiredSkill.progress.length - 1].levelValue"
+                        ></app-linear-gauge>
+                    </div>
+                    <p
+                        class="message"
+                        *ngIf="acquiredSkillsBySelectedSkillType?.length <= 0 && newAcquiredSkills?.length <= 0"
+                    >Start by selecting some skills...</p>
+                </div>
+            </div>
+            <p
+                class="message"
+                *ngIf="skills?.length <= 0 && acquiredSkills?.length <= 0"
+            >There are no available skills yet...</p>
+            <div
+                class="submit-button-container"
+                *ngIf="newAcquiredSkills.length > 0"
+            >
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </nb-card-body>
+    </nb-card>
+</div>

@@ -1,0 +1,62 @@
+body{
+    margin-top: 50px;
+    background: transparent;
+}
+input{
+    width: 500px;
+    border-radius: 20px;
+    border: 2px solid #1D4D91;
+}
+p-chips{
+    width: 500px;
+}
+button{
+    color:  #1d6591;
+    border: transparent;
+    background: transparent;
+    font-size: 20px;
+    font-weight: bolder;
+    margin: 10px;
+    padding: 5px;
+    position: relative;
+    left: 460px;
+    top: 20px;
+
+}
+.button-transition{
+    background-color: #1D4D91 ;
+    color: white;
+    font-size: 15px;
+    font-weight: lighter;
+    border-radius: 10px;
+    border: 3px solid #1d6591;
+    width: 120px;
+    height: 40px;
+    text-align: center;
+}
+.button-transition:hover{
+    color: #1D4D91;
+    background-color: white;
+}
+
+label{
+    margin: 10px;
+}
+
+:host ::ng-deep .p-chips{
+    border-radius: 10px;
+    border: 2px solid #1D4D91;
+    background: transparent;
+    padding:3px
+}
+
+:host ::ng-deep .p-chips .p-chips-token{
+    border-radius: 20px;
+    
+}
+
+:host ::ng-deep .p-chips .p-chips-input-token{
+    
+    background: transparent;
+    
+}

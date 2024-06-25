@@ -1,0 +1,59 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+
+        <app-spinner *ngIf="loading"></app-spinner>
+        <div *ngIf="!loading" class="container">
+
+            <div class="row row-mobile">
+                <div class="col-6 col-mobile">
+
+                    <!--Event -->
+                    <div class="card_container">
+                        <div class="col-12">
+                            <app-event-widget></app-event-widget>
+                        </div>
+                    </div>
+
+                    <!--Mood widget-->
+                    <div class="card_container">
+                        <div class="col-md-12">
+                            <app-mood-widget></app-mood-widget>
+                        </div>
+                    </div>
+
+                    <!--Proverb -->
+                    <div class="card_container">
+                        <div class="col-md-12">
+                            <app-proverb-widget></app-proverb-widget>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-mobile">
+
+                    <!--Let's play together-->
+                    <div class="container_card">
+                        <div class="col-md-10 col-mobile">
+                            <app-quiz-widget></app-quiz-widget>
+                        </div>
+                    </div>
+                    <!--useful Links-->
+                    <div class="container_card">
+                        <div class="col-md-10 col-mobile">
+                            <app-useful-link-widget></app-useful-link-widget>
+                        </div>
+                    </div>
+                    <!--Useful document-->
+                    <div class="container_card">
+                        <div class="col-md-10 col-mobile">
+                            <app-useful-document-widget></app-useful-document-widget>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

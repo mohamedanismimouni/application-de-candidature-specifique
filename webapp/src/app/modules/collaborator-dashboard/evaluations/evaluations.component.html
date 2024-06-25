@@ -1,0 +1,111 @@
+<div class="container">
+    <!--     <nb-accordion class="broad-accordion">
+        <nb-accordion-item *ngIf="!openEvaluation" expanded="true" [ngStyle]="{'border-left': 'solid'  , 'border-left-color':  '#1ABC9C', 'border-left-width': '6px'}">
+            <nb-accordion-item-header>
+                Upcoming evaluation
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div class="evaluation-detail-container">
+                    <div class="evaluation-detail-label">
+                        Evaluation date
+                    </div>
+                    <div class="evaluation-detail-value">
+                        Not set
+                    </div>
+                    <nb-icon *ngIf="collaboratorDashboardSettings?.isManager || collaboratorDashboardSettings?.isSupervisor" icon="edit-2-outline" status="basic" (click)="openSetupEvaluationDateDialog()"></nb-icon>
+                </div>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+        <nb-accordion-item *ngFor="let evaluation of evaluations" [expanded]="evaluation.status === evaluationStatus.OPEN">
+            <nb-accordion-item-header>
+                <ng-container *ngIf="evaluation.id === openEvaluation?.id">
+                    {{ isOpenEvaluationReady ? 'Open evaluation' : 'Upcoming evaluation' }}
+                </ng-container>
+                <ng-container *ngIf="evaluation.status === evaluationStatus.CLOSED">
+                    {{ evaluation.evaluationDate | date: 'MMM d, yyyy' }}
+                </ng-container>
+            </nb-accordion-item-header>
+            <nb-accordion-item-body>
+                <div class="evaluation-detail-container" *ngIf="evaluation.status === evaluationStatus.OPEN">
+                    <div class="evaluation-detail-label">
+                        Evaluation date
+                    </div>
+                    <div class="evaluation-detail-value">
+                        {{ evaluation.evaluationDate | date: 'MMM d, yyyy' }}
+                    </div>
+                    <nb-icon *ngIf="collaboratorDashboardSettings?.isManager || collaboratorDashboardSettings?.isSupervisor" icon="edit-2-outline" status="basic" (click)="openSetupEvaluationDateDialog()"></nb-icon>
+                </div>
+                <ng-container *ngIf="(evaluation.id === openEvaluation?.id && isOpenEvaluationReady) || evaluation.status === evaluationStatus.CLOSED">
+                    <div class="evaluation-detail-container">
+                        <div class="evaluation-detail-label">
+                            Career step
+                        </div>
+                        <div class="evaluation-detail-value">
+                            {{ evaluation.careerPosition.profile.careerStep.label }}
+                        </div>
+                    </div>
+                    <div class="evaluation-detail-container">
+                        <div class="evaluation-detail-label">
+                            Profile
+                        </div>
+                        <div class="evaluation-detail-value">
+                            {{ evaluation.careerPosition.profile.label }}
+                        </div>
+                    </div>
+                    <div class="evaluation-detail-container">
+                        <div class="evaluation-detail-label">
+                            Supervisor
+                        </div>
+                        <div class="evaluation-detail-value">
+                            {{ evaluation.careerPosition.supervisor.firstName + ' ' + evaluation.careerPosition.supervisor.lastName }}
+                        </div>
+                    </div>
+                    <ng-container *ngIf="evaluation.id === openEvaluation?.id && isOpenEvaluationReady && collaboratorDashboardSettings?.isSupervisor">
+                        <p class="supervisor-evaluation-question">
+                            {{ 'How do you feel about ' + collaboratorDashboardSettings?.collaborator.firstName + '\'s career progress?' }}
+                        </p>
+                        <div class="rating-scale-container">
+                            <app-rating-scale [clearable]="false" [lowestValue]="-2" [highestValue]="2" [(selectedValue)]="supervisorRating"></app-rating-scale>
+                        </div>
+                        <form class="form" [formGroup]="evaluationFormGroup">
+                            <div class="form-group">
+                                <textarea nbInput fullWidth rows="4" shape="round" placeholder="Be more expressive..." id="supervisorFeedback" formControlName="supervisorFeedback" [class.textarea-error]="formService.checkInputInvalidity(evaluationFormGroup.get('supervisorFeedback'))"
+                                    (keyup)="onSupervisorFeedbackChange()"></textarea>
+                                <p class="error-message" *ngIf="formService.checkInputError(evaluationFormGroup.get('supervisorFeedback'), 'required')">This field is required</p>
+                                <p class="error-message" *ngIf="formService.checkInputError(evaluationFormGroup.get('supervisorFeedback'), 'maxlength')">Try to keep your feedback within the range of 250 characters</p>
+                                <p class="error-message" *ngIf="formService.checkInputError(evaluationFormGroup.get('supervisorFeedback'), 'blank')">Feedback must have at least one none whitescpace character</p>
+                            </div>
+                        </form>
+                        <nb-toggle [checked]="evaluationToggleStatus" [disabled]="supervisorRating === undefined || !evaluationFormGroup.get('supervisorFeedback').value" (checkedChange)="onEvaluationStatusChange($event)">
+                            This evaluation is open
+                        </nb-toggle>
+                    </ng-container>
+                    <ng-container *ngIf="evaluation.status === evaluationStatus.CLOSED">
+                        <p>
+                            {{ (collaboratorDashboardSettings.isSupervisor ? 'You' : evaluation.careerPosition.supervisor.firstName) + ' was ' }}
+                            <strong>{{ evaluation.supervisorRating | rating | lowercase }}</strong> {{ ' about the career progress (' }}
+                            <strong>{{ evaluation.supervisorRating }}</strong> on a scale of -2 to 2 )
+                        </p>
+                        <p>
+                            {{ (collaboratorDashboardSettings.isSupervisor ? 'Your' : evaluation.careerPosition.supervisor.firstName + '\'s') + ' feedback: ' }}
+                            <em>{{ '"' + evaluation.supervisorFeedback + '"' }}</em>
+                        </p>
+                    </ng-container>
+                    <div class="actions-container">
+                        <button nbButton shape="round" size="medium" (click)="openEvaluationSurveyResponsesDialog(evaluation)">Evaluation survey responses</button>
+                        <div class="spacer"></div>
+                        <ng-container *ngIf="evaluation.id === openEvaluation?.id && isOpenEvaluationReady && collaboratorDashboardSettings?.isSupervisor">
+                            <button nbButton shape="round" size="medium" (click)="onCancel()">cancel</button>
+                            <button nbButton hero shape="round" size="medium" status="primary" [disabled]="!canSubmit || loadingState" [nbSpinner]="loadingState" nbSpinnerStatus="control" (click)="onSubmit()">submit</button>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </nb-accordion-item-body>
+        </nb-accordion-item>
+    </nb-accordion> -->
+
+    <p class="comingSsoon">
+        <nb-icon class="icon" icon="loader-outline" [options]="{ animation: { type: 'zoom' } }"></nb-icon>
+        This module is not available at the moment ...
+    </p>
+</div>

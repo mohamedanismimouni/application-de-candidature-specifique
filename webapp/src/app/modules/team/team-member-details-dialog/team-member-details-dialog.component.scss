@@ -1,0 +1,160 @@
+.details-section {
+    .details-title {
+        margin: 0px 0px 12px 0px;
+    }
+    .details-label {
+        display: inline-block;
+        min-width: 200px;
+        font-weight: 600;
+    }
+    .details-label-profil {
+        display: inline-block;
+        min-width: 200px;
+        font-weight: 600;
+        margin-top: 1.5em;
+    }
+    .rating-container {
+        p {
+            font-weight: 600;
+            margin: 24px 0px;
+        }
+    }
+}
+
+.name {
+    color: rgb(255, 255, 255);
+    font-size: medium;
+}
+
+.circle {
+    margin-right: 12px;
+    background: gold;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #038C81 35%, var(--text-primary-color)100%);
+    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(150, 147, 147, 0.19);
+}
+
+.details-section+.details-section {
+    margin-top: 3em;
+}
+
+.team-member-information-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    .team-member-profile-picture {
+        nb-user {
+             ::ng-deep {
+                .user-container {
+                    .info-container {
+                        margin-left: 24px;
+                    }
+                }
+            }
+             ::ng-deep {
+                .user-container {
+                    .user-picture {
+                        width: 88px;
+                        height: 88px;
+                    }
+                }
+            }
+        }
+    }
+    .team-member-information {
+        p {
+            margin: 0;
+        }
+    }
+}
+
+@media (max-width: 573px) {
+    .team-member-name {
+        font-size: 15px;
+        font-weight: var(--text-heading-4-font-weight);
+        margin-bottom: 6px;
+        color: var(--text-primary-color);
+    }
+}
+
+@media (min-width: 573px) {
+    .team-member-name {
+        font-size: var(--text-heading-5-font-size);
+        font-weight: var(--text-heading-4-font-weight);
+        margin-bottom: 6px;
+        color: var(--text-primary-color);
+    }
+}
+
+@media (max-width: 573px) {
+    .team-member-email {
+        font-size: 11px;
+    }
+}
+
+.info-icon {
+    color: #617898;
+    margin-right: 0.1em;
+}
+
+.email {
+    display: flex;
+    margin-bottom: 5px;
+    p {
+        color: #617898;
+    }
+}
+
+.feature-module-layout {
+     ::ng-deep {
+        .subheader nav {
+            height: 2em;
+        }
+    }
+}
+
+.editBtn {
+    margin-left: 0.5em;
+    cursor: pointer;
+    color: #617898;
+}
+
+.closeBtn {
+    margin-left: 0.5em;
+    cursor: pointer;
+    color: red;
+}
+
+@media (max-width: 376px) {
+    .dialog nb-card-body .dialog-content {
+        max-height: 800px;
+        overflow: revert;
+    }
+}
+
+::ng-deep .dialog nb-card-body {
+    overflow: revert !important;
+}
+
+::ng-deep .ui-dropdown {
+    border-radius: 10px !important;
+    background-color: #f7f9fc;
+    width: 15em;
+    height: 40px;
+    margin-top: 2%;
+}
+
+@media (max-width: 376px) {
+     ::ng-deep .ui-dropdown {
+        border-radius: 10px !important;
+        background-color: #f7f9fc;
+        width: 10em;
+        height: 30px;
+    }
+}

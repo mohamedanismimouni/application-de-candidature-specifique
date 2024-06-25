@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: appli-rh
+  profiles:
+    active: ${applirh.profile:@profile.id@}

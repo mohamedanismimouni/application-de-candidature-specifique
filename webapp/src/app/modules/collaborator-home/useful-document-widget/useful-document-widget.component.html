@@ -1,0 +1,26 @@
+<div class="card-doc">
+    <div class="card-header">
+        <nb-icon icon="file-text-outline"></nb-icon>
+        Useful Documents
+    </div>
+    <div class="card-body marge">
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <p *ngIf="imageOfPDFDocList.length==0 && !loading" class="nodocument text-responsive">
+            <nb-icon icon="alert-circle-outline"></nb-icon>
+            Useful document Not yet Added
+        </p>
+        <p-carousel [value]="imageOfPDFDocList" styleClass="custom-carousel carouselImg" [numVisible]="1" [numScroll]="1" [circular]="false" [autoplayInterval]="30000" [responsiveOptions]="responsiveOptions" *ngIf="imageOfPDFDocList.length>0 && !loading">
+            <ng-template let-imageOfPDFDoc pTemplate="item">
+                <div class="borderC c">
+                    <img [src]='imageOfPDFDoc.thumbnail' alt="Avatar" class="image" height="220px" width="310px" (click)="downloadUsefulDocument(imageOfPDFDoc)">
+                    <div class="middle">
+                        <nb-icon icon="download-outline" class="iconmargin" (click)="downloadUsefulDocument(imageOfPDFDoc)"></nb-icon>
+                    </div>
+                    <span class="label">{{imageOfPDFDoc.label}}</span>
+                </div>
+
+            </ng-template>
+        </p-carousel>
+    </div>
+</div>

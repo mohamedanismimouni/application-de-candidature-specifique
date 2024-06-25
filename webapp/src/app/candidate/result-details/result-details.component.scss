@@ -1,0 +1,35 @@
+li{
+    list-style: none;
+}
+.checkedAndCorrect{
+    background-color: #c8e6c9;
+    color: #256029;
+    border: 1px solid #256029 ;
+    border-radius: 10px;
+    padding: 10px;
+    width: max-content;
+ }
+.checkedAndFalse{
+    background-color: #ffcdd2;
+    color: #c63737;
+    border: 1px solid #c63737 ;
+    border-radius: 10px;
+    padding: 10px;
+    width: max-content;
+}
+.NotcheckedAndCorrect{
+    color: green;
+}
+.NotcheckedAndFalse{
+    color: #c63737;
+}
+.question{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.score{
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 1.5rem;
+    font-weight: bold;
+}

@@ -1,0 +1,99 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">{{ 'Add a required ' + data.skillType.toLowerCase() + ' skill' }}</h4>
+        <div class="dialog-content">
+            <div *ngIf="!newSkill">
+                <form class="form" [formGroup]="searchFormGroup">
+                    <div class="form-group">
+                        <input
+                            nbInput
+                            fullWidth
+                            shape="round"
+                            fieldSize="small"
+                            placeholder="Search skill..."
+                            type="text"
+                            id="keyword"
+                            formControlName="keyword"
+                            (keyup)="onSearch()"
+                        >
+                    </div>
+                </form>
+                <div class="skills-container">
+                    <div
+                        class="chip"
+                        [class.selected]="skill.id === selectedSkill?.id"
+                        *ngFor="let skill of displayedSkills"
+                        (click)="onSkillSelection(skill)"
+                    >{{ skill.label }}</div>
+                    <p *ngIf="displayedSkills.length <= 0">No available skills...</p>
+                </div>
+            </div>
+            <div *ngIf="newSkill">
+                <form class="form" [formGroup]="createSkillFormGroup">
+                    <div class="form-group">
+                        <input
+                            nbInput
+                            fullWidth
+                            shape="round"
+                            placeholder="Skill label"
+                            type="text"
+                            id="label"
+                            formControlName="label"
+                            [class.input-error]="formService.checkInputInvalidity(createSkillFormGroup.get('label'))"
+                        >
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(createSkillFormGroup.get('label'), 'required')"
+                        >This field is required</p>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(createSkillFormGroup.get('label'), 'blank')"
+                        >Skill's label must have at least one none whitescpace character</p>
+                        <p
+                            class="error-message"
+                            *ngIf="formService.checkInputError(createSkillFormGroup.get('label'), 'notUnique')"
+                        >A skill with the same label already exists</p>
+                    </div>
+                </form>
+            </div>
+            <button
+                nbButton
+                shape="round"
+                size="small"
+                (click)="onChangeSkillSelectionMode()"
+            >
+                <nb-icon [icon]="newSkill ? 'archive-outline' : 'plus-outline'"></nb-icon>
+                {{ newSkill ? 'Choose from existing' : 'Create new skill' }}
+            </button>
+            <div class="slider-container">
+                <p>Skill level <span class="value">{{ skillLevel.name }}</span></p>
+                <div class="single-handler" #skillLevelSliderElement></div>
+            </div>
+            <div class="slider-container">
+                <p>Skill weight <span class="value">{{ skillWeight.name }}</span></p>
+                <div class="single-handler" #skillWeightSliderElement></div>
+            </div>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onCancel()"
+                >cancel</button>
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="(!newSkill && !selectedSkill) || (newSkill && createSkillFormGroup.invalid) || loadingState"
+                    [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

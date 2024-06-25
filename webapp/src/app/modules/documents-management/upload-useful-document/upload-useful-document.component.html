@@ -1,0 +1,50 @@
+<nb-card class="dialogUpload">
+    <nb-card-body>
+        <!--title-->
+        <!--Edit-->
+        <h6 *ngIf="!data?.idEDM" class="title">Upload document of {{data.label}}</h6>
+      
+        <!--Add-->
+        <h6 *ngIf="data?.idEDM" class="title">Update document of {{data.label}}</h6>
+ 
+        <div class="dialog-content">
+            <div class="divUpload">
+                <!--upload File-->
+                <div class="cont heightStyleUpload" appDnd (fileDropped)="onFileDropped($event)" title="">
+                    <input type="file" #fileDropRef id="fileDropRef" (change)="selectFile($event)" title="" />
+                    <i class="fa fa-upload iconUpload" aria-hidden="true"></i>
+                    <h2></h2>
+                    <span class="uploadText" id="fileDropRef">Drag and drop file here or <span class="textUploadColor">
+                            <u>Browse for file </u></span>
+                    </span>
+                </div>
+                <!--uploaded file-->
+                <div class="files-list">
+                    <div class="single-file" *ngFor="let file of files; let i = index">
+                        <img src="assets/img/dnd/ic-file.svg" width="5%;" alt="file">
+                        <div class="info">
+                            <h4 class="name">
+                                {{ file?.name }}
+                            </h4>
+                            <p class="size">
+                                {{ formatBytes(file?.size) }}
+                            </p>
+                            <app-progress [progress]="file?.progress">
+                            </app-progress>
+                        </div>
+                        <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="4%" alt="file" (click)="deleteFile(i)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--ACTION BUTTON-->
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button nbButton shape="round" [disabled]="loadingState" size="medium" (click)="cancel()">cancel</button>
+                <button nbButton hero shape="round" size="medium" status="primary" [disabled]="!submitButton || loadingState" (click)="uploadFileInGED()" nbSpinnerStatus="control" [nbSpinner]="loadingState">submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+
+

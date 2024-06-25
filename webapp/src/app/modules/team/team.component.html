@@ -1,0 +1,115 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <!--         <nb-layout-header class="subheader" subheader>
+            <div class="header-item team-name">
+                <span>Your team</span>
+                <h4 class="teamUser">{{ team?.name }}</h4>
+            </div>
+            <div class="header-item spacer"></div>
+            <div class="header-item team-evaluation-date" *ngIf="currentUser.profileType === profileType.MANAGER" (click)="onTeamEvaluationDateClick()">
+                <span>Team evaluation date</span>
+                <h4>{{ team?.formattedTeamEvaluationDate }}</h4>
+            </div>
+        </nb-layout-header> -->
+        <div *ngIf="!loading" class="container">
+            <div *ngIf="currentUser.profileType === profileType.MANAGER">
+                <h5 *ngIf="managerOf">
+                    Manager of {{managerOf.name}}</h5>
+            </div>
+
+            <div class="uninitialized-team-members-container" *ngIf="uninitializedTeamMembers?.length > 0">
+                <form [formGroup]="uninitializedTeamMembersSearchFormGroup">
+                    <div class="search-box-items-container">
+                        <div class="search-box-item keyword-search-item-container">
+                            <div class="keyword-search">
+                                <h6 *ngIf="!searchUninitializedTeamMembers">Uninitialized team members</h6>
+                                <input *ngIf="searchUninitializedTeamMembers" nbInput shape="round" fieldSize="small" type="text" placeholder="Search uninitialized team members..." id="keyword" formControlName="keyword" (keyup)="onUninitializedTeamMembersKeywordInputChange()">
+                            </div>
+                            <div class="keyword-search-control">
+                                <nb-icon [icon]="searchUninitializedTeamMembers ? 'close-outline' : 'search-outline'" (click)="toggleUninitializedTeamMembersSearch()"></nb-icon>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="team-members-cards-container">
+                    <nb-card class="simple-card team-member-card" *ngFor="let uninitializedTeamMember of displayedUninitializedTeamMembers | paginate: config" (click)="onTeamMemberSelection(uninitializedTeamMember)">
+                        <nb-card-body>
+                            <nb-user [name]="uninitializedTeamMember.firstName + ' ' + uninitializedTeamMember.lastName" onlyPicture></nb-user>
+                            <p class="team-member-name">
+                                {{ uninitializedTeamMember.firstName + ' ' + uninitializedTeamMember.lastName }}
+                            </p>
+                        </nb-card-body>
+                    </nb-card>
+
+                </div>
+
+                <div class="no-data-message" *ngIf="displayedUninitializedTeamMembers?.length <= 0">
+                    No available team members...
+                </div>
+                <pagination-controls *ngIf="displayedUninitializedTeamMembers?.length > 0" class="pagination" (pageChange)="pageChangedUninitialized($event)"></pagination-controls>
+
+            </div>
+            <div class="initialized-team-members-container">
+                <form [formGroup]="initializedTeamMembersSearchFormGroup">
+                    <div class="search-box-items-container">
+                        <div class="search-box-item keyword-search-item-container">
+                            <div class="keyword-search">
+                                <div class="d-flex flex-row">
+                                    <nb-icon *ngIf="!searchInitializedTeamMembers" class="team-icon" icon="people-outline"></nb-icon>
+                                    <h6 *ngIf="!searchInitializedTeamMembers">
+                                        {{ (currentUser.profileType === profileType.MANAGER) ? 'Initialized team members' : 'Team members' }}
+                                    </h6>
+                                </div>
+
+
+
+                                <input *ngIf="searchInitializedTeamMembers" nbInput shape="round" fieldSize="small" type="text" [placeholder]="(currentUser.profileType === profileType.MANAGER) ? 'Search initialized team members...' : 'Search team members...'" id="keyword" formControlName="keyword"
+                                    (keyup)="onInitializedTeamMembersKeywordInputChange()">
+                            </div>
+                            <div class="keyword-search-control">
+                                <nb-icon [icon]="searchInitializedTeamMembers ? 'close-outline' : 'search-outline'" (click)="toggleInitializedTeamMembersSearch()"></nb-icon>
+                            </div>
+                        </div>
+                        <div class="search-box-item filters-items-container">
+                            <div class="filter" *ngIf="careerSteps?.length > 0">
+                                <nb-select shape="round" size="small" placeholder="Career step" id="careerStep" formControlName="careerStep" (selectedChange)="onCareerStepSelectChange()">
+                                    <nb-option>All</nb-option>
+                                    <nb-option *ngFor="let careerStep of careerSteps" [value]="careerStep.id">{{ careerStep.label }}</nb-option>
+                                </nb-select>
+                            </div>
+                            <div class="filter" *ngIf="profiles?.length > 0">
+                                <nb-select shape="round" size="small" placeholder="Profile" id="profile" formControlName="profile" (selectedChange)="loadInitializedTeamMembers()">
+                                    <nb-option>All</nb-option>
+                                    <nb-option *ngFor="let profile of profiles" [value]="profile.id">{{ profile.label }}</nb-option>
+                                </nb-select>
+                            </div>
+                            <div class="filter">
+                                <nb-select shape="round" size="small" placeholder="Structural relation" id="teamStructuralRelation" formControlName="teamStructuralRelation" (selectedChange)="loadInitializedTeamMembers()">
+                                    <nb-option>All</nb-option>
+                                    <nb-option *ngFor="let teamStructuralRelation of teamStructuralRelations" [value]="teamStructuralRelation.value">{{ teamStructuralRelation.name }}</nb-option>
+                                </nb-select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="team-members-cards-container">
+                    <nb-card class="simple-card team-member-card" *ngFor="let initializedTeamMember of displayedInitializedTeamMembers |paginate :configInitialized" (click)="onTeamMemberSelection(initializedTeamMember)">
+                        <nb-card-body>
+                            <nb-user color="#F8FBFB " [name]="initializedTeamMember.firstName + ' ' + initializedTeamMember.lastName" onlyPicture></nb-user>
+                            <p class="team-member-name">
+                                {{ initializedTeamMember.firstName + ' ' + initializedTeamMember.lastName }}
+                            </p>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                <div class="no-data-message" *ngIf="displayedInitializedTeamMembers?.length <= 0">
+                    No available team members...
+                </div>
+                <pagination-controls class="pagination" *ngIf="displayedInitializedTeamMembers?.length > 0" (pageChange)="pageChangedInitialized($event)" id="d"></pagination-controls>
+
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

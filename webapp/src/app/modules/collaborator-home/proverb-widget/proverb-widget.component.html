@@ -1,0 +1,86 @@
+<div class="card-doc">
+    <!--Title-->
+    <div class="card-header">
+        <nb-icon icon="book-open-outline"></nb-icon>
+        Proverb of the day
+        <div class="score">
+            <!--score of proverb-->
+            <div>
+                <h6 class="badge bg-warning  second">
+                    <img [src]="'assets/imgs/money.png'" width="20px" height="20px" alt="Sirius HR logo"> &nbsp;
+                    <span>{{score }} </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </h6>
+            </div>
+        </div>
+    </div>
+    <!--Proverbs-->
+    <div class="card-body">
+        <!--Proverb Not exists-->
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <p class="titleNoDocument" *ngIf="proverbList?.length===0">
+            <nb-icon icon="alert-circle-outline"></nb-icon>
+            Proverb Not yet Added !
+        </p>
+
+        <!--carousel-->
+        <p-carousel [value]="dispalyProverbList" [numVisible]="1" [numScroll]="1" [circular]="true" *ngIf="dispalyProverbList?.length>0 && !loading">
+
+
+            <ng-template *ngIf="!loading" let-proverb pTemplate="item">
+                <div class="actionButton">
+                    <!--  <nb-icon icon="close-outline" nbTooltip="Delete Proverb" nbTooltipPlacement="top"
+                        nbTooltipStatus="primary"></nb-icon>  -->
+                    <button *ngIf="proverb.creator?.id==currentUser?.id" nbButton size="small" ghost nbTooltip="Delete proverb" nbTooltipPlacement="top" nbTooltipStatus="primary" (click)="deleteProverb(proverb.id)">
+                        <nb-icon icon="trash-2-outline" (click)="deleteProverb(proverb.id)" class="material-icons">
+                        </nb-icon>Delete proverb
+                    </button>
+                </div>
+                <!--proverb date-->
+                <!-- 
+                        <div *ngIf="proverb.creator?.id===currentUser?.id" class=" form form-group">
+                            <button nbButton size="small" ghost status="danger">
+                                <nb-icon icon="trash-2-outline" > </nb-icon>
+                            </button>
+                        </div> -->
+
+
+                <!--Proverb Content-->
+                <div class="proverb" *ngIf="proverb.text">
+                    <!--proverb start  quotes-->
+                    <img class="imgright" src="assets/img/dnd/Quotes-Grey.png" width="5%" alt="file">
+                    <!--proverb text-->
+                    {{proverb.text}}
+                    <!--proverb end  quotes-->
+                    <img class="imgleft" src="assets/img/dnd/fermant.jfif" class="delete" width="10%" alt="file">
+                </div>
+                <!--Proverb author-->
+                <div class="author" *ngIf="proverb.author">
+                    {{proverb.author}}
+                </div>
+                <!--created by collab-->
+                <div *ngIf="!proverb.bySystem">
+                    <div class="creator">
+                        <nb-icon icon="person-add-outline" class="material-icons"></nb-icon>
+                        {{proverb.creator?.firstName}} {{proverb.creator?.lastName}}
+                    </div>
+                </div>
+                <!--created by system-->
+                <div *ngIf="proverb.bySystem">
+                    <div class="creator">
+                        <nb-icon icon="person-add-outline" class="material-icons"></nb-icon>
+                        By system
+                    </div>
+                </div>
+                <div class="card-category" *ngIf="proverb.createdAt"><img class="talan-star" src="assets/imgs/favicon.png"> Published on : {{proverb.createdAt|date:"yyyy-MM-dd "}} </div>
+            </ng-template>
+            <!--carousel footer (add button)-->
+            <ng-template *ngIf="!loading" pTemplate="footer">
+                <div><button nbButton size="small" ghost (click)="onAddProverb()" nbTooltip="Add proverb" nbTooltipPlacement="top" nbTooltipStatus="primary">
+                        <nb-icon icon="plus-square-outline" class="material-icons"></nb-icon>Add proverb
+                    </button>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+.search-box-items-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-box-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        .keyword-search {
+            flex: 1;
+            h6 {
+                margin: 0;
+                font-size: 1rem;
+                line-height: 32px;
+                animation: fade-in 0.3s ease-in forwards;
+            }
+            input {
+                max-width: none;
+                animation: show-and-expand 0.3s ease-in forwards;
+            }
+        }
+        .keyword-search-control {
+            margin-left: 24px;
+            nb-icon {
+                cursor: pointer;
+            }
+        }
+        .filter {
+            nb-select {
+                width: 100%;
+                max-width: none;
+            }
+        }
+        .filter+.filter {
+            margin-left: 24px;
+            @include media-breakpoint-down(md) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+    }
+    .search-box-item+.search-box-item {
+        margin-left: 24px;
+        @include media-breakpoint-down(md) {
+            margin-left: 0;
+            margin-top: 12px;
+        }
+    }
+    .search-box-item.keyword-search-item-container {
+        flex: 1;
+    }
+    .search-box-item.filters-items-container {
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+}
+
+nb-list {
+    max-height: 180px;
+    margin: 24px 0px;
+}
+
+::ng-deep .cdk-global-scrollblock {
+    position: static !important;
+}

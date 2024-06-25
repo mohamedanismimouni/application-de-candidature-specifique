@@ -1,0 +1,207 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <div *ngIf="!loading" class="container-document">
+
+            <!--kPI-->
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-inwaiting card-header-icon">
+                            <div class="card-icon">
+                                <nb-icon icon="clock-outline" class="material-icons icon"></nb-icon>
+                                <!--  <i class="fa fa-twitter" ></i> -->
+                            </div>
+                            <p class="card-category">In waiting</p>
+                            <h3 class="card-title">{{inwaitingRequestsNumber}}</h3>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <nb-icon icon="clock-outline" class="material-icons"></nb-icon>
+                                In waiting Requests
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-validate card-header-icon">
+                            <div class="card-icon">
+                                <nb-icon icon="checkmark-circle-outline" class="material-icons icon"></nb-icon>
+                            </div>
+                            <p class="card-category">Validated</p>
+                            <h3 class="card-title">{{this.validatedRequestsNumber}}</h3>
+                        </div>
+                        <div class="card-footer">
+
+                            <div class="stats">
+
+                                <nb-icon icon="checkmark-circle-outline" class="material-icons"></nb-icon>
+                                Validated Requests
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-received card-header-icon">
+                            <div class="card-icon">
+
+                                <nb-icon icon="file-text-outline" class="material-icons icon"></nb-icon>
+                            </div>
+                            <p class="card-category">Received</p>
+                            <h3 class="card-title">{{this.receivedRequestsNumber}}</h3>
+                        </div>
+                        <div class="card-footer">
+
+                            <div class="stats">
+
+                                <nb-icon icon="file-text-outline" class="material-icons"></nb-icon>
+                                Received Requests
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-doc">
+                <div class="card-header">
+                    <nb-icon icon="file-text-outline"></nb-icon>
+                    Document managment
+                </div>
+
+
+                <div class="card-body">
+
+                    <nb-accordion *ngIf="!loading" class="own-scroll">
+
+                        <nb-accordion-item style="padding-bottom: 20px;" *ngFor="let type of documentTypes | paginate: config;let i = index">
+                            <nb-accordion-item-header (click)="onAccordionItemClick(type.documentType.id)" [ngStyle]="{'border-left': 'solid'  , 'border-left-color':  colorArray[i] , 'border-left-width': '6px'}">
+                                <div class="container-doc">
+                                    <div *ngIf="type.documentType.label=='WORK_CERTIFICATE'">
+                                        Work certificate
+                                    </div>
+                                    <div *ngIf="type.documentType.label=='MISSION_CERTIFICATE'">
+                                        Mission certificate
+                                    </div>
+
+                                    <div *ngIf="type.documentType.label=='SALARY_CERTIFICATE'">
+                                        Salary certificate
+                                    </div>
+                                    <div>
+                                        <nb-icon icon="file-text-outline"></nb-icon>
+                                        <p class="collaborator-email" *ngIf="type.RequestsNumber == 0"> No available Request</p>
+                                        <p class="collaborator-email" *ngIf="type.RequestsNumber > 0">0{{type.RequestsNumber}} Requests</p>
+
+                                    </div>
+                                </div>
+                                <nb-action #addButton (click)="$event.stopPropagation()" class="icon-add" [icon]="documentAdd.icon" [title]="documentAdd.title" (click)="onAddDocumentRequest(type.documentType)"></nb-action>
+
+                            </nb-accordion-item-header>
+                            <nb-accordion-item-body [ngStyle]="{'border-left': 'solid'  , 'border-left-color':  colorArray[i] , 'border-left-width': '6px'}">
+                                <div class="no-data-message" *ngIf="requestDocument?.length <= 0">
+                                    No available Request ...
+                                </div>
+                                <div class="datatable-container" *ngIf="requestDocument?.length > 0">
+                                    <div class="datatable-body">
+                                        <table class="datatable" aria-describedby="datatable">
+                                            <tr class="header-row">
+
+                                                <th>Request</th>
+                                                <th style="padding-left:30px ;">Statut</th>
+                                                <th>Created at</th>
+                                                <th>Comment</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                            <tr class="data-row" *ngFor="let request of requestDocument | paginate: configHistorique ;let j = index">
+
+                                                <td> 0{{j+1}}</td>
+
+                                                <td *ngIf="request.status.label=='IN_WAITING'">
+                                                    <div class="chip">
+                                                        In waiting
+                                                    </div>
+                                                </td>
+                                                <td class="validated" *ngIf="request.status.label=='VALIDATED'">
+                                                    <div class="chip">
+                                                        Validated
+                                                        <nb-icon *ngIf="request.validateddBySystem" nbTooltip="Validated by system" nbTooltipStatus="primary" nbTooltipPlacement="right" style="width: 10px; color: dimgray; " icon="info-outline"></nb-icon>
+                                                        <nb-icon *ngIf="!request.validateddBySystem" nbTooltip="Validated by back office" nbTooltipStatus="primary" nbTooltipPlacement="right" style="width: 10px; color: dimgray; " icon="info-outline"></nb-icon>
+
+                                                    </div>
+                                                </td>
+                                                <td class="received" *ngIf="request.status.label=='RECEIVED'">
+                                                    <div class="chip">
+                                                        Received
+                                                    </div>
+                                                </td>
+                                                <td class="invalidated" *ngIf="request.status.label=='INVALIDATED'">
+                                                    <div class="chip">
+                                                        Invalidated
+                                                    </div>
+                                                </td>
+                                                <td class="date"> {{request.createdAt | date}}</td>
+                                                <td> {{request.requestMotif}} </td>
+                                                <td *ngIf="request.status.label=='IN_WAITING' ">
+                                                    <nb-action [icon]="documentDelete.icon" [disabled]="request.createdByRH" [title]="documentDelete.title" (click)="onCancelDocumentRequest(request,type.documentType)"></nb-action>
+
+                                                </td>
+
+                                                <td *ngIf="request.status.label=='VALIDATED'">
+                                                    <div class="d-flex flex-row" *ngIf="enableEditIndex != j">
+                                                        <nb-action [icon]="documentdownload.icon" [title]="documentdownload.title" (click)="downloadTemplate(request)"></nb-action>
+                                                        <i class="fa fa-qrcode fa-lg qricon receivedDocumentWeb" (click)="ReceivedDemandeRequest(request,type.documentType , true )" aria-hidden="true"></i>
+                                                        <i class="fa fa-qrcode fa-lg qricon receivedDocumentMobile" (click)="ReceivedDemandeRequest(request,type.documentType, false)" aria-hidden="true"></i>
+                                                        <nb-action class="write" icon="edit-outline" title="Write Etiquette Code" (click)="switchEditMode(i,j)"></nb-action>
+                                                    </div>
+                                                    <div class="d-flex flex-row" *ngIf="!etiquetteCode && enableEditIndex == j && enableAccordionIndex!=i">
+                                                        <nb-action [icon]="documentdownload.icon" [title]="documentdownload.title" (click)="downloadTemplate(request)"></nb-action>
+                                                        <i class="fa fa-qrcode fa-lg qricon receivedDocumentWeb" (click)="ReceivedDemandeRequest(request,type.documentType , true)" aria-hidden="true"></i>
+                                                        <i class="fa fa-qrcode fa-lg qricon receivedDocumentMobile" (click)="ReceivedDemandeRequest(request,type.documentType, false)" aria-hidden="true"></i>
+                                                        <nb-action class="write" icon="edit-outline" title="Write Etiquette Code" (click)="switchEditMode(i,j)"></nb-action>
+                                                    </div>
+                                                    <div class="d-flex flex-row" *ngIf="!etiquetteCode && enableEditIndex == j && enableAccordionIndex==i">
+                                                        <div class=" form form-group">
+                                                            <input [(ngModel)]="response" nbInput class="codeInput" shape="round" type="number" placeholder="Etiquette Code">
+                                                            <button nbButton size="small" ghost status="submit" (click)="SubmitEtiquetteCode(request,type.documentType)">
+                                                                <nb-icon icon="checkmark-outline"> </nb-icon>
+
+                                                            </button>
+                                                            <button nbButton size="small" ghost status="danger" (click)="CloseEditMode()">
+                                                                <nb-icon icon="close-outline"> </nb-icon>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                                <td *ngIf="request.status.label=='RECEIVED'">
+                                                    <div class="d-flex flex-row">
+                                                        <nb-action [icon]="documentdownload.icon" [title]="documentdownload.title" (click)="downloadTemplate(request)"></nb-action>
+                                                    </div>
+
+                                                </td>
+                                                <td *ngIf="request.status.label=='INVALIDATED'">
+                                                    <nb-action [nbTooltip]="request.rejectionMotif" nbTooltipStatus="primary" nbTooltipPlacement="right" nbButton status="primary" [icon]="documentRejetionInfo.icon"></nb-action>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                        <pagination-controls class="pagination" (pageChange)="pageChangedHistorique($event)"></pagination-controls>
+
+                                    </div>
+                                </div>
+                            </nb-accordion-item-body>
+                        </nb-accordion-item>
+
+                    </nb-accordion>
+                    <pagination-controls class="pagination" (pageChange)="$event" id="d"></pagination-controls>
+
+                </div>
+
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

@@ -1,0 +1,32 @@
+<nb-layout class="page-layout">
+    <nb-layout-column class="page-layout-column">
+        <div class="current-user-avatar-container" *ngIf="currentUser">
+            <nb-user [name]="currentUser.firstName + ' ' + currentUser.lastName" [title]="currentUser.profileType" [nbContextMenuTag]="userContextMenuTag" [nbContextMenu]="userContextMenuItems"></nb-user>
+        </div>
+        <div class="page-layout-main-container">
+            <div class="columns-container">
+                <div class="column left">
+                    <div class="column-content-container">
+                        <div class="logo-container">
+                            <img [src]="'assets/imgs/logoSirius-' + currentTheme + '.png'" alt="Sirius HR logo">
+                        </div>
+                        <div class="motto-container">
+                            <h4>To guide you toward a successful career</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="column right">
+                    <div class="column-content-container">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-layout-background-container">
+            <div class="background-shapes-container">
+                <img class="background-shape background-shape-top-right" src="assets/imgs/shape-top-right.svg">
+                <img class="background-shape background-shape-bottom-left" src="assets/imgs/shape-bottom-left.svg">
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

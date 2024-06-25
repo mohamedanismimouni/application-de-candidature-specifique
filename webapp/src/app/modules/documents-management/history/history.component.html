@@ -1,0 +1,123 @@
+<!--Title-->
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <app-spinner *ngIf="loading"></app-spinner>
+        <!--Upload Interface-->
+        <div *ngIf="!loading" class="container-document">
+            <div class="card">
+                <!--header-->
+                <div class="card-header">
+                    <nb-icon icon="checkmark-circle-outline" class="iconmargin"></nb-icon>Processed Requests
+                </div>
+                <!--content-->
+                <div class="card-body">
+                    <!--search-->
+                    <!--global search-->
+                    <div class="text-right stylesearch">
+                        <div class="actions-container right">
+                            <div class="datatable-header ">
+                                <div class="datatable-header-content-container">
+                                    <div class="datatable-header-item full-width" style="margin-bottom: 3%;">
+                                        <div class="search-box">
+                                            <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text" [placeholder]="'Search ...'" id="keyword" (input)="applyFilterGlobal($event, 'contains')">
+                                        </div>
+                                        <div class="search-box-control">
+                                            <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" (click)="toggleSearch()">
+                                            </nb-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--table-->
+                    <p-table #dt [autoLayout]="true" styleClass="p-datatable-gridlines" [value]="documentRequestsList" selectionMode="single" dataKey="id" [rowHover]="true" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [rowsPerPageOptions]="[5,10,25,50]" [globalFilterFields]="['createdAt','collaborator.firstName','type.label','status.label']">
+
+                        <!--header-->
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="createdAt">Date
+                                    <p-sortIcon field="createdAt"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="collaborator.reference">Reference
+                                    <p-sortIcon field="collaborator.reference">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="collaborator.firstName">Collaborator
+                                    <p-sortIcon field="collaborator.firstName">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="type.label" class="columntype">Document Type
+                                    <p-sortIcon field="type.label">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="status.label">Status
+                                    <p-sortIcon field="status.label"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="status.label">Validated by
+                                    <p-sortIcon field="status.label"></p-sortIcon>
+                                </th>
+                                <th class="columnwidth"> Actions</th>
+                            </tr>
+                        </ng-template>
+                        <!--data-->
+                        <ng-template pTemplate="body" let-request>
+                            <tr [pSelectableRow]="request">
+                                <td>
+                                    {{request.createdAt | date:"yyyy-MM-dd"}}
+
+                                </td>
+                                <td>
+                                    {{request.reference}}
+
+                                </td>
+                                <td>
+                                    <span class="image-text">{{request.collaborator.firstName}}
+                                        {{request.collaborator.lastName}}</span>
+                                </td>
+                                <td class="columntype">
+                                    <!--work certificate-->
+                                    <span *ngIf="request.type.label==='WORK_CERTIFICATE' && !request.requestMotif" class="image-text"> Work
+                                        certificate</span>
+                                    <span *ngIf="request.type.label==='WORK_CERTIFICATE' && request.requestMotif" nbTooltip="Request's Motif : {{request.requestMotif}}" [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}" nbTooltipPlacement="top" nbTooltipStatus="primary" class="image-text"> Work
+                                        certificate</span>
+                                    <!--salary certificate-->
+                                    <span *ngIf="request.type.label==='SALARY_CERTIFICATE' && !request.requestMotif" class="image-text"> Salary
+                                        certificate</span>
+                                    <span *ngIf="request.type.label==='SALARY_CERTIFICATE' && request.requestMotif" nbTooltip="Request's Motif : {{request.requestMotif}}" [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}" nbTooltipPlacement="top" nbTooltipStatus="primary" class="image-text"> Salary
+                                        certificate</span>
+                                    <!--Mission certificate-->
+                                    <span *ngIf="request.type.label==='MISSION_CERTIFICATE' && !request.requestMotif" class="image-text"> Mission
+                                        Certificate</span>
+                                    <span *ngIf="request.type.label==='MISSION_CERTIFICATE' && request.requestMotif" nbTooltip="Request's Motif : {{request.requestMotif}}" [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}" nbTooltipPlacement="top" nbTooltipStatus="primary" class="image-text"> Mission
+                                        Certificate</span>
+                                </td>
+                                <!--status-->
+                                <td>
+                                    <span class="badgevalidated" *ngIf="request.status.label==='VALIDATED'">{{request.status.label}}</span>
+                                    <span class="badgeReceived" *ngIf="request.status.label==='RECEIVED'">{{request.status.label}}</span>
+
+                                    <span class="badgeinvalidated" nbTooltipStatus="primary" [nbTooltipIcon]="{icon: 'alert-triangle-outline', pack: 'eva'}" nbTooltip="Rejection's Motif : {{request.rejectionMotif}}" nbTooltipPlacement="top" *ngIf="request.status.label==='INVALIDATED'">{{request.status.label}}</span>
+                                </td>
+                                <!--Validated by-->
+                                <td>
+                                    <span *ngIf=" request.validateddBySystem">System</span>
+                                    <span *ngIf="!request.validateddBySystem">Back office</span>
+                                </td>
+                                <!--Actions-->
+                                <td class="columnwidth">
+                                    <!--VALIDATED REQUEST-->
+                                    <nb-icon icon="download-outline" nbTooltipStatus="primary" class="actionButton" nbTooltip="Download File" (click)="downloadTemplate(request)" nbTooltipPlacement="top" *ngIf="request.status.label==='VALIDATED' ||  request.status.label==='RECEIVED'"></nb-icon>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <!--empty table-->
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4">No requests found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>

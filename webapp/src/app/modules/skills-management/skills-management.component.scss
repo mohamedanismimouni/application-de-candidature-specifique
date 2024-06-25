@@ -1,0 +1,34 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+
+
+.container {
+    height: 100%;
+    padding: var(--layout-padding);
+    box-sizing: border-box;
+
+    .grid {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 100%;
+    }
+}
+
+.skills-container {
+    margin-bottom: 24px;
+}
+
+.form {
+    width: 60%;
+
+    @include media-breakpoint-down(md) {
+        width: 100%;
+    }
+}
+
+.chip {
+    display: inline-block;
+    margin: 4px;
+    padding: 6px 16px;
+    border-radius: 1rem;
+    background: var(--background-basic-color-3);
+}

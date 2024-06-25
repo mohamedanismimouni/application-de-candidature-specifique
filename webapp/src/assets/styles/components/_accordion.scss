@@ -1,0 +1,77 @@
+nb-accordion {
+    box-shadow: none;
+}
+
+nb-accordion.broad-accordion {
+
+    nb-accordion-item {
+        border-radius: 1rem;
+        box-shadow: var(--shadow);
+
+        nb-accordion-item-header {
+            padding: 24px;
+            border-width: 0px;
+            font-size: 1rem;
+            line-height: 32px;
+
+            nb-icon {
+                right: 24px !important;
+            }
+        }
+
+        nb-accordion-item-body {
+
+            .item-body {
+                padding: 24px;
+            }
+        }
+    }
+
+    nb-accordion-item + nb-accordion-item {
+        margin-top: 20px;
+    }
+}
+
+nb-accordion.compacted-accordion {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+
+    nb-accordion-item {
+        border-radius: 0;
+
+        nb-accordion-item-header {
+            padding: 12px 0px;
+            font-size: var(--text-subtitle-2-font-size);
+            line-height: 32px;
+
+            nb-icon {
+                right: 0px !important;
+                color: var(--icon-basic-color);
+            }
+        }
+
+        nb-accordion-item-body {
+            height: 100%;
+
+            .item-body {
+                padding: 0;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: space-between;
+            }
+        }
+    }
+
+    .expanded {
+        flex: 1;
+
+        .ng-trigger-accordionItemBody {
+            height: 100%;
+        }
+    }
+}

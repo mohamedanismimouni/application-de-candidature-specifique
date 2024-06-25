@@ -1,0 +1,19 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <div class="dialog-content">
+
+            <P style=" font-size: large;">
+                <nb-icon icon="checkmark-circle-2"></nb-icon>
+                Do you want <span class="span">Validate </span> this request ?
+            </P>
+            <div class="dialog-actions">
+                <div class="actions-container right">
+                    <button nbButton shape="round" size="medium" (click)="onCancelDialog()">NO</button>
+                    <button nbButton hero shape="round"  size="medium" status="primary" nbSpinnerStatus="control" [disabled]="loadingState" [nbSpinner]="loadingState" (click)="onValidateRequest()">YES</button>
+                </div>
+            </div>
+        </div>
+
+
+    </nb-card-body>
+</nb-card>

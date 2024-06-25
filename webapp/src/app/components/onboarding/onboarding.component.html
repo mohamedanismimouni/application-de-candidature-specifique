@@ -1,0 +1,70 @@
+<nb-card class="simple-card">
+    <nb-card-body>
+        <ng-container *ngIf="!passedOnboardingProcess">
+            <h1 class="simple-card-title">
+                Welcome on board!
+            </h1>
+            <p>
+                This step represents your onboarding process, during which you are going to
+                interact with your team mates who will help you to collect a secret word of
+                <strong>{{ onboardingHint?.secretWordLength + ' characters' }}</strong>.
+            </p>
+            <p>
+                The following collegues have some parts of your secret word:
+            </p>
+            <ul>
+                <li *ngFor="let secretWordPartHolder of onboardingHint?.secretWordPartsHoldersNames">
+                    {{ secretWordPartHolder }}
+                </li>
+            </ul>
+            <form
+                class="form"
+                [formGroup]="onboardingFormGroup"
+            >
+                <div class="form-group">
+                    <input
+                        nbInput
+                        shape="round"
+                        [placeholder]="secretWordPlaceholder"
+                        type="text"
+                        [minlength]="onboardingHint?.secretWordLength"
+                        [maxlength]="onboardingHint?.secretWordLength"
+                        id="secretWord"
+                        formControlName="secretWord">
+                </div>
+            </form>
+            <button
+                nbButton
+                hero
+                shape="round"
+                size="medium"
+                status="primary"
+                [disabled]="onboardingFormGroup.invalid"
+                (click)="onSubmit()"
+            >
+                submit
+                <nb-icon icon="arrow-forward-outline"></nb-icon>
+            </button>
+        </ng-container>
+        <ng-container *ngIf="passedOnboardingProcess">
+            <h1 class="simple-card-title">
+                Congratulations!
+            </h1>
+            <p>
+                You have found out your secret word and you have made your first interaction
+                with some of your team mates. You can now start your career management process.
+            </p>
+            <button
+                nbButton
+                hero
+                shape="round"
+                size="medium"
+                status="primary"
+                (click)="navigateToCollaboratorHome()"
+            >
+                get started
+                <nb-icon icon="arrow-forward-outline"></nb-icon>
+            </button>
+        </ng-container>
+    </nb-card-body>
+</nb-card>

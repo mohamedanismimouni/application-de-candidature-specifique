@@ -1,0 +1,78 @@
+<div>
+
+    <div class="card-doc">
+        <div class="card-header">
+            <nb-icon icon="cube-outline"></nb-icon>
+            Let's play together
+
+            <div class="score">
+
+                <div>
+                    <h6 class="badge bg-warning  second">
+                        <img [src]="'assets/imgs/money.png'" width="20px" height="20px" alt="Sirius HR logo"> &nbsp;
+                        <span>{{score }} </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <app-spinner *ngIf="loading"></app-spinner>
+
+            <div *ngIf="!loading" class="question">
+                <h6>{{quiz.question}}</h6>
+
+            </div>
+            <div *ngIf="!loading" class="response row">
+                <div class=" form form-group">
+                    <textarea nbInput [(ngModel)]="response" shape="round" type="text" class="input"
+                        readonly></textarea>
+                    <!--   <button nbButton size="small" ghost status="danger" [disabled]="response.length === 0">
+                        <nb-icon icon="close-square-outline" (click)="deleteAlphabet()"> </nb-icon>
+                    </button> -->
+                </div>
+            </div>
+            <div *ngIf="!loading" class="row alphabet-container ">
+                <div class="col-md-1 col-1 alphabet" *ngFor="let alphabet of quiz.alphabets; let i = index;">
+                    <button nbButton size="tiny" status="warning" [disabled]=quiz.disabled[i]
+                        (click)="addAlphabet(alphabet,i)">{{alphabet}}</button>
+
+                </div>
+                <!--delete char-->
+                <div class="col-md-1 col-1 alphabet">
+                    <button nbButton size="tiny" [disabled]="currentChar.length===0" nbTooltip="Delete char"
+                        nbTooltipPlacement="bottom" nbTooltipStatus="primary" (click)="deleteChar()">
+                        <nb-icon icon="backspace-outline"> </nb-icon>
+                    </button>
+
+                </div>
+                <!--validate response-->
+                <div class="col-md-1 col-1 alphabet">
+                    <button nbButton size="tiny" status="success" nbTooltip="Validate response"
+                        nbTooltipPlacement="bottom" nbTooltipStatus="primary" [disabled]="response.length === 0"
+                        (click)="submitQuiz()">
+                        <nb-icon icon="checkmark-outline"> </nb-icon>
+                    </button>
+
+                </div>
+                <!--clear all-->
+                <div class="col-md-1 col-1 alphabet">
+                    <button nbButton size="tiny" status="danger" nbTooltip="Clear all" nbTooltipPlacement="bottom"
+                        nbTooltipStatus="primary" [disabled]="response.length === 0" (click)="deleteAlphabet()">
+                        <nb-icon icon="close-outline"> </nb-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="next-previous-button" *ngIf="!loading">
+        <button class="previous_btn" nbButton size="medium" [disabled]=!hasPrevious (click)="previousQuiz()" ghost>
+            <nb-icon icon="arrow-ios-back-outline"> </nb-icon>
+        </button>
+        <button nbButton size="medium" [disabled]=!hasNext (click)="nextQuiz()" ghost>
+            <nb-icon icon="arrow-ios-forward-outline"> </nb-icon>
+        </button>
+    </div>
+
+</div>

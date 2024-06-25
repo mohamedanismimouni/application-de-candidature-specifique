@@ -1,0 +1,20 @@
+.simplecard {
+    margin-top: 100px;
+    background: white;
+    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+    line-height: 20px;
+    line-height: 10px;
+}
+:host ::ng-deep .p-button {
+    margin-left: 250px;
+    background: #1D4D91;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+:host ::ng-deep .p-button:hover {
+    color:  #1D4D91;
+    background: white;
+    border: 2px solid #1D4D91 ;
+}

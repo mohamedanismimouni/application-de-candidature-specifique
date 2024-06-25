@@ -1,0 +1,105 @@
+.header_back- {
+    background: linear-gradient(
+        90deg,
+        #038c81 35%,
+        var(--text-primary-color) 100%
+    );
+}
+
+.nb-action {
+    color: #000;
+}
+
+nb-action nb-icon {
+    color: deeppink;
+}
+
+::ng-deep nb-layout-footer {
+    nav {
+        height: 4vh !important;
+        color: floralwhite;
+        padding-top: 1vh !important;
+    }
+}
+
+::ng-deep nb-user {
+    .user-picture {
+        background-color: nb-theme(user-picture-box-background-color);
+        border: nb-theme(user-picture-box-border-width) solid
+            nb-theme(user-picture-box-border-color);
+    }
+    .initials {
+        background: linear-gradient(
+            90deg,
+            #038c81 35%,
+            var(--text-primary-color) 100%
+        ) !important;
+        color: floralwhite;
+        font-family: nb-theme(user-initials-text-font-family);
+        font-weight: nb-theme(user-initials-text-font-weight);
+    }
+    .user-name {
+        color: nb-theme(user-name-text-color);
+        font-family: nb-theme(user-name-text-font-family);
+        font-weight: nb-theme(user-name-text-font-weight);
+    }
+    .user-title {
+        color: nb-theme(user-title-text-color);
+        font-family: nb-theme(user-title-text-font-family);
+        font-weight: nb-theme(user-title-text-font-weight);
+    }
+}
+
+.button-responsive {
+    display: none;
+}
+
+.user-responsive {
+    display: none !important;
+}
+
+@media (max-width: 573px) {
+    .button-responsive {
+        display: inline-block;
+    }
+    .user-responsive {
+        display: inline-block !important;
+        right: 0 !important;
+    }
+    .menu-responsive {
+        display: none !important;
+    }
+    .logo-responsive {
+        display: none !important;
+    }
+}
+
+.second {
+    height: fit-content !important;
+    border-radius: 0.825rem !important;
+}
+.score {
+    margin-right: 10%;
+    margin-top: 2%;
+}
+
+.score-responsive {
+    position: absolute;
+    right: 0;
+    margin-right: 2%;
+    display: inline;
+}
+
+.mobileclass {
+    display: none !important;
+}
+@media (max-width: 573px) {
+    .mobileclass {
+        display: inline-block !important;
+    }
+}
+/* @media (min-width: 768px) {
+    .webClasss {
+        display: inline-block !important;
+    } */
+//}

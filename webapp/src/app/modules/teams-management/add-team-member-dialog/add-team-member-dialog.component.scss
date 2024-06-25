@@ -1,0 +1,57 @@
+nb-list {
+    max-height: 200px;
+}
+
+::ng-deep .p-multiselect-items-wrapper {
+  max-height: 180px !important;
+
+}
+::ng-deep .p-inputwrapper-filled .p-multiselect.p-multiselect-chip .p-multiselect-label{
+  width: 250px;
+}
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight{
+  background-color: #4b7fbd ;
+  border-color: #4b7fbd;
+}
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight:hover{
+  background-color: #4b7fbd ;
+  border-color: #4b7fbd;
+}
+::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+  background: #eaf0f8;
+  
+}
+::ng-deep .p-multiselect.p-multiselect-chip .p-multiselect-token {
+  background: #eaf0f8;
+}
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #eaf0f8;
+  border-color: #eaf0f8;
+}
+.multiSelect{
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.nomultiSelect{
+  display: block;
+  padding: 23px;
+  margin-bottom: 33px;
+  text-align: justify;
+}
+.table{
+  display: block;
+  padding: 10px;
+  text-align: justify;
+}
+.content{ 
+  height: 350px;
+  overflow-y: initial !important
+}
+.noSelected{
+  display: block;
+  padding: 14px;
+  margin-bottom: 10px;
+  text-align: justify;
+}

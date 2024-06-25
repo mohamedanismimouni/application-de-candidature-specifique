@@ -1,0 +1,50 @@
+<nb-layout class="page-layout">
+    <nb-layout-column class="page-layout-column">
+        <div class="page-layout-main-container">
+            <div class="columns-container">
+                <div class="column">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <nb-card class="simplecard">
+                                    <nb-card-body>
+                                        <p>
+                                            Cher Candidat(e) <span style="font-weight: bold">{{candidate.firstName}}  {{candidate.lastName}}</span> , Suite à votre candidature sur notre plateforme
+                                            vous avez reçu ce quiz sur votre email <span style="font-weight: bold">{{candidate.email}}</span>
+                                        </p>
+                                        <p>
+                                            Votre quiz comporte :
+                                        </p>
+                                        <p *ngFor="let tech of technologies">
+                                            <label style="text-transform: uppercase; font-weight: bold;">{{tech.technologyName}}</label> : 3 questions de difficultés différentes.
+                                        </p>
+
+                                        <p>
+                                            ce quiz est limité par une durée de 7 jours. Au dela de cette période vous êtes éliminé.
+                                        </p>
+                                        <p>
+                                            Bonne chance!
+                                        </p>
+                                        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">Commencer le test</p-confirmDialog>
+                                        <p-button (click)="confirm()" icon="pi pi-check" label="Commencer le test" styleClass="mr-2"></p-button>
+                                    </nb-card-body>
+                                </nb-card>
+                            </div>
+                            <div class="col-md-5" >
+                                <img style="width:350px; margin-left:230px; margin-top: 350px;" src="https://cdn-icons-png.flaticon.com/256/6064/6064969.png">
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-layout-background-container">
+            <div class="background-shapes-container">
+                <img class="background-shape background-shape-top-right" src="assets/imgs/shape-top-right.svg" >
+                <img class="background-shape background-shape-bottom-left" src="assets/imgs/shape-bottom-left.svg">
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>
+
+
+
+

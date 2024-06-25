@@ -1,0 +1,51 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<div class="grid row">
+    <div class="col-4 md:col-6 ">
+        <h4 style="color: #1D4D91; font-size: large; background: transparent; margin-top: 30px">Les offres disponibles :</h4>
+        <p-dropdown [options]="departments" [(ngModel)]="selectedDepartment" placeholder="Selectionner un Department" optionLabel="" [showClear]="true"
+                    (onChange)="getByDepartment()" ></p-dropdown>
+        <div class="drag-column" style="margin-top: -15px">
+            <p-scrollPanel [style]="{width: '100%', height: 'max-content'}" styleClass="custombar1">
+            <div *ngFor="let offer of availableOffers">
+                <div class="offer-item" pDraggable="offer" (onDragStart)="dragStart( $event , offer)" (onDragEnd)="dragEnd($event)">
+                    <div class="product-list-action">
+                        <h5 style="font-weight:bold" class="mb-2"><button type="button"  class="mr-2  reference" (click)="visibleSidebar2 = true">{{offer.reference}}</button>  {{offer.subject}}</h5>
+                    </div>
+                    <p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="100000" >
+                        <h4> <span>Sujet</span></h4>
+                        <h3> <span style="color: #1D4D91;">{{offer.reference}}</span>  {{offer.subject}}</h3>
+                        <h4> <span>Contexte</span></h4>
+                        <h1>{{offer.contexte}}</h1>
+                        <h4>Technologies demandées :</h4>
+                        <label *ngFor="let tech of offer.offerRequirementEntities">{{tech.requirementName}}</label>
+                    </p-sidebar>
+                </div>
+            </div>
+            </p-scrollPanel>
+        </div>
+    </div>
+    <div class="col-7 md:col-6 " pDroppable="offer" (onDrop)="drop($event)">
+        <h4 style="color: #1D4D91; font-size: large; background: transparent; margin-top: 30px">Sélectionner les offres qui vous conviennent</h4>
+        <div class="drop-column" style="margin-top: -10px">
+        <p-table [value]="selectedOffers" [scrollable]="false" scrollHeight="400px" >
+            <ng-template pTemplate="body" let-selectedOffer>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-11">{{selectedOffer.subject}}</div>
+                            <div class="col-1" style="text-align: center"><button type="button" style="border: 2px solid red; color: red ; border-radius: 5px"
+                                                       (click)="removeOffer(selectedOffer)"><i class="fa fa-trash-o" aria-hidden="true"></i></button></div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+
+        </div>
+        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+        <p-button   label="Suivant" (onClick)="nextPage()"  iconPos="left" ></p-button>
+    </div>
+
+</div>
+

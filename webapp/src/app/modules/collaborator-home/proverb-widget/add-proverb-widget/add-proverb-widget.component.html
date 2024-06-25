@@ -1,0 +1,54 @@
+<nb-card class="dialog add-event">
+    <nb-card-body>
+        <!--title-->
+        <h4 class="dialog-title">Add proverb</h4>
+        <div class="dialog-content">
+            <!--form-->
+            <form class="form" [formGroup]="addProverbFormGroup">
+                <!--proverb text-->
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Text*" type="text" id="text"
+                        formControlName="text"
+                        [class.input-error]="formService.checkInputInvalidity(addProverbFormGroup.get('text'))">
+                    <!--Form Control-->
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(addProverbFormGroup.get('text'), 'required')">
+                        This field
+                        is required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(addProverbFormGroup.get('text'), 'whitespace')">
+                        Text must have at least one none whitescpace character</p>
+                    <p class="error-message" *ngIf="addProverbFormGroup.controls['text'].hasError('maxlength')">
+                        The length of the text must not exceed 255 </p>
+                </div>
+                <!--proverb author-->
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Author*" type="text" id="author"
+                        formControlName="author"
+                        [class.input-error]="formService.checkInputInvalidity(addProverbFormGroup.get('author'))">
+                    <!--Form Control-->
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(addProverbFormGroup.get('author'), 'required')">
+                        This field
+                        is required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(addProverbFormGroup.get('author'), 'whitespace')">
+                        Author must have at least one none whitescpace character</p>
+                    <p class="error-message" *ngIf="addProverbFormGroup.controls['author'].hasError('maxlength')">
+                        The length of the text must not exceed 255 </p>
+                </div>
+            </form>
+        </div>
+        <!--buttons action-->
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <!--cancel-->
+                <button nbButton shape="round" size="medium" (click)="onCancel()">cancel</button>
+                <!--add-->
+                <button nbButton hero shape="round" size="medium" status="primary"
+                    [disabled]="addProverbFormGroup.invalid" (click)="onSubmit()" [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control">submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

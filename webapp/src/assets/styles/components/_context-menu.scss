@@ -1,0 +1,14 @@
+nb-menu.context-menu {
+    .menu-items {
+        .menu-item {
+            a {
+                nb-icon {
+                    margin-right: 16px;
+                }
+                span {
+                    text-align: left;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,46 @@
+nb-route-tabset {
+
+    ul {
+        padding: 0px calc((100% - 992px) / 2) !important;
+        background-color: var(--background-basic-color-1);
+
+        @include media-breakpoint-down(md) {
+            padding: 0px 20px !important;
+        }
+
+        li {
+
+            a {
+                outline: none;
+                
+            }
+        }
+    }
+}
+@media (max-width: 573px)
+{
+    nb-route-tabset {
+
+        ul {
+            padding: 0px calc((100% - 992px) / 2) !important;
+            background-color: var(--background-basic-color-1);
+    
+            @include media-breakpoint-down(md) {
+                padding: 0px 20px !important;
+            }
+    
+            li {
+    
+                a {
+                    outline: none;
+                    span{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+   
+    
+    }
+ 

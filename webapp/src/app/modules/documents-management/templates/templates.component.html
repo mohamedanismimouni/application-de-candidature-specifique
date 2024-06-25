@@ -1,0 +1,228 @@
+<!--Title-->
+<nb-layout class="feature-module-layout">
+
+
+    <nb-layout-column>
+        <nb-layout-header class="subheader" subheader>
+            <div class="header-item">
+                <span class="subheader-title">Documents Template</span>
+            </div>
+            <div class="header-item spacer"></div>
+        </nb-layout-header>
+        <app-spinner *ngIf="loading"></app-spinner>
+        <!--Upload Interface-->
+        <div class="container-document" *ngIf="!loading">
+            <!--tabView-->
+            <div class="card">
+
+                <div class="card-header">
+                    <nb-icon icon="file-text-outline" class="icontitle"></nb-icon>Documents
+                </div>
+                <div>
+                    <p-tabView class="tab_view">
+                        <p-tabPanel header="Documents Types" leftIcon="pi pi-file">
+                            <div>
+                                <!--header-->
+                                <!--content-->
+                                <div class="card-body">
+                                    <!--search-->
+                                    <!--global search-->
+                                    <div class="text-right stylesearch">
+                                        <div class="actions-container right">
+                                            <div class="datatable-header ">
+                                                <div class="datatable-header-content-container">
+                                                    <div class="datatable-header-item full-width" style="margin-bottom: 3%;">
+                                                        <div class="search-box">
+                                                            <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text" [placeholder]="'Search ...'" id="keyword" (input)="applyFilterGlobal($event, 'contains')">
+                                                        </div>
+                                                        <div class="search-box-control">
+                                                            <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" (click)="toggleSearch()">
+                                                            </nb-icon>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--table-->
+                                    <p-table #dt [autoLayout]="true" styleClass="p-datatable-gridlines" [value]="requestTypes" dataKey="id" selectionMode="single" [rowHover]="true" (onRowSelect)="onRowSelect($event)" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [rowsPerPageOptions]="[5,10,25,50]" [globalFilterFields]="['createdAt','label']">
+                                        <!--header-->
+                                        [responsive]="true"
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th pSortableColumn="label">Request Type
+                                                    <p-sortIcon field="label">
+                                                    </p-sortIcon>
+                                                </th>
+
+                                                <th pSortableColumn="uploadDate">Last upload Date
+                                                    <p-sortIcon field="uploadDate">
+                                                    </p-sortIcon>
+                                                </th>
+
+                                                <th class="columnwidth"> Actions</th>
+                                            </tr>
+                                        </ng-template>
+                                        <!--Table Content-->
+                                        <ng-template pTemplate="body" let-request>
+                                            <tr [pSelectableRow]="request">
+                                                <td>
+                                                    <span class="image-text" *ngIf="request.label=='WORK_CERTIFICATE'">
+                                            Work certificate</span>
+
+                                                    <span class="image-text" *ngIf="request.label=='SALARY_CERTIFICATE'">
+                                            Salary certificate</span>
+
+                                                    <span class="image-text" *ngIf="request.label=='MISSION_CERTIFICATE'">
+                                            Mission Certificate</span>
+
+                                                    <span class="image-text" *ngIf="request.label=='USER_GUIDE'">
+                                            User Guide</span>
+
+
+                                                    <span class="image-text" *ngIf="request.label=='ETIQUETTE_TYPE'">
+                                                Etiquette</span>
+                                                </td>
+                                                <td>
+                                                    <!--methode give me the date time -->
+                                                    <span *ngIf="request?.idEDM">{{request.uploadDate|date:"yyyy-MM-dd "}}</span>
+                                                </td>
+                                                <td class="columnwidth">
+                                                    <!--add document-->
+                                                    <span>
+                                            <nb-icon icon="file-add-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="!request?.idEDM && !(request?.label=='USER_GUIDE')" (click)="uploadFileCall(request)"
+                                                nbTooltip="Add Document Template"
+                                                [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}"
+                                                nbTooltipPlacement="top"></nb-icon>
+                                                <nb-icon icon="file-add-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="!request?.idEDM && (request?.label=='USER_GUIDE')" (click)="uploadFileCall(request)"
+                                                nbTooltip="Add User Guide"
+                                                [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}"
+                                                nbTooltipPlacement="top"></nb-icon>
+                                        </span>
+                                                    <!--update document-->
+
+                                                    <span>
+                                            <nb-icon icon="edit-2-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="request?.idEDM && !(request?.label=='USER_GUIDE')" nbTooltip="Edit Document Template"
+                                                nbTooltipPlacement="top" (click)="uploadFileCall(request)">
+                                            </nb-icon>
+                                            <nb-icon icon="edit-2-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="request?.idEDM && (request?.label=='USER_GUIDE')" nbTooltip="Edit User Guide"
+                                                nbTooltipPlacement="top" (click)="uploadFileCall(request)">
+                                            </nb-icon>
+                                        </span>
+                                                    <!--delete document-->
+
+                                                    <span>
+                                            <nb-icon icon="trash-2-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="request?.idEDM" nbTooltip="Delete Document Template"
+                                                nbTooltipPlacement="top" (click)="deleteFileFromEDM(request)">
+                                            </nb-icon>
+                                        </span>
+
+                                                    <!--download document-->
+                                                    <span>
+                                            <nb-icon icon="download-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                nbTooltip="Download Template" (click)="downloadTemplate(request)"
+                                                nbTooltipPlacement="top" *ngIf="request?.idEDM"></nb-icon>
+                                        </span>
+                                                </td>
+
+                                            </tr>
+                                        </ng-template>
+                                        <!--empty list-->
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td colspan="4">No requests type found.</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel header="Useful Documents" leftIcon="pi pi-file-pdf">
+                            <div>
+                                <div class="card-body">
+                                    <!--table-->
+                                    <p-table #dt [autoLayout]="true" [value]="usefulDocuments" dataKey="id" selectionMode="single" [rowHover]="true" (onRowSelect)="onRowSelect($event)" styleClass="p-datatable-gridlines" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                                        [rowsPerPageOptions]="[5,10,25,50]" [globalFilterFields]="['createdAt','label']">
+                                        <!--header-->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th pSortableColumn="label">Useful Document
+                                                    <p-sortIcon field="label">
+                                                    </p-sortIcon>
+                                                </th>
+
+                                                <th pSortableColumn="uploadDate">Last upload Date
+                                                    <p-sortIcon field="uploadDate">
+                                                    </p-sortIcon>
+                                                </th>
+
+                                                <th class="columnwidth"> Actions</th>
+                                            </tr>
+                                        </ng-template>
+                                        <!--Table Content-->
+                                        <ng-template pTemplate="body" let-request>
+                                            <tr [pSelectableRow]="request">
+                                                <td>
+                                                    {{request.label}}
+                                                </td>
+                                                <td>
+                                                    <!--methode give me the date time -->
+                                                    <span *ngIf="request?.idEDM">{{request.uploadDate|date:"yyyy-MM-dd "}}</span>
+                                                </td>
+                                                <td class="columnwidth">
+                                                    <!--add document-->
+                                                    <span>
+                                                <nb-icon icon="file-add-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="!request?.idEDM" (click)="uploadUsefulDocumentCall(request)"
+                                                nbTooltip="Add User Guide"
+                                                [nbTooltipIcon]="{icon: 'alert-circle-outline', pack: 'eva'}"
+                                                nbTooltipPlacement="top"></nb-icon>
+                                        </span>
+                                                    <!--update document-->
+
+                                                    <span>
+                                            <nb-icon icon="edit-2-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="request?.idEDM" nbTooltip="Edit useful document"
+                                                nbTooltipPlacement="top" (click)="uploadUsefulDocumentCall(request)">
+                                            </nb-icon>
+                                        </span>
+                                                    <!--delete document-->
+
+                                                    <span>
+                                            <nb-icon icon="trash-2-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                *ngIf="request?.idEDM" nbTooltip="Delete Document Template"
+                                                nbTooltipPlacement="top" (click)="deleteUsefulDocumentFromEDM(request)">
+                                            </nb-icon>
+                                        </span>
+
+                                                    <!--download document-->
+                                                    <span>
+                                            <nb-icon icon="download-outline" class="iconmargin" nbTooltipStatus="primary"
+                                                nbTooltip="Download Template" (click)="downloadUsefulDocument(request)"
+                                                nbTooltipPlacement="top" *ngIf="request?.idEDM"></nb-icon>
+                                        </span>
+                                                </td>
+
+                                            </tr>
+                                        </ng-template>
+                                        <!--empty list-->
+                                        <ng-template pTemplate="emptymessage">
+                                            <tr>
+                                                <td colspan="4">No useful document found.</td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+
+                        </p-tabPanel>
+                    </p-tabView>
+                </div>
+            </div>
+        </div>

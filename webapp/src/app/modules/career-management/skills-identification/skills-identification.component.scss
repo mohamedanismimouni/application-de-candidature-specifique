@@ -1,0 +1,222 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+
+
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+}
+
+.search-box-items-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+
+        .keyword-search {
+            flex: 1;
+
+            h6 {
+                margin: 0;
+                font-size: 1rem;
+                line-height: 32px;
+                animation: fade-in 0.3s ease-in forwards;
+            }
+
+            input {
+                max-width: none;
+                animation: show-and-expand 0.3s ease-in forwards;
+            }
+        }
+
+        .keyword-search-control {
+            margin-left: 24px;
+
+            nb-icon {
+                cursor: pointer;
+            }
+        }
+
+        .filter {
+
+            nb-select {
+                width: 100%;
+                max-width: none;
+            }
+        }
+
+        .filter+.filter {
+            margin-left: 24px;
+
+            @include media-breakpoint-down(md) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+    }
+
+    .search-box-item+.search-box-item {
+        margin-left: 24px;
+
+        @include media-breakpoint-down(md) {
+            margin-left: 0;
+            margin-top: 12px;
+        }
+    }
+
+    .search-box-item.keyword-search-item-container {
+        flex: 1;
+    }
+
+    .search-box-item.filters-items-container {
+
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+}
+
+.skills-container {
+    height: 340px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-top: 24px;
+
+    @include media-breakpoint-down(md) {
+        flex-direction: column;
+    }
+
+    .displayed-skills-conatiner,
+    .acquired-skills-container {
+        flex: 1;
+        overflow-y: auto;
+        position: relative;
+
+        @include media-breakpoint-down(md) {
+            flex: none;
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0px !important;
+        }
+    }
+
+    .displayed-skills-conatiner {
+         padding-right: 24px;
+        border-right: 1px solid var(--border-basic-color-3);
+
+        @include media-breakpoint-down(md) {
+            padding-right: 0px;
+            padding-bottom: 24px;
+            border-right-width: 0px;
+            border-bottom: 1px solid var(--border-basic-color-3);
+        }
+    }
+
+    .acquired-skills-container {
+        padding-left: 24px;
+
+        @include media-breakpoint-down(md) {
+            padding: 24px 0px;
+        }
+
+        .acquired-skill-container,
+        .new-acquired-skill-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+
+            nb-icon {
+                margin-right: 12px;
+                cursor: pointer;
+            }
+
+            .chip {
+                margin: 0px 12px 0px 0px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .spacer {
+                flex: 1;
+            }
+
+            app-linear-gauge {
+                width: 50%;
+            }
+
+            .single-handler {
+                width: 50%;
+                min-width: 50%;
+            }
+        }
+
+        .acquired-skill-container+.acquired-skill-container {
+            margin-top: 12px;
+        }
+
+        .new-acquired-skill-container {
+            margin-bottom: 12px;
+        }
+    }
+}
+
+.message {
+    margin: 64px 0px;
+    text-align: center;
+    color: var(--text-hint-color);
+}
+
+.chip {
+    display: inline-block;
+    margin: 4px;
+    padding: 6px 16px;
+    border-radius: 1rem;
+    background: var(--background-basic-color-3);
+}
+
+.selectable {
+    cursor: pointer;
+
+    &:hover {
+        background: var(--background-basic-color-4);
+    }
+}
+
+.submit-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+.no-availabe{
+    display: inline-block;
+    margin: 4px;
+    padding: 6px 16px;
+}

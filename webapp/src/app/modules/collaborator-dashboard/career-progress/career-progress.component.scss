@@ -1,0 +1,251 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+}
+
+.team-member-initialization-button-container {
+    padding: 48px 0px;
+    text-align: center;
+}
+
+.selected-career-position-information-container {
+    margin-bottom: 12px;
+    h6 {
+        margin: 0px 0px 12px 0px;
+    }
+    .selected-career-position-information-label {
+        display: inline-block;
+        min-width: 100px;
+        font-weight: var(--text-subtitle-font-weight);
+    }
+}
+
+.career-path-graph-container {
+    height: 80px;
+}
+
+.skills-card {
+    margin-top: 24px;
+    nb-card-body {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: flex-start;
+        .skills-container {
+            flex: 1;
+            padding: 24px;
+        }
+        .selected-skill-drawer {
+            max-width: 35%;
+            padding: 12px;
+            position: relative;
+            background-color: var(--card-background-color);
+            border-top-right-radius: var(--card-border-radius);
+            border-bottom-right-radius: var(--card-border-radius);
+            border-left: 1px solid var(--border-basic-color-4);
+            animation: expand 0.6s ease-out forwards;
+            .hide-btn {
+                position: absolute;
+                top: 18px;
+                right: 18px;
+                height: 32px;
+                width: 32px;
+                cursor: pointer;
+            }
+            p {
+                margin: 24px 0px 12px 0px;
+            }
+            .chip {
+                margin: 0px 12px;
+                padding: 4px 12px;
+                border-radius: 1.5rem;
+                text-transform: uppercase;
+                font-size: var(--text-button-tiny-font-size);
+                font-weight: var(--text-subtitle-font-weight);
+                background-color: var(--background-basic-color-3);
+            }
+            .skill-details-container,
+            .mentorship-container {
+                padding: 12px;
+            }
+            .skill-details-container {
+                .skill-label {
+                    max-width: 200px;
+                    display: inline-block;
+                    font-size: 1rem;
+                    line-height: 32px;
+                    margin: 0;
+                }
+                .skill-level {
+                    margin-bottom: 24px;
+                }
+            }
+            .mentorship-container {
+                border-radius: 1rem;
+                cursor: pointer;
+                &:hover {
+                    background: var(--background-basic-color-2);
+                }
+                h6 {
+                    margin: 0px 0px 12px 0px;
+                }
+                .mentor-container {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+                    .mentor-info-container {
+                        margin-left: 12px;
+                        p {
+                            margin: 0;
+                        }
+                        .mentor-email {
+                            font-size: var(--text-subtitle-2-font-size);
+                        }
+                    }
+                }
+                .mentorship-status {
+                    margin-bottom: 0px;
+                }
+            }
+        }
+    }
+}
+
+nb-list.skills-list {
+    height: 146px;
+    overflow-y: auto;
+    nb-list-item {
+        padding: 12px 8px;
+        &:first-child {
+            border-top: 0px;
+        }
+        &:last-child {
+            border-bottom: 0px;
+        }
+        .skill-container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            .skill-label {
+                flex: 1;
+                min-width: 0;
+                padding-right: 24px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                .mentorship-status {
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    margin-left: 12px;
+                    background-color: var(--background-basic-color-3);
+                }
+                .active-mentorship {
+                    background-color: var(--color-primary-500);
+                }
+            }
+            .skill-weight {
+                max-width: 104px;
+                padding-right: 24px;
+                .chip {
+                    width: 80px;
+                    padding: 4px 12px;
+                    border-radius: 1.5rem;
+                    text-transform: uppercase;
+                    text-align: center;
+                    font-size: var(--text-button-tiny-font-size);
+                    font-weight: var(--text-subtitle-font-weight);
+                    background-color: var(--background-basic-color-3);
+                }
+            }
+            .skill-level {
+                min-width: 30%;
+                @include media-breakpoint-down(md) {
+                    min-width: 100px;
+                }
+            }
+        }
+    }
+    .selected {
+        background: var(--background-basic-color-2);
+        &:hover {
+            background: var(--background-basic-color-2);
+        }
+    }
+}
+
+.card-header {
+    border-radius: 10px 10px 0px 0px;
+    background: linear-gradient(90deg, #2CAF93 35%, var(--text-primary-color)100%);
+    color: #fff;
+}
+
+@media (max-width: 573px) {
+    .container {
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+    }
+    .skills-container {
+        width: 50%!important;
+    }
+    .selected-skill-drawer {
+        width: 50%!important;
+        max-width: 100%!important;
+    }
+}
+
+.model-full {
+    overflow: auto!important;
+}
+
+.editBtn {
+    margin-left: 0.5em;
+    cursor: pointer;
+    color: #617898;
+}
+
+.closeBtn {
+    margin-left: 0.5em;
+    cursor: pointer;
+    color: red;
+}
+
+@media (max-width: 376px) {
+    .dialog nb-card-body .dialog-content {
+        max-height: 800px;
+    }
+}
+
+::ng-deep .ui-dropdown {
+    border-radius: 10px !important;
+    background-color: #f7f9fc;
+    width: 15em;
+    height: 30px;
+}
+
+@media (max-width: 376px) {
+     ::ng-deep .ui-dropdown {
+        border-radius: 10px !important;
+        background-color: #f7f9fc;
+        width: 10em;
+        height: 30px;
+    }
+}
+
+.divInfo {
+    margin-top: 1.5%;
+}
+
+::ng-deep nb-card-body {
+    overflow: revert !important;
+}

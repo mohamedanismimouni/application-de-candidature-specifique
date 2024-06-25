@@ -1,0 +1,19 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Onboarding process details</h4>
+        <div class="dialog-content">
+            <div>
+                <span class="details-label">Secret word</span>
+                <span>{{ data?.secretWord }}</span>
+            </div>
+            <div>
+                <span class="details-label">Passed onboarding process</span>
+                <span>{{ (data?.passedOnboardingProcess) ? 'Yes' : 'Not yet' }}</span>
+            </div>
+            <div *ngIf="averageRating">
+                <span class="details-label">Average interaction rating</span>
+                <span>{{ averageRating + ' on a scale of -2 to 2' }}</span>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

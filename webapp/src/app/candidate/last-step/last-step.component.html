@@ -1,0 +1,37 @@
+<nb-layout class="page-layout">
+    <nb-layout-column class="page-layout-column">
+        <div class="page-layout-main-container">
+            <div class="columns-container">
+                <div class="column">
+                    <nb-card style="margin-top:40px; margin-left:300px" class="simple-card">
+                        <nb-card-body>
+                            <img src="https://cdn-icons-png.flaticon.com/512/1541/1541393.png" class="badge-valid">
+                            <p>
+                                Cher Candidat(e), on vous remercie pour l'interet que vous portez à notre socièté.
+                            </p>
+                            <p *ngIf="selectedOffers.length > 0" >
+                                Puisque vous avez  selectionner des offres alors votre candidature est considéré comme OnJob.
+                            </p>
+                            <p *ngIf="selectedOffers.length == 0" >
+                                Puisque vous n'avez pas selectionner aucun offre votre candidature est considéré comme spantannée.
+                            </p>
+                            <p  >
+                                Si votre candidature nous interresse notre responsable RH va vous envoyer un quiz dans les brefs délais.
+                            </p>
+                            <p>
+                                Bonne chance!
+                            </p>
+                            <button (click)="goHome()">Retour</button>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+        <div class="page-layout-background-container">
+            <div class="background-shapes-container">
+                <img class="background-shape background-shape-top-right" src="assets/imgs/shape-top-right.svg">
+                <img class="background-shape background-shape-bottom-left" src="assets/imgs/shape-bottom-left.svg">
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

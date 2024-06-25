@@ -1,0 +1,41 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <div class="container">
+            <div class="grid">
+                <div class="cell">
+                    <nb-card class="chart-card">
+                        <nb-card-body>
+                            <app-pie-chart
+                                [title]="'Users by profile type'"
+                                [data]="usersByProfileTypeChartData"
+                            ></app-pie-chart>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                <div class="cell">
+                    <nb-card class="chart-card">
+                        <nb-card-body>
+                            <app-pie-chart
+                                [title]="'Users by account status'"
+                                [data]="usersByAccountStatusChartData"
+                            ></app-pie-chart>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+                <div class="cell">
+                    <nb-card class="datatable-card">
+                        <nb-card-body>
+                            <app-datatable #insideElement
+                                [configuration]="configuration"
+                                [data]="data"
+                                [inputStatus]="inputStatus"
+                                [userSelected]="userSelected"
+                                (userChanged)="userChanged()"
+                            ></app-datatable>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

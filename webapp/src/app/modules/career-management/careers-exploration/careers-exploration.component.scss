@@ -1,0 +1,101 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+
+
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+
+    .blank-card {
+
+        nb-card-body {
+            position: relative;
+
+            .careers-card-body-container {
+                padding: 24px;
+
+                .careers-graph-container {
+                    height: 400px;
+                }
+            }
+
+            .career-step-drawer {
+                position: absolute;
+                top: 0;
+                right: 0;
+                max-width: 300px;
+                width: 100%;
+                height: 100%;
+                padding: 18px 24px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                background-color: var(--card-background-color);
+                border-top-right-radius: var(--card-border-radius);
+                border-bottom-right-radius: var(--card-border-radius);
+                border-left: 1px solid var(--border-basic-color-4);
+                animation: expand 0.6s ease-out forwards;
+
+                .hide-btn {
+                    position: absolute;
+                    top: 18px;
+                    right: 18px;
+                    height: 32px;
+                    width: 32px;
+                    cursor: pointer;
+                }
+
+                .career-step-label-container {
+                    max-width: 200px;
+
+                    h6 {
+                        display: inline-block;
+                        font-size: 1rem;
+                        line-height: 32px;
+                        margin: 0;
+                    }
+                }
+
+                .career-step-details-container {
+                    flex: 1;
+                    width: 100%;
+                    padding: 32px 0px;
+                    overflow-y: auto;
+
+                    .career-path-container {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+
+                        .career-path-details {
+                            flex: 1;
+
+                            .from-career-step-label {
+                                margin: 0;
+                                font-size: var(--text-paragraph-2-font-size);
+                                font-weight: var(--text-subtitle-2-font-weight);
+
+                                .years-of-experience {
+                                    font-size: var(--text-paragraph-font-size);
+                                    font-weight: var(--text-paragraph-font-weight);
+                                }
+                            }
+                        }
+                    }
+
+                    .career-path-container+.career-path-container {
+                        margin-top: 8px;
+                    }
+                }
+            }
+        }
+    }
+}

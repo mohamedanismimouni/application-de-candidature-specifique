@@ -1,0 +1,245 @@
+<div class="card-doc">
+    <div class="card-header">
+        <nb-icon icon="share-outline"></nb-icon>
+        Events
+        <div class="score">
+            <div>
+                <h6 class="badge bg-warning  second">
+                    <img [src]="'assets/imgs/money.png'" width="20px" height="20px" alt="Sirius HR logo"> &nbsp;
+                    <span>{{score }} </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <p-carousel *ngIf="!loading" [value]="upcomingEvents" styleClass="custom-carousel" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="600000" [responsiveOptions]="responsiveOptions">
+            <ng-template let-event pTemplate="item">
+                <div class="card card-stats" style="min-height:380px">
+                    <!--first row add Participant style="min-height: 90%" -->
+                    <p *ngIf="event.status==='ACTIVE'&& event.collaborators?.length ==0 " class="messageParticipant">
+                        <nb-icon icon="info-outline"></nb-icon>
+                        No participants yet...
+                    </p>
+                    <div class="card-category-archive" *ngIf="event.status==='ARCHIVED' && event.collaborators?.length ==0">
+                        <nb-icon icon="info-outline"></nb-icon> No participants for this event </div>
+                    <div class="team-members-cards-container participations">
+
+                        <span *ngFor="let collab of event.collaborators;let indexOfelement=index;">
+                            <nb-user *ngIf="indexOfelement<=1" [name]="collab.firstName + ' ' + collab.lastName"
+                                onlyPicture nbTooltip="{{collab.firstName}}  {{collab.lastName}}"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="primary" class="colorPartipant" size="medium"></nb-user>
+                            <nb-icon class="viewAll" (click)="viewParticipants(event)" *ngIf="indexOfelement==2"
+                                icon="more-horizontal-outline" nbTooltip="View all participants"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                            </nb-icon>
+                        </span>
+                        <!--edit button when we don't have participant  -->
+                        <div class="editButtonNoParticipants" *ngIf="event.status==='ACTIVE'&& event.collaborators?.length ==0 ">
+
+                            <button *ngIf="event.creator?.id==currentUser?.id && edit==false" nbButton size="small" ghost>
+                            <nb-icon icon="edit-2-outline" class="buttonAction" nbTooltip="Edit Event"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="primary" (click)="editEvent()">
+                            </nb-icon>
+
+                            </button>
+                            <!--edit button-->
+                            <button *ngIf="event.creator.id==currentUser.id && edit==true" nbButton size="small" ghost>
+                                 <nb-icon icon="edit-outline" class="buttonAction" nbTooltip="Edit Event"
+                                  nbTooltipPlacement="bottom" nbTooltipStatus="primary"
+                                  (click)="onUpdateEvent(event)"></nb-icon>
+                            </button>
+                            <!--delete-->
+                            <button *ngIf="event.creator.id==currentUser.id && edit==true" nbButton size="small" ghost (click)="onDeleteEvent(event)">
+                            <nb-icon icon="trash-2-outline" class="buttonAction" nbTooltip="Delete Event"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="primary"></nb-icon>
+                             </button>
+
+                        </div>
+                        <!--edit button when we have participant-->
+                        <div class="editButton" *ngIf="event.status==='ACTIVE'&& event.collaborators?.length >0 ">
+
+                            <button *ngIf="event.creator?.id==currentUser?.id && edit==false" nbButton size="small" ghost>
+                            <nb-icon icon="edit-2-outline" class="buttonAction" nbTooltip="Edit Event"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="primary" (click)="editEvent()">
+                            </nb-icon>
+
+                            </button>
+                            <!--edit button-->
+                            <button *ngIf="event.creator.id==currentUser.id && edit==true" nbButton size="small" ghost>
+                                 <nb-icon icon="edit-outline" class="buttonAction" nbTooltip="Edit Event"
+                                  nbTooltipPlacement="bottom" nbTooltipStatus="primary"
+                                  (click)="onUpdateEvent(event)"></nb-icon>
+                            </button>
+                            <!--delete-->
+                            <button *ngIf="event.creator.id==currentUser.id && edit==true" nbButton size="small" ghost (click)="onDeleteEvent(event)">
+                            <nb-icon icon="trash-2-outline" class="buttonAction" nbTooltip="Delete Event"
+                                nbTooltipPlacement="bottom" nbTooltipStatus="primary"></nb-icon>
+                             </button>
+
+                        </div>
+                        <!--places availble-->
+
+                        <h2 *ngIf="event.status==='ACTIVE'&& event.numberMaxParticipation && event.collaborators?.length >=1 && event.collaborators?.length <event.numberMaxParticipation">
+                            <p class="textUploadColor animation">
+                                <!--   <nb-icon icon="info-outline"></nb-icon> -->
+                                {{event.numberMaxParticipation-event.collaborators?.length}} available places
+                            </p>
+                        </h2>
+
+                    </div>
+
+
+
+
+                    <!-- second row-->
+                    <!-- <div class="row align-items-center"></div> -->
+                    <div class="row">
+                        <!--first colonne date-->
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 colorDiv">
+                            <!--Archived date-->
+                            <div *ngIf="event.status==='ARCHIVED'" class="date">
+                                <div class="event-info-archive">
+                                    <div>
+                                        {{event.date | date:'d MMM y'}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- active date-->
+                            <div *ngIf="event.status==='ACTIVE'" class="date">
+
+                                <div class="event-info">
+                                    <div>
+                                        {{event.date | date:'d MMM y'}}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--second colonne image of event-->
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9" *ngIf="event.idEDMImage!=null" style="padding-left: 0px!important;">
+                            <img [src]='event.image' alt="Event" class="imageEvent">
+                        </div>
+                        <!--second colonne image par défaut-->
+                        <div class="col-sm-12 col-md-12 col-lg-9" *ngIf="event.idEDMImage==null" style="padding-left: 0px!important;">
+                            <img [src]="'assets/imgs/calendar.jpg'" class="imageEvent">
+                        </div>
+
+                    </div>
+                    <!--second row-->
+                    <div class="row">
+                        <!--colonne1-->
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9 eventInfoDiv">
+                            <!--title active event-->
+
+                            <h3 class="title" *ngIf="event.status==='ACTIVE'" nbTooltip={{event.title}} nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                {{ (event.title.length>20)? (event.title | slice:0:15)+'..':(event.title) }}
+                            </h3>
+                            <!--title archive event-->
+                            <h3 class="titlearchived" *ngIf="event.status==='ARCHIVED'" nbTooltip={{event.title}} nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                {{ (event.title.length>20)? (event.title | slice:0:15)+'..':(event.title) }}
+                            </h3>
+                            <!-- event location-->
+                            <div>
+                                <div *ngIf="event.status==='ARCHIVED'">
+                                    <div class="event-info-archive adresse" *ngIf="event.numberMaxParticipation">
+                                        <nb-icon icon="people-outline" class="material-icons"></nb-icon>Max participants: {{event.numberMaxParticipation}}
+                                    </div>
+                                    <div class="event-info-archive adresse" nbTooltip={{event.location}} nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                        <nb-icon icon="pin-outline" class="material-icons"></nb-icon>
+                                        {{ (event.location.length>20)? (event.location | slice:0:15)+'..':(event.location) }}
+                                    </div>
+                                    <a class="event-info-archive link" href={{event.originLink}} nbTooltip={{event.originLink}} nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                        <nb-icon *ngIf="event.originLink" icon="external-link-outline" class="material-icons">
+                                        </nb-icon>{{ (event.originLink.length>20)? (event.originLink | slice:0:15)+'..':(event.originLink) }}
+                                    </a>
+                                </div>
+                                <div *ngIf="event.status==='ACTIVE'">
+                                    <div class="event-info-archive adresse" *ngIf="event.numberMaxParticipation">
+                                        <nb-icon icon="people-outline" class="material-icons"></nb-icon>Max participants: {{event.numberMaxParticipation}}
+                                    </div>
+                                    <div class="event-info adresse" nbTooltip={{event.location}} nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                        <nb-icon icon="pin-outline" class="material-icons"></nb-icon>
+                                        {{ (event.location.length>20)? (event.location | slice:0:15)+'..':(event.location) }}
+                                    </div>
+                                    <a class="event-info link" href={{event.originLink}} nbTooltip={{event.originLink}} nbTooltipPlacement="bottom" nbTooltipStatus="primary">
+                                        <nb-icon *ngIf="event.originLink" icon="external-link-outline" class="material-icons">
+                                        </nb-icon>
+                                        {{ (event.originLink.length>25)? (event.originLink | slice:0:15)+'..':(event.originLink) }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--colonne2-->
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3 colorDivPrice">
+                            <!--price for archivedevent-->
+                            <div *ngIf="event.status==='ARCHIVED'" class="price">
+                                <div class="event-info-archive">
+                                    <i class="fa fa-ticket ticketIcon"></i>
+                                    <div *ngIf="event.type=='Payant'">
+                                        {{event.eventPrice}} &nbsp;DT
+                                    </div>
+                                    <div *ngIf="event.type=='Gratuit'">
+                                        {{event.type}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- price for active event-->
+                            <div *ngIf="event.status==='ACTIVE'" class="price">
+                                <div class="event-info">
+                                    <i class="fa fa-ticket ticketIcon"></i>
+                                    <div *ngIf="event.type=='Payant'">
+                                        {{event.eventPrice}} &nbsp;DT
+                                    </div>
+                                    <div *ngIf="event.type=='Gratuit'">
+                                        {{event.type}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--third row-->
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-lg-6 ">
+                                <div *ngIf="event.status==='ACTIVE'">
+                                    <!--participate-->
+                                    <button class="btnParticipate" *ngIf="event.participated && (event.collaborators?.length < event.numberMaxParticipation || ! event.numberMaxParticipation)" (click)="participateToEvent(event)"><span>Participate</span></button>
+                                    <!--cancel-->
+                                    <button class="btnCancel" *ngIf="!event.participated" (click)="cancelEvent(event)">
+                                        Cancel
+                                    </button>
+
+
+                                </div>
+                                <div *ngIf="event.status==='ARCHIVED'">
+                                    <div class="card-category-archive" *ngIf="event.status==='ARCHIVED'">Event exceeded
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div *ngIf="event.creator">
+                            <!--creator active event-->
+                            <div class="creator" *ngIf="event.status==='ACTIVE'">
+                                <nb-icon icon="person-add-outline" class="material-icons"></nb-icon>
+                                {{event.creator?.firstName}} {{event.creator?.lastName}}
+                            </div>
+                            <!--creator archived event-->
+                            <div class="creator-archive" *ngIf="event.status==='ARCHIVED'">
+                                <nb-icon icon="person-add-outline" class="material-icons"></nb-icon>
+                                {{event.creator?.firstName}} {{event.creator?.lastName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div><button nbButton size="small" ghost (click)="onAddEvent()">
+                        <nb-icon icon="plus-square-outline" class="material-icons"></nb-icon>Add event
+                    </button></div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</div>

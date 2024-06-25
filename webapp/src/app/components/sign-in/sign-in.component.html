@@ -1,0 +1,161 @@
+<nb-card class="simple-card">
+    <nb-card-body>
+        <!--sign In Title-->
+        <h1 *ngIf="signIn" class="simple-card-title">
+            Sign in
+            <nb-icon icon="log-in-outline"></nb-icon>
+        </h1>
+        <!--Reset Password Title-->
+        <h2 *ngIf="passwordForgotten" class="simple-card-title">
+            Reset your password
+            <nb-icon icon="question-mark-circle-outline"></nb-icon>
+        </h2>
+        <!--Sign Up Title-->
+        <h1 *ngIf="signUp" class="simple-card-title">
+            Sign Up
+            <nb-icon icon="person-add-outline"></nb-icon>
+        </h1>
+        <div class="form-container">
+            <!--Sign In form-->
+            <form class="form" [formGroup]="signInFormGroup" *ngIf="!passwordForgotten && !signUp">
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Email address" type="email" id="email"
+                        formControlName="email"
+                        [class.input-error]="formService.checkInputInvalidity(signInFormGroup.get('email'))">
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signInFormGroup.get('email'), 'required')">This field is
+                        required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signInFormGroup.get('email'), 'customEmail')">Invalid email
+                        address</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signInFormGroup.get('email'), 'accountNotActive')">This
+                        account is currently not active</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signInFormGroup.get('email'), 'accountNotFound')">No account
+                        was found for this email address</p>
+                </div>
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Password" type="password" id="password"
+                        formControlName="password"
+                        [class.input-error]="formService.checkInputInvalidity(signInFormGroup.get('password'))">
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signInFormGroup.get('password'), 'required')">This field is
+                        required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signInFormGroup.get('password'), 'wrongPassword')">Wrong
+                        password</p>
+                </div>
+            </form>
+
+            <!--SIGN UP form-->
+            <form class="form" [formGroup]="signUpFormGroup" *ngIf="signUp">
+                <!--first Name-->
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="First Name" type="text" id="firstName"
+                        formControlName="firstName"
+                        [class.input-error]="formService.checkInputInvalidity(signUpFormGroup.get('firstName'))">
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('firstName'), 'required')">This field
+                        is required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('firstName'), 'blank')">User's first
+                        name must have at least one none whitescpace character</p>
+                </div>
+                <!--Last Name-->
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Last Name" type="text" id="lastName"
+                        formControlName="lastName"
+                        [class.input-error]="formService.checkInputInvalidity(signUpFormGroup.get('lastName'))">
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('lastName'), 'required')">This field
+                        is required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('lastName'), 'blank')">User's last
+                        name must have at least one none whitescpace character</p>
+                </div>
+                <!--Email address-->
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Email address" type="email" id="email"
+                        formControlName="email"
+                        [class.input-error]="formService.checkInputInvalidity(signUpFormGroup.get('email'))">
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('email'), 'required')">This field is
+                        required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('email'), 'customEmail')">Invalid email
+                        address</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('email'), 'notUnique')">An account with
+                        the same email address already exists</p>
+                </div>
+                <!--recruited At-->
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Recruited at" id="recruitedAt"
+                        formControlName="recruitedAt" [nbDatepicker]="recruitedAt"
+                        [class.input-error]="formService.checkInputInvalidity(signUpFormGroup.get('recruitedAt'))">
+                    <nb-datepicker #recruitedAt></nb-datepicker>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(signUpFormGroup.get('recruitedAt'), 'required')">This
+                        field is required</p>
+                </div>
+                <!--button Action-->
+                <div class="form-actions">
+                    <div class="actions-container left">
+                        <button nbButton hero shape="round" size="medium" status="primary" *ngIf="signUp"
+                            [disabled]="signUpFormGroup.invalid || loadingState" [nbSpinner]="loadingState"
+                            nbSpinnerStatus="control" (click)="onSignUp()">
+                            sign Up
+                            <nb-icon icon="arrow-forward-outline"></nb-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!--forgot password form-->
+            <form class="form" [formGroup]="passwordForgottenFormGroup" *ngIf="passwordForgotten">
+                <div class="form-group">
+                    <input nbInput fullWidth shape="round" placeholder="Email address" type="email" id="email"
+                        formControlName="email"
+                        [class.input-error]="formService.checkInputInvalidity(passwordForgottenFormGroup.get('email'))">
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(passwordForgottenFormGroup.get('email'), 'required')">This
+                        field is required</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(passwordForgottenFormGroup.get('email'), 'customEmail')">
+                        Invalid email address</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(passwordForgottenFormGroup.get('email'), 'accountNotActive')">
+                        This account is currently not active</p>
+                    <p class="error-message"
+                        *ngIf="formService.checkInputError(passwordForgottenFormGroup.get('email'), 'accountNotFound')">
+                        No account was found for this email address</p>
+                </div>
+            </form>
+            <!--Forgot password link-->
+            <a class="link" *ngIf="signIn" (click)="onForgotPassword()">Forgot password?</a>
+            <!--back to  sign IN-->
+            <a class="link" *ngIf="passwordForgotten || signUp" (click)="onBackToSignIn()">
+                <nb-icon icon="corner-up-left-outline"></nb-icon>Back to sign in
+            </a>
+            <div class="form-actions">
+                <div class="actions-container left">
+                    <button nbButton hero shape="round" size="medium" status="primary" *ngIf="signIn"
+                        [disabled]="signInFormGroup.invalid || loadingState" [nbSpinner]="loadingState"
+                        nbSpinnerStatus="control" (click)="onSignIn()">
+                        sign in
+                        <nb-icon icon="arrow-forward-outline"></nb-icon>
+                    </button>
+                    <button nbButton hero shape="round" size="medium" status="primary" *ngIf="passwordForgotten"
+                        [disabled]="passwordForgottenFormGroup.invalid || loadingState" [nbSpinner]="loadingState"
+                        nbSpinnerStatus="control" (click)="onSubmit()">
+                        submit
+                        <nb-icon icon="arrow-forward-outline"></nb-icon>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!--Sign Up link-->
+        <a class="link" *ngIf="signIn" (click)="onSignUpLink()">Sign Up</a>
+    </nb-card-body>
+</nb-card>

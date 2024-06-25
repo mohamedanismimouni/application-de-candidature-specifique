@@ -1,0 +1,24 @@
+ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+    background-color: var(--background-alternative-color-3);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+
+    .tooltip-caret.position-top {
+        border-top-color: var(--background-alternative-color-3);
+    }
+
+    .tooltip-content {
+        padding: 4px;
+        min-width: 60px;
+
+        .name,
+        .value {
+            font-size: 12px;
+            color: var(--text-alternate-color);
+        }
+
+        .value {
+            font-weight: bold;
+        }
+    }
+}

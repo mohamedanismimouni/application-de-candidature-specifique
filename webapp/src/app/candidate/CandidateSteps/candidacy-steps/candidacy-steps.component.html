@@ -1,0 +1,24 @@
+<nb-layout class="page-layout">
+    <nb-layout-column class="page-layout-column">
+        <div class="page-layout-main-container">
+            <div class="columns-container">
+                <div class="column">
+                    <div style="margin-top:10px; padding-right:200px ; " >
+                        <p-toast ></p-toast>
+                        <p-steps [model]="items" [readonly]="true" ></p-steps>
+                    </div>
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+        <div class="page-layout-background-container">
+            <div class="background-shapes-container">
+                <img class="background-shape background-shape-top-right" src="assets/imgs/shape-top-right.svg" >
+                <img class="background-shape background-shape-bottom-left" src="assets/imgs/shape-bottom-left.svg">
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>
+
+
+

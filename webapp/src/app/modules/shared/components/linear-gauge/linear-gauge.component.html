@@ -1,0 +1,13 @@
+<div class="linear-gauge-background">
+    <div
+        class="primary"
+        [style.width]="primaryPercentage + '%'"
+        [class.full]="primaryPercentage === 100"
+        [class.top]="primaryPercentage <= secondaryPercentage"
+    ></div>
+    <div
+        class="secondary"
+        [style.width]="secondaryPercentage + '%'"
+        [class.full]="secondaryPercentage === 100"
+    ></div>
+</div>

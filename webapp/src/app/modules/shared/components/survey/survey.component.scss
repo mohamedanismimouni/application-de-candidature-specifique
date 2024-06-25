@@ -1,0 +1,121 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+
+
+.survey-opening-container,
+.survey-closure-container {
+    text-align: center;
+
+    p {
+        max-width: 60%;
+        margin: 64px auto;
+        font-size: var(--text-heading-6-font-size);
+        line-height: var(--text-heading-6-line-height);
+    }
+
+    .action {
+        margin-bottom: 64px;
+    }
+}
+
+.question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+
+    .survey-progress-bullets-container {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: center;
+
+        .bullet {
+            width: 8px;
+            height: 8px;
+            margin: 4px;
+            border-radius: 50%;
+            background-color: var(--background-basic-color-3);
+        }
+
+        .active {
+            background-color: var(--color-primary-500);
+        }
+    }
+
+    .question {
+        text-align: center;
+        margin: 64px 0px;
+        font-size: var(--text-heading-5-font-size);
+        line-height: var(--text-heading-5-line-height);
+    }
+
+    .response {
+        margin-bottom: 24px;
+        width: 60%;
+
+        @include media-breakpoint-down(md) {
+            width: 100%;
+        }
+
+        .response-content {
+            text-align: center;
+            font-size: var(--text-heading-6-font-size);
+            line-height: var(--text-heading-6-line-height);
+
+            span {
+                font-weight: var(--text-subtitle-font-weight);
+            }
+        }
+    }
+
+    .question-hint {
+        margin: 0px;
+        font-size: var(--text-caption-font-size);
+        color: var(--text-hint-color);
+
+        &:before {
+            content: "* ";
+        }
+    }
+
+    .survey-controls-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 64px;
+
+        .control {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 1.5rem;
+            text-transform: uppercase;
+            font-size: var(--text-subtitle-2-font-size);
+            font-weight: var(--text-subtitle-2-font-weight);
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--background-basic-color-3);
+            }
+        }
+
+        .disabled {
+            cursor: default;
+            color: var(--text-hint-color);
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+
+        .divider {
+            height: 24px;
+            width: var(--divider-width);
+            margin: 0px 24px;
+            background-color: var(--divider-color);
+        }
+    }
+}

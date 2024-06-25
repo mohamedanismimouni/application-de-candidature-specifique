@@ -1,0 +1,135 @@
+.card-doc {
+    margin-top: 1%;
+    border-radius: 10px;
+    min-height: 400px;
+    background-color: var(--header-background-color);
+    color: aliceblue;
+    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(150, 147, 147, 0.19);
+    .card-header {
+        border-radius: 10px 10px 0px 0px;
+        background: linear-gradient(90deg, #2CAF93 35%, var(--text-primary-color)100%);
+    }
+}
+
+.card-body {
+    color: #3C4858;
+    width: 27, 25rem !important;
+    padding: 5px 0 0 0 !important;
+    //width: 436px !important;
+}
+
+.marge {
+    width: 100%;
+}
+
+.iconmargin {
+    //margin-right: 10px;
+    color: #2196f3;
+    font-size: 1em;
+}
+
+.image {
+    cursor: pointer !important;
+}
+
+a:hover {
+    position: relative;
+}
+
+a[data-title]:hover:after {
+    content: attr(data-title);
+    padding: 4px 8px;
+    color: white;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    white-space: nowrap;
+    z-index: 20px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+    background-color: #2196f3;
+}
+
+.nodocument {
+    margin-top: 13%;
+    margin-bottom: 13%;
+    margin-left: 2%;
+    color: rgb(141, 140, 140);
+    font-weight: bold;
+    //font-size: 10px;
+    display: -webkit-inline-box;
+}
+
+@media (max-width: 573px) {
+    .text-responsive {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .text-responsive {
+        font-size: 8px;
+    }
+}
+
+.label {
+    color: #1d4d91;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0 1rem 0 !important;
+}
+
+.carouselImg {
+    width: 22rem !important;
+}
+
+ ::ng-deep .p-carousel-container {
+    margin-bottom: 0.825rem !important;
+}
+
+.borderC {
+    /* border-style: solid;
+    border-width: 5px; */
+    padding: 0;
+    border-style: solid;
+    border-width: medium;
+    border-color: #e9ecef;
+}
+
+.c {
+    position: relative;
+}
+
+.image {
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    margin-left: 50%;
+}
+
+.c:hover .image {
+    opacity: 0.3;
+}
+
+.c:hover .middle {
+    opacity: 1;
+}
+
+.iconmargin {
+    color: var(--text-primary-color);
+    cursor: pointer;
+}

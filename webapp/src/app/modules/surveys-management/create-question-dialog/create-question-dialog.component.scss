@@ -1,0 +1,61 @@
+.floatright{
+    float:right;
+}
+
+.scale-container {
+    margin-bottom: 36px;
+
+    .scale-label {
+        margin-bottom: 24px;
+        font-size: var(--text-subtitle-font-size);
+        font-weight: var(--text-subtitle-font-weight);
+    }
+}
+
+.choices-container {
+    margin-bottom: 24px;
+
+    .choices-label {
+        margin-bottom: 24px;
+        font-size: var(--text-subtitle-font-size);
+        font-weight: var(--text-subtitle-font-weight);
+    }
+}
+
+.choice-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .position {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--background-basic-color-3);
+        font-size: var(--text-subtitle-font-size);
+        font-weight: var(--text-subtitle-font-weight);
+        line-height: 40px;
+        text-align: center;
+        margin-right: 12px;
+    }
+
+    .valid {
+        color: var(--text-control-color);
+        background-image: linear-gradient(to right, var(--button-hero-primary-left-background-color), var(--button-hero-primary-right-background-color));
+    }
+
+    .choice-control {
+        flex: 1;
+    }
+
+    .delete-action {
+        margin-left: 12px;
+
+        nb-icon {
+            margin: 10px 0px;
+            cursor: pointer;
+        }
+    }
+}
+

@@ -1,0 +1,82 @@
+<div class="container bootstrap snippets bootdey">
+    <div style="width:800px; margin-top:70px; margin-left:170px;" class="panel-body inf-content">
+        <div class="row">
+            <div class="col-md-4">
+
+               
+                <img src="data:image/png;base64,{{image}}"  style="height:180px; border-radius:30px; margin-top:30px; margin-left:30px;" title="" class="img-thumbnail isTooltip">
+                <ul title="Ratings" style="align-items:center" class="list-inline ratings text-center">
+                    <li><a href="#"><span class="glyphicon glyphicon-star"><i class="fa fa-star" aria-hidden="true"></i></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"><i class="fa fa-star" aria-hidden="true"></i></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"><i class="fa fa-star" aria-hidden="true"></i></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"><i class="fa fa-star" aria-hidden="true"></i></span></a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-star"><i class="fa fa-star" aria-hidden="true"></i></span></a></li>
+                </ul>
+            </div>
+            <div    class="col-md-6">
+
+                <div style="margin-top:50px" class="table-responsive">
+                    <table class="table table-user-information">
+
+                        <tbody>
+
+                        <tr>
+                            <td>  <i class="fa fa-user icon"></i>
+                                <strong>
+                                    <span class="glyphicon glyphicon-user  text-primary"></span>
+                                    Nom:
+                                </strong>
+                            </td>
+                            <td class="var">
+                                {{firstName}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>  <i class="fa fa-user icon"></i>
+                                <strong>
+                                    <span class="glyphicon glyphicon-cloud text-primary"></span>
+                                    prenom:
+                                </strong>
+                            </td>
+                            <td class="var">
+                                {{lastName}}
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td> <i class="fa fa-envelope icon"></i>
+                                <strong>
+                                    <span class="glyphicon glyphicon-envelope text-primary"></span>
+                                    Email:
+                                </strong>
+                            </td>
+                            <td class="var">
+                                {{email}}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td> <i class="fa fa-phone icon"></i>
+                                <strong>
+                                    <span class="glyphicon glyphicon-calendar text-primary"></span>
+                                    Numéro de téléphone:
+                                </strong>
+                            </td>
+                            <td class="var">
+                                {{phoneNumber}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let offer of selectedOffers">
+                           <td class="offer-reference">{{offer.reference}}</td>
+                            <td style="color:#1D4D91;">{{offer.subject}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p-toast></p-toast>
+                    <button (click)="saveCandidate()" style="margin-bottom: 20px; margin-left: 300px;" >Valider votre candidature</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

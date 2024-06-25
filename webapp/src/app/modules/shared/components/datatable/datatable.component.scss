@@ -1,0 +1,195 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+.merginLeft {
+    margin-left: 15%;
+}
+
+.datatable-container {
+    .datatable-header,
+    .datatable-footer {
+        padding: 18px 24px;
+    }
+    .datatable-header {
+        border-bottom: 1px solid var(--divider-color);
+        .datatable-header-content-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            @include media-breakpoint-down(md) {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .datatable-header-item {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                .search-box {
+                    flex: 1;
+                    h6 {
+                        margin: 0;
+                        font-size: 1rem;
+                        line-height: 32px;
+                        animation: fade-in 0.3s ease-in forwards;
+                    }
+                    input {
+                        max-width: none;
+                        animation: show-and-expand 0.3s ease-in forwards;
+                    }
+                }
+                .search-box-control {
+                    margin-left: 24px;
+                    nb-icon {
+                        cursor: pointer;
+                    }
+                }
+                .filter {
+                    nb-select {
+                        width: 100%;
+                        max-width: none;
+                    }
+                }
+                .filter+.filter {
+                    margin-left: 24px;
+                    @include media-breakpoint-down(md) {
+                        margin-left: 0;
+                        margin-top: 12px;
+                    }
+                }
+            }
+            .datatable-header-item+.datatable-header-item {
+                margin-left: 24px;
+                @include media-breakpoint-down(md) {
+                    margin-left: 0;
+                    margin-top: 12px;
+                }
+            }
+            .datatable-header-item.full-width {
+                flex: 1;
+            }
+            .datatable-header-item.filters-container {
+                @include media-breakpoint-down(md) {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+            }
+        }
+    }
+    .datatable-body {
+        overflow: auto;
+        .datatable {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            .header-row {
+                background-color: var(--background-basic-color-3);
+                th {
+                    padding: 18px 8px;
+                    &:first-child {
+                        padding: 18px 8px 18px 24px;
+                    }
+                    &:last-child {
+                        padding: 18px 24px 18px 8px;
+                    }
+                }
+                .action {
+                    width: 20px;
+                }
+            }
+            .data-row {
+                td {
+                    padding: 12px 8px;
+                    &:first-child {
+                        padding: 12px 8px 12px 24px;
+                    }
+                    &:last-child {
+                        padding: 12px 24px 12px 8px;
+                    }
+                }
+                .action {
+                    width: 20px;
+                    nb-icon {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .no-data-message {
+            padding: 12px 24px;
+        }
+    }
+    .datatable-footer {
+        border-top: 1px solid var(--divider-color);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        @include media-breakpoint-down(md) {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+        .datatable-footer-item {
+            button {
+                @include media-breakpoint-down(md) {
+                    width: 100%;
+                }
+            }
+        }
+        .datatable-footer-item+.datatable-footer-item {
+            margin: 0px 0px 0px 8px;
+            @include media-breakpoint-down(md) {
+                margin: 0px 0px 12px 0px;
+            }
+        }
+        .datatable-footer-item.pagination-container {
+            margin-left: auto !important;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            @include media-breakpoint-down(md) {
+                margin-left: 0 !important;
+                justify-content: center;
+            }
+            .pagination-information {
+                font-size: 12px;
+            }
+            .pagination-control {
+                margin-left: 18px;
+                cursor: pointer;
+                nb-icon {
+                    font-size: 1.5rem;
+                }
+                nb-icon+nb-icon {
+                    margin-left: 8px;
+                }
+            }
+        }
+    }
+}
+
+.firstInput {
+    margin-right: 5px;
+}
+
+.messagePosition {
+    position: absolute;
+}
+
+.cancelIcon {
+    color: gray !important;
+    transform: scale(2) !important;
+    cursor: pointer;
+}
+
+.cancelButton {
+    background-color: white !important;
+    border-color: white !important;
+    margin: 5px 5px 5px 5px!important;
+    cursor: pointer;
+}
+
+.confirmIcon {
+    color: #1D4D91 !important;
+    transform: scale(2) !important
+}

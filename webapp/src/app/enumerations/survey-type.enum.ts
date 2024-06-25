@@ -1,0 +1,7 @@
+export enum SurveyTypeEnum {
+
+    AWARENESS = 'AWARENESS',
+    EXPLORATION = 'EXPLORATION',
+    EVALUATION = 'EVALUATION'
+
+}

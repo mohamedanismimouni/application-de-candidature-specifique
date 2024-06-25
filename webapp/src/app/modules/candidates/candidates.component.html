@@ -1,0 +1,170 @@
+<p-table  [value]="candidates" style="text-align: center;" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} candidates" [rowsPerPageOptions]="[10,25,50]"
+                    dataKey="id" >
+                        <ng-template pTemplate="caption">
+                            <div class="flex" style="display: flex; flex-direction: row-reverse;">
+                                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+                                
+                                <p-dropdown (onChange)="getCandidatesByCandidateType(selectedCandidacyType.candidacyTypeName)"
+                                            [(ngModel)]="selectedCandidacyType" [options]="candidacyTypes"
+                                            [showClear]="true" optionLabel="candidacyTypeName"
+                                            placeholder="Select by candidacy type"
+                                            styleClass="candidacyType">
+                                    <ng-template pTemplate="selectedItem">
+                                        <div class="country-item country-item-value"  *ngIf="selectedCandidacyType" style="display: flex;">
+                                            <i class="pi pi-briefcase" *ngIf="selectedCandidacyType.candidacyTypeName === 'On job'" style="margin-right: 20px"></i>
+                                            <i class="pi pi-send" *ngIf="selectedCandidacyType.candidacyTypeName === 'spontaneous'"></i>
+                                            <div>{{selectedCandidacyType.candidacyTypeName}}</div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-type pTemplate="item">
+                                        <div class="country-item" style="display: flex">
+                                            <i class="pi pi-briefcase" *ngIf="type.candidacyTypeName === 'On job'"></i>
+                                            <i class="pi pi-send" *ngIf="type.candidacyTypeName === 'spontaneous'"></i>
+                                            <div>{{type.candidacyTypeName}}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                                <button pButton pRipple type="button" label="All candidates" class="p-button-outlined p-button-rounded " style="color: #1D4D91; font-weight: bold; border: 2px solid #1D4D91;  border-radius: 20px" (click)="getAll()"><i class="pi pi-list"></i></button>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem"></th>
+                                <th></th>
+                                <th>Full name</th>
+                                <th>Phone number</th>
+                                <th>Quiz</th>
+                                <th>Cv</th>
+                                <th>Candidate Details</th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-candidate let-product let-expanded="expanded" >
+                            <tr >
+                                <td>
+                                    <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain detailss" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                                </td>
+                                <td *ngIf="!candidate.candidateImg"><i class="pi pi-user"></i></td>
+                                <td *ngIf="candidate.candidateImg"><img src="data:image/png;base64,{{candidate.candidateImg}}" class="user-image"></td>
+                                <td style="flex-wrap: wrap">{{candidate.firstName}} {{candidate.lastName}}</td>
+                                <td>{{candidate.phoneNumber}}</td>
+                                <td>
+                                    <span *ngIf="candidate.test.send === true"><i class="pi pi-send" style="color: green;" pTooltip="Quiz Sent" tooltipPosition="top"></i></span>
+                                    <span *ngIf="candidate.test.send === false"><i class="pi pi-times-circle" style="font-size: 1.2rem; color: red"  pTooltip="Quiz unsent" tooltipPosition="top"></i></span>
+                                    <span *ngIf="candidate.test.done === false"><i class="pi pi-times-circle" style="font-size: 1.2rem; color: red"  pTooltip="Quiz undone" tooltipPosition="top"></i></span>
+                                    <span *ngIf="candidate.test.done === true"><p-button (click)="show(candidate.id)" styleClass="details"><img src="https://cdn-icons-png.flaticon.com/512/7128/7128250.png
+" style="width: 30px;" pTooltip="Quiz details" tooltipPosition="top" ></p-button></span>
+                                </td>
+                                <td> <p-button (click)="downloadFile(candidate.id,candidate.firstName,candidate.lastName)" styleClass="details"><img src="https://cdn-icons-png.flaticon.com/512/337/337946.png
+" style="width: 20px;"></p-button></td>
+                                <td *ngIf="candidate.candidateStatusEntity.statusEnum === 'TO_QUALIFY'"> <span style="background: #FEEDAF;color: #8a5340; padding: 10px; border-radius: 10px; font-weight: bold;">To qualify</span></td>
+                                <td *ngIf="candidate.candidateStatusEntity.statusEnum === 'REJECTED'"> <span style="background-color: #ffcdd2; color: #c63737;padding: 10px; border-radius: 10px; font-weight: bold;">REJECTED</span></td>
+                                <td style="text-align: center; display: flex; flex-direction: row;">
+                                    <p-toast position="bottom-right" key="c"  [baseZIndex]="5000" (onClose)="getAll()">
+                                        <ng-template let-message pTemplate="message">
+                                            <div class="flex flex-column" style="flex: 1">
+                                                <div class="text-center">
+                                                    <i class="pi pi-exclamation-triangle" style="font-size: 3rem"></i>
+                                                    <h4>{{message.summary}} ?</h4>
+                                                    <p>{{message.detail}}</p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <button style="width: 100px" type="button" pButton (click)="showConfirm()" label="Yes" class="p-button-success"></button>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button style="width: 100px" type="button" pButton label="No" class="p-button-secondary"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-toast>
+                                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-warning mr-2" style="margin: 3px;"  (click)="goCandidateDetails(candidate.id)"></button>
+                                    <button pButton pRipple icon="pi pi-send" class="p-button-rounded p-button-success mr-2" style="margin: 3px;" (click)="sendTest(candidate.id,candidate.email)" ></button>
+                                    <p-confirmPopup></p-confirmPopup>
+                                    <p-toast [baseZIndex]="5000" position="bottom-right" (onClose)="getAll()"></p-toast>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="refuseCandidate(candidate.id, $event)" style="margin: 3px;" ></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="rowexpansion" let-candidate >
+                            <tr>
+                                <td colspan="7">
+                                    <div class="p-p-3">
+                                        <table class="table table-borderless  table-sm">
+                                                <thead class="thead-light">
+                                                    <th scope="col">Interview Type </th>
+                                                    <th scope="col"> Date  </th>
+                                                    <th scope="col">  Supervisor   </th>
+                                                    <th scope="col"></th>
+                                                </thead>
+                                            <tr>
+                                                <td scope="row">telephone interview</td>
+                                                <td><p-calendar [(ngModel)]="entretienTelephonique.date" [showTime]="true" [showSeconds]="true" [showIcon]="true" inputId="icon"></p-calendar></td>
+                                                <td>
+                                                    <p-dropdown [options]="HrResponsibles" [(ngModel)]="entretienTelephonique.collaborator" placeholder="Select an HR Responsible" [showClear]="true">
+                                                        <ng-template pTemplate="selectedItem">
+                                                            <div class="country-item country-item-value"  *ngIf="entretienTelephonique">
+                                                                <div>{{entretienTelephonique.collaborator.firstName}}  {{entretienTelephonique.collaborator.lastName}}</div>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template let-collab pTemplate="item" >
+                                                            <div class="flex align-items-center">
+                                                                <span>{{collab.firstName}} {{collab.lastName}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </td>
+                                                <td>
+                                                    <button (click)="showMessage(candidate.email)" pButton pRipple icon="pi pi-send" class="p-button-rounded p-button-secondary"  style="margin: 3px;" ></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">Technical Interview</td>
+                                                <td><p-calendar [(ngModel)]="entretienTechnique.date"  [showTime]="true" [showSeconds]="true" [showIcon]="true" inputId="icon"></p-calendar></td>
+                                                <td>
+                                                    <p-dropdown [options]="Managers" [(ngModel)]="entretienTechnique.collaborator" placeholder="Select a Manager" [showClear]="true">
+                                                        <ng-template pTemplate="selectedItem">
+                                                            <div class="country-item country-item-value"  *ngIf="entretienTechnique.collaborator">
+                                                                <div>{{entretienTechnique.collaborator.firstName}}  {{entretienTechnique.collaborator.lastName}}</div>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template let-collab pTemplate="item" >
+                                                            <div class="flex align-items-center">
+                                                                <span>{{collab.firstName}} {{collab.lastName}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </td>
+                                                <td>
+                                                    <button (click)="showMessage(candidate.email)" pButton pRipple icon="pi pi-send" class="p-button-rounded p-button-secondary"  style="margin: 3px; "  ></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td scope="row">HR Interview </td>
+                                                <td><p-calendar [(ngModel)]="entretienRH.date"  [showTime]="true" [showSeconds]="true" [showIcon]="true" inputId="icon"></p-calendar></td>
+                                                <td>
+                                                    <p-dropdown [options]="HrResponsibles" [(ngModel)]="entretienRH.collaborator" placeholder="Select an HR Responsible" [showClear]="true">
+                                                        <ng-template pTemplate="selectedItem">
+                                                            <div class="country-item country-item-value"  *ngIf="entretienTelephonique">
+                                                                <div>{{entretienRH.collaborator.firstName}}  {{entretienRH.collaborator.lastName}}</div>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-template let-collab pTemplate="item" >
+                                                            <div class="flex align-items-center">
+                                                                <span>{{collab.firstName}} {{collab.lastName}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </td>
+                                                <td>
+                                                    <button pButton pRipple icon="pi pi-send" class="p-button-rounded p-button-secondary" (click)="showMessage(candidate.email)"  style="margin: 3px;" ></button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>

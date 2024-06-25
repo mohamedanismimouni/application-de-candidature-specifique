@@ -1,0 +1,171 @@
+*{
+    font-size: 15px;
+}
+:host ::ng-deep .drag-column {
+    padding-right: .5em;
+
+}
+body{ font-size: large}
+.drop-column {
+    border: 1px solid transparent;
+    transition: border-color .2s;
+
+    &.p-draggable-enter {
+        border-color: #0e2c68;
+    }
+}
+
+.offer-item {
+    display: flex;
+    align-items: center;
+    padding: .5rem;
+    width: 100%;
+    border-bottom: 1px solid #0e2c68;
+
+    .image-container {
+        width: 75px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        margin-right: 1rem;
+        color: white;
+        background: rgb(41, 68 , 143);;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+
+    .product-list-detail {
+        flex: 1 1 0;
+    }
+
+    .product-list-action {
+        font-size: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .product-category-icon {
+        vertical-align: middle;
+        margin-right: .5rem;
+    }
+
+    .product-category {
+        vertical-align: middle;
+        line-height: 1;
+    }
+}
+
+[pDraggable] {
+    cursor: move;
+}
+
+@media screen and (max-width: 576px) {
+    .offer-item {
+        flex-wrap: wrap;
+
+
+        .image-container {
+            width: 100%;
+            text-align: center;
+        }
+
+        img {
+            margin: 0 0 1rem 0;
+            width: 100px;
+        }
+    }
+}
+
+h4 {
+    border-radius: 10px;
+    background: #1D4D91;
+    color: white;
+    padding: 10px;
+
+}
+.drop-column{
+    height: 400px;
+    width: 700px;
+    background: white;
+    border-radius: 10px;
+    padding: 0;
+    margin-top: 40px;
+    z-index: 1000;
+    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+}
+.drag-column{
+    box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+    margin-top: 40px;
+    height: 450px;
+    background: white;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+:host ::ng-deep .p-dropdown {
+    width: 18rem;
+    border-radius: 10px ;
+    margin-bottom: 10px;
+    font-weight: normal;
+    margin-bottom: 50px;
+}
+
+:host ::ng-deep .p-button {
+    color: white;
+    background: #1D4D91;
+}
+:host ::ng-deep .p-sidebar {
+    font-size: 10px;
+    text-align: center;
+}
+:host ::ng-deep .p-button{
+    background-color: #1D4D91 ;
+    color: white;
+    border-radius: 10px;
+    border: 3px solid #1d6591;
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    margin-left: 580px;
+    margin-top: 50px;
+}
+
+.reference{
+    color: white;
+    background-color: #1D4D91;
+    border-radius: 5px;
+}
+.p-component-overlay{
+    position: relative !important;
+}
+.p-scrollpanel {
+    p {
+        padding: .5rem;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    &.custombar1 {
+        .p-scrollpanel-wrapper {
+            border-right: 9px solid var(--layer-1);
+        }
+
+        .p-scrollpanel-bar {
+            background-color: var(--primary-color);
+            opacity: 1;
+            transition: background-color .2s;
+
+            &:hover {
+                background-color: #007ad9;
+            }
+        }
+    }
+}
+
+:host ::ng-deep .p-sidebar label{
+    background: #3b444f;
+    color: white;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+}
+

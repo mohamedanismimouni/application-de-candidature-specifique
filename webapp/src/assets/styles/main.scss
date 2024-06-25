@@ -1,0 +1,29 @@
+@import '~@nebular/theme/styles/globals';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@import 'themes/themes';
+@import 'themes/light';
+@import 'themes/dark';
+
+@include nb-install() {
+    @include nb-theme-global();
+};
+
+@import 'base/animations.scss';
+
+@import 'components/accordion';
+@import 'components/cards';
+@import 'components/charts';
+@import 'components/context-menu';
+@import 'components/datepicker';
+@import 'components/dialog';
+@import 'components/forms';
+@import 'components/graphs';
+@import 'components/list';
+@import 'components/pace';
+@import 'components/slider';
+@import 'components/tabs';
+
+@import 'layouts/app-layout';
+@import 'layouts/feature-module-layout';
+@import 'layouts/page-layout';

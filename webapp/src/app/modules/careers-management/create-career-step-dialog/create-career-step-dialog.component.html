@@ -1,0 +1,54 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <h4 class="dialog-title">Add a new career step</h4>
+        <div class="dialog-content">
+            <form class="form" [formGroup]="createCareerStepFormGroup">
+                <div class="form-group">
+                    <input
+                        nbInput
+                        fullWidth
+                        shape="round"
+                        placeholder="Label"
+                        type="label"
+                        id="label"
+                        formControlName="label"
+                        [class.input-error]="formService.checkInputInvalidity(createCareerStepFormGroup.get('label'))"
+                    >
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createCareerStepFormGroup.get('label'), 'required')"
+                    >This field is required</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createCareerStepFormGroup.get('label'), 'blank')"
+                    >Career step's label must have at least one none whitescpace character</p>
+                    <p
+                        class="error-message"
+                        *ngIf="formService.checkInputError(createCareerStepFormGroup.get('label'), 'notUnique')"
+                    >A career step with the same label already exists</p>
+                </div>
+            </form>
+        </div>
+        <div class="dialog-actions">
+            <div class="actions-container right">
+                <button
+                    nbButton
+                    shape="round"
+                    size="medium"
+                    (click)="onCancel()"
+                >cancel</button>
+                <button
+                    nbButton
+                    hero
+                    shape="round"
+                    size="medium"
+                    status="primary"
+                    [disabled]="createCareerStepFormGroup.invalid || loadingState"
+                    [nbSpinner]="loadingState"
+                    nbSpinnerStatus="control"
+                    (click)="onSubmit()"
+                >submit</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

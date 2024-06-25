@@ -1,0 +1,94 @@
+<nb-layout class="feature-module-layout">
+    <nb-layout-column>
+        <!--       <nb-layout-header class="subheader centered" subheader>
+            <div class="header-item">
+                <span class="subheader-title">Your team's profiles</span>
+            </div>
+        </nb-layout-header> -->
+        <div class="container">
+            <nb-card class="careers-card">
+                <nb-card-body>
+                    <div class="careers-card-body-container">
+                        <div class="careers-graph-container">
+                            <app-graph [nodes]="nodes" [links]="links" [(selectedNode)]="selectedNode" [configuration]="graphConfiguration"></app-graph>
+                        </div>
+                        <div class="career-step-drawer" *ngIf="selectedNode">
+                            <nb-icon class="hide-btn" status="basic" icon="chevron-right-outline" (click)="hideCareerStepDrawer()"></nb-icon>
+                            <div class="career-step-details-container">
+                                <h6>{{ selectedNode.data.label }}</h6>
+                                <p *ngIf="inboundCareerPaths.length <= 0">
+                                    An initial career step
+                                </p>
+                                <p *ngIf="inboundCareerPaths.length > 0">
+                                    Required years of experience coming from:
+                                </p>
+                                <div class="inbound-career-paths-container">
+                                    <p class="inbound-career-path" *ngFor="let careerPath of inboundCareerPaths">
+                                        {{ careerPath.fromCareerStep.label }}
+                                        <span class="years-of-experience">
+                                            {{ ' - ' + careerPath.yearsOfExperience + ' year' + ((careerPath.yearsOfExperience > 1) ? 's' : '') }}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="career-step-profiles-container">
+                                <h6>{{ ((selectedCareerStepProfiles.length
+                                    <=0 ) ? 'No' : selectedCareerStepProfiles.length) + ' ' + selectedNode.data.label.toLowerCase() + ' profiles' }}</h6>
+                                        <div class="profiles-container">
+                                            <div class="profile" [class.selected]="profile.id === selectedProfile?.id" *ngFor="let profile of selectedCareerStepProfiles" (click)="onProfileSelection(profile)">
+                                                {{ profile.label }}
+                                            </div>
+                                        </div>
+                            </div>
+                            <div class="career-step-actions-container">
+                                <button nbButton hero fullWidth shape="round" size="small" status="primary" *ngIf="selectedNode.meta.reachable" (click)="onAddProfile()">
+                                    <nb-icon icon="plus-outline"></nb-icon>
+                                    Add profile
+                                </button>
+                            </div>
+                        </div>
+                        <div class="profile-drawer" *ngIf="selectedProfile">
+                            <nb-icon class="hide-btn" status="basic" icon="chevron-right-outline" (click)="hideProfileDrawer()"></nb-icon>
+                            <div class="profile-details-container">
+                                <h6>{{ selectedProfile.label }}</h6>
+                            </div>
+                            <div class="required-skills-container">
+                                <nb-accordion class="compacted-accordion">
+                                    <nb-accordion-item *ngFor="let skillType of skillTypes" [expanded]="selectedSkillType === skillType.value">
+                                        <nb-accordion-item-header (click)="onAccordionItemClick(skillType.value)">
+                                            {{ skillType.name }}
+                                        </nb-accordion-item-header>
+                                        <nb-accordion-item-body>
+                                            <nb-list class="skills-list">
+                                                <nb-list-item *ngFor="let requiredSkill of selectedProfileRequiredSkills">
+                                                    <div class="skill-container">
+                                                        <div class="skill-label">
+                                                            {{ requiredSkill.skill.label }}
+                                                        </div>
+                                                        <div class="skill-weight">
+                                                            <div class="chip">{{ requiredSkill.weight }}</div>
+                                                        </div>
+                                                        <div class="skill-level">
+                                                            <app-linear-gauge [primaryPercentage]="requiredSkill.level"></app-linear-gauge>
+                                                        </div>
+                                                    </div>
+                                                </nb-list-item>
+                                                <nb-list-item *ngIf="selectedProfileRequiredSkills?.length <= 0">{{ 'No ' + skillType.name.toLowerCase() + ' for this profile...' }}</nb-list-item>
+                                            </nb-list>
+                                            <div class="actions-container">
+                                                <button nbButton hero shape="round" size="small" status="primary" (click)="onAddRequiredSkill()">
+                                                    <nb-icon icon="plus-outline"></nb-icon>
+                                                    {{ 'Add a ' + skillType.name.toLowerCase() }}
+                                                </button>
+                                            </div>
+                                        </nb-accordion-item-body>
+                                    </nb-accordion-item>
+                                </nb-accordion>
+                            </div>
+                        </div>
+                    </div>
+                </nb-card-body>
+            </nb-card>
+        </div>
+    </nb-layout-column>
+</nb-layout>

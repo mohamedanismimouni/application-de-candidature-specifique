@@ -1,0 +1,18 @@
+nb-list {
+
+    .clickable {
+        cursor: pointer;
+
+        &:hover {
+            background: var(--background-basic-color-2);
+        }
+    }
+
+    .selected {
+        background: var(--background-basic-color-3);
+
+        &:hover {
+            background: var(--background-basic-color-3);
+        }
+    }
+}

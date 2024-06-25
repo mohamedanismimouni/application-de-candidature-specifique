@@ -1,0 +1,34 @@
+<br> <br>
+<div class="row"  >
+    <div class="col-6" style="text-align: center;">
+        <img src="https://cdn-icons-png.flaticon.com/256/6250/6250159.png" style=" height: 400px;width: 300px">
+    </div>
+    <div class="col-6" >
+        <nb-card class="simple-card">
+            <nb-card-body>
+                <div class="form-group"><i class="fa fa-user icon"></i>
+                    <label for="firstname" style="margin-left:10px; letter-spacing: 2px; font-weight: bolder">  Introduire votre nom : </label>
+                    <input type="text" class="form-control" id="firstname" aria-describedby="firstname" placeholder="Entrer votre nom" [(ngModel)]="firstName">
+                </div>
+                <div class="form-group"><i class="fa fa-user icon"></i>
+                    <label for="lastname" style=" margin-left:10px; letter-spacing: 2px; font-weight: bolder">  Introduire votre prénom : </label>
+                    <input type="text" class="form-control" id="lastname" aria-describedby="lastname" placeholder="Entrer votre prénom " [(ngModel)]="lastName">
+                </div>
+                <div class="form-group"><i class="fa fa-phone icon"></i>
+                    <label for="phoneNumber" style="margin-left:10px; letter-spacing: 2px; font-weight: bolder">Introduire votre numéro de téléphone  : </label>
+                    <input type="number" class="form-control" id="phoneNumber" aria-describedby="phoneNumber" placeholder="Entrer votre numéro" [(ngModel)]="phoneNumber">
+                </div>
+                <div class="form-group"><i class="fa fa-envelope icon"></i>
+                    <label for="email" style="margin-left:10px; letter-spacing: 2px; font-weight: bolder">Introduire votre Email : </label>
+                    <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Entrer votre  Email" [(ngModel)]="email">
+                </div>
+                <div class="competence" style="display: block">
+                    <p><i  class="fa fa-trophy  icon"></i><label style=" margin-left:10px;letter-spacing: 2px; font-weight: bolder"> Introduire vos compétences :</label></p>
+                    <p-chips [(ngModel)]="value" separator="," style="width: 400px; border-radius: 10px; border: #1D4D91;"></p-chips>
+                    <p><small style="color: #1D4D91; font-weight: bolder;">Veuillez séparer vos compétences par une virgule ","</small></p>
+                </div>
+                    <button type="button"  style="margin-left: -180px" (click)="prevPage()" class="button-transition" >Précedent</button>
+                    <button type="button" (click)="nextPage()" class="button-transition" >Suivant</button>
+            </nb-card-body>
+        </nb-card>
+</div>

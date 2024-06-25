@@ -1,0 +1,71 @@
+<nb-card class="dialog">
+    <nb-card-body>
+        <div class="dialog-content">
+            <div class="details-section team-member-information-container">
+                <div class="team-member-profile-picture">
+                    <div class="header-item collaborator-profile-picture">
+                        <!-- <nb-user [name]="collaboratorSettings.firstName + ' ' + collaboratorSettings.lastName" onlyPicture></nb-user> -->
+                        <div>
+                            <div class="circle">
+                                <span class="name">
+                                 {{fistLetters | uppercase}}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="team-member-information">
+                    <p class="team-member-name">{{ teamMember?.firstName + ' ' + teamMember?.lastName }}</p>
+
+                    <div class="email">
+                        <nb-icon class="info-icon" icon="email-outline" size="small"></nb-icon>
+                        <p class="team-member-email">{{ teamMember?.email }}</p>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="details-section">
+                <h6 class="details-title">Current career position</h6>
+                <ng-container *ngIf="currentCareerPosition">
+                    <div>
+                        <span class="details-label">Career step</span>
+                        <span>{{ currentCareerPosition.profile.careerStep.label }}</span>
+                    </div>
+                    <div>
+                        <span class="details-label-profil">Profile</span>
+                        <span *ngIf="closeDropDown">{{ currentCareerPosition.profile.label }}</span>
+                        <nb-icon *ngIf="closeDropDown &&  this.isManager" class="editBtn" icon="edit-2-outline" (click)="switchEditMode()"> </nb-icon>
+                        <p-dropdown *ngIf="!closeDropDown " class="col-lg-sm-9" styleClass="ui-dropdown" [options]="this.profiles" [(ngModel)]="selectedProfil" placeholder="{{ currentCareerPosition.profile.label }}" optionLabel="label" [showClear]="true">
+                        </p-dropdown>
+                        <nb-icon *ngIf="!closeDropDown" class="editBtn" icon="checkmark-outline" (click)="updateCareerPostion()"> </nb-icon>
+                        <nb-icon *ngIf="!closeDropDown" class="closeBtn" icon="close-outline" (click)="cancel()"> </nb-icon>
+
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!currentCareerPosition">
+                    <div>Not available, this team member is not yet initialized.</div>
+                </ng-container>
+            </div>
+            <div class="details-section" *ngIf="onboarding">
+                <h6 class="details-title">Onboarding process</h6>
+                <div>
+                    <span class="details-label">Your secret word part</span>
+                    <span>{{ onboarding.secretWordPart }}</span>
+                </div>
+                <div class="rating-container">
+                    <p>Your interaction rating</p>
+                    <app-rating-scale [clearable]="false" [lowestValue]="-2" [highestValue]="2" [(selectedValue)]="onboardingRating"></app-rating-scale>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-actions" *ngIf="isManager || isSupervisor || isMentor">
+            <div class="actions-container right">
+                <button nbButton hero shape="round" size="medium" status="primary" (click)="navigateToCollaboratorDashboard()">more details</button>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

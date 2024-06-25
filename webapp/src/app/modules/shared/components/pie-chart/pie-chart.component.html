@@ -1,0 +1,43 @@
+<div class="pie-chart-title" *ngIf="title">
+    <h6>{{ title }}</h6>
+</div>
+<div class="pie-chart-container">
+    <div class="pie-chart-wrapper">
+        <div
+            class="empty-chart-overlay"
+            *ngIf="isEmpty"
+        ></div>
+        <ngx-charts-pie-chart
+            *ngIf="isEmpty"
+            [scheme]="emptyChartColorScheme"
+            [results]="emptyChartData"
+            [legend]="false"
+            [tooltipDisabled]="true"
+            [animations]="false"
+            [doughnut]="true"
+            [arcWidth]="0.4"
+        ></ngx-charts-pie-chart>
+        <ngx-charts-pie-chart
+            *ngIf="!isEmpty"
+            [scheme]="chartColorScheme"
+            [results]="data"
+            [legend]="false"
+            [doughnut]="true"
+            [arcWidth]="0.4"
+        >
+            <ng-template #tooltipTemplate let-model="model">
+                <div class="tooltip-content">
+                    <div class="name">{{ model.name }}</div>
+                    <div class="value">{{ model.value }}</div>
+                </div>
+            </ng-template>
+        </ngx-charts-pie-chart>
+    </div>
+    <div class="legend-container">
+        <div class="legend" *ngFor="let legend of data">
+            <div class="color" [style.background-color]="legend.color"></div>
+            <div class="value">{{ legend.value }}</div>
+            <div class="name">{{ legend.name }}</div>
+        </div>
+    </div>
+</div>

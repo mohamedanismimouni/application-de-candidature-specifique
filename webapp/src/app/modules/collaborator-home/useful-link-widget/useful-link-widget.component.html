@@ -1,0 +1,25 @@
+<div class="card-doc">
+    <!--Title-->
+    <div class="card-header">
+        <nb-icon icon="external-link-outline"></nb-icon>
+        Useful Links
+    </div>
+    <!--links-->
+    <div class="card-body marge">
+        <app-spinner *ngIf="loading"></app-spinner>
+
+        <!--virtual scroll-->
+        <cdk-virtual-scroll-viewport *ngIf="!loading" [itemSize]="10">
+            <p class="titleNoDocument" *ngIf="usefulLinksList.length===0">
+                <nb-icon icon="alert-circle-outline"></nb-icon>
+                Useful Links Not yet Added
+            </p>
+
+            <ul *cdkVirtualFor="let usefulLink of usefulLinksList">
+                <li><a class="linkstyle" href="{{usefulLink.link}}" target="_blank">{{usefulLink.label}} </a>
+                </li>
+            </ul>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+</div>

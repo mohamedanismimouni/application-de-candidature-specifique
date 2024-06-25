@@ -1,0 +1,58 @@
+@import '~@nebular/theme/styles/global/breakpoints';
+.container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding: 48px 20px;
+    box-sizing: border-box;
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: auto auto;
+        .cell {
+            &:nth-child(1) {
+                padding: 0 18px 18px 0;
+                @include media-breakpoint-down(md) {
+                    padding: 0;
+                    grid-column: span 2;
+                }
+            }
+            &:nth-child(2) {
+                padding: 0 0 18px 18px;
+                @include media-breakpoint-down(md) {
+                    grid-column: span 2;
+                }
+            }
+            &:nth-child(3) {
+                padding: 18px 0 0 0;
+                grid-column: span 2;
+            }
+        }
+        .cell+.cell {
+            @include media-breakpoint-down(md) {
+                padding: 24px 0 0 0;
+            }
+        }
+    }
+}
+
+.comingSsoon {
+    margin-top: 3.5em;
+    text-align: center;
+    line-height: 100px;
+    font-size: 1.5em;
+    color: rgb(25, 63, 105);
+}
+
+.icon {
+    margin-top: 3.5em;
+    align-self: center;
+}
+
+@media (max-width: 573px) {
+    .comingSsoon {
+        font-size: 13px;
+    }
+}

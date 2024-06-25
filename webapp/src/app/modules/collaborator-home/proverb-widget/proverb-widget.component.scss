@@ -1,0 +1,117 @@
+.card-doc {
+    margin-top: 1%;
+    border-radius: 10px;
+    min-height: 400px;
+    background-color: var(--header-background-color);
+    color: aliceblue;
+    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(150, 147, 147, 0.19);
+    .card-header {
+        border-radius: 10px 10px 0px 0px;
+        background: linear-gradient( 90deg, #2caf93 35%, var(--text-primary-color) 100%);
+    }
+    .talan-star {
+        width: 5%;
+    }
+}
+
+.score {
+    float: right;
+}
+
+.second {
+    height: fit-content !important;
+    border-radius: 0.825rem !important;
+}
+
+.author {
+    font-style: oblique;
+    margin-bottom: 10%;
+    // margin-left: 60%;
+    text-align: right !important;
+}
+
+.stylecarousel {
+    height: 5vh;
+}
+
+.titleNoDocument {
+    font-size: 14px;
+    color: grey;
+    font-weight: bold;
+    margin-top: 4%;
+}
+
+.proverb {
+    font-style: oblique;
+    margin-top: 8%;
+}
+
+.proverbDate {
+    font-weight: normal;
+    color: gray;
+    font-size: 14px !important;
+}
+
+.imgleft {
+    margin-left: 4%;
+}
+
+.imgright {
+    margin-right: 2%;
+}
+
+.card-footer {
+    display: block;
+    .creator {
+        text-align: right !important;
+        color: #999999 !important;
+        font-size: 12px !important;
+        line-height: 22px !important;
+        display: flex;
+        justify-content: flex-end;
+        .material-icons {
+            margin-right: 5px;
+        }
+    }
+}
+
+.creator {
+    text-align: right !important;
+    color: #999999 !important;
+    font-size: 12px !important;
+    line-height: 22px !important;
+    display: flex;
+    justify-content: flex-end;
+    .material-icons {
+        margin-right: 5px;
+    }
+}
+
+.card-category:not([class*="text-"]) {
+    color: #1d4d91;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: right !important;
+    margin-top: 5%;
+}
+
+.card-body {
+    padding: 0.9375rem 20px;
+    position: relative;
+    margin: auto;
+    color: #3c4858;
+}
+
+.carouselcontent {
+    position: relative;
+}
+
+.actionButton {
+    color: #1d4d91;
+    margin-left: 60%;
+    width: 50%;
+}
+
+.spinner {
+    margin-top: 50px;
+}

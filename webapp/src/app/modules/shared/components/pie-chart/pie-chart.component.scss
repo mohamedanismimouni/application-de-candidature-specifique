@@ -1,0 +1,118 @@
+.pie-chart-title {
+    padding: 18px 24px 0 24px;
+
+    h6 {
+        font-size: 1rem;
+        line-height: 32px;
+        margin: 0;
+    }
+}
+
+.pie-chart-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    .pie-chart-wrapper {
+        position: relative;
+        height: 164px;
+        width: 164px;
+        padding: 0 4px;
+        box-sizing: border-box;
+
+        .empty-chart-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .legend-container {
+        flex: 1;
+        padding: 24px;
+
+        .legend {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 4px 12px;
+
+            .color {
+                height: 18px;
+                width: 4px;
+                margin-right: 12px;
+            }
+
+            .value {
+                margin-right: 8px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .name {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+@media (max-width: 414px){
+    .pie-chart-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    
+        .pie-chart-wrapper {
+            position: relative;
+            height: 164px;
+            width: 164px;
+            padding: 0 4px;
+            box-sizing: border-box;
+    
+            .empty-chart-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    
+        .legend-container {
+            flex: 1;
+            padding: 24px;
+            margin-left: -38px;
+    
+            .legend {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 4px 12px;
+    
+                .color {
+                    height: 18px;
+                    width: 4px;
+                    margin-right: 12px;
+                }
+    
+                .value {
+                    margin-right: 8px;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+    
+                .name {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    
+
+}

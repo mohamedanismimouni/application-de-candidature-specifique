@@ -1,0 +1,53 @@
+<div class="graph-container">
+    <ngx-graph
+        [nodes]="nodesValue"
+        [links]="linksValue"
+        [curve]="curve"
+        layout="dagre"
+        [enableZoom]="false"
+        [autoZoom]="true"
+        [autoCenter]="true"
+        [panningEnabled]="false"
+        [draggingEnabled]="false"
+        [panToNode$]="panToNode"
+        [center$]="center"
+    >
+        <ng-template #nodeTemplate let-node>
+            <svg:g
+                class="node"
+                [class.selectable]="node.meta.selectable"
+                (click)="onNodeSelection(node)"
+            >
+                <svg:circle
+                    cx="8"
+                    cy="8"
+                    r="8"
+                    stroke-width="8"
+                    *ngIf="node.id === startingPoint.id"
+                ></svg:circle>
+                <svg:rect
+                    [attr.width]="node.dimension.width + 10"
+                    [attr.height]="node.dimension.height"
+                    rx="16"
+                    ry="16"
+                    [class.selected]="selectedNode && selectedNode.id === node.id"
+                    [class.reachable]="node.meta.reachable"
+                    [class.unreachable]="!node.meta.reachable"
+                    [class.covered]="node.meta.covered"
+                    *ngIf="node.id !== startingPoint.id"
+                ></svg:rect>
+                <svg:text
+                    alignment-baseline="central"
+                    [attr.x]="15"
+                    [attr.y]="node.dimension.height / 2"
+                    *ngIf="node.id !== startingPoint.id"
+                >{{ node.label }}</svg:text>
+            </svg:g>
+        </ng-template>
+        <ng-template #linkTemplate let-link>
+            <svg:g class="edge">
+                <svg:path class="line" stroke-width="3"></svg:path>
+            </svg:g>
+        </ng-template>
+    </ngx-graph>
+</div>

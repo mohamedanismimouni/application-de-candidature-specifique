@@ -1,0 +1,147 @@
+<nb-layout class="feature-module-layout">
+
+
+    <nb-layout-column>
+        <app-spinner *ngIf="loading"></app-spinner>
+        <div class="container con" *ngIf="!loading">
+            <div class="grid">
+                <div class="cell">
+                    <nb-card class="datatable-card">
+                        <nb-card-body>
+                            <div class="datatable-container data-con">
+                                <div class="datatable-header ">
+
+                                    <div class="datatable-header-content-container">
+                                        <div class="datatable-header-item full-width" style="margin-bottom: 3%;">
+                                            <div class="search-box">
+                                                <h6 *ngIf="!search">Collaborators</h6>
+                                                <input *ngIf="search" nbInput shape="round" fieldSize="small" type="text" [placeholder]="'Search collaborator ...'" id="keyword" [(ngModel)]="keyword">
+                                            </div>
+
+                                            <div class="search-box-control">
+                                                <nb-icon [icon]="search ? 'close-outline' : 'search-outline'" title='test' (click)="toggleSearch()">
+                                                </nb-icon>
+                                            </div>
+                                            <div class="synchro-box-control">
+                                                <button (click)="synchronizeCollaborators()" [disabled]=" loadingState" [nbSpinner]="loadingState" nbButton hero shape="round" size="small" status="primary">
+                                                    <nb-icon icon="sync-outline"></nb-icon>
+                                                    <span class="display_responsive">S</span> <span
+                                                        class="tolowercase">ynchronize</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="datatable-body">
+                                    <table class="datatable" aria-describedby="datatable">
+                                        <tr class="header-row">
+                                            <th>Registration Number</th>
+                                            <th>Name</th>
+                                            <th>Civility</th>
+                                            <th>Entry Date</th>
+                                            <th>Leaving Date</th>
+                                            <th>Qualification</th>
+                                            <th>Function</th>
+                                            <th>Status</th>
+
+                                        </tr>
+
+                                        <tr class="data-row" *ngFor="let collab of collabs | filter: keyword | paginate: config; index as i;">
+                                            <td>
+                                                {{collab.matricule}}
+                                            </td>
+                                            <td>
+                                                {{collab.firstName}} {{collab.lastName}}
+                                            </td>
+                                            <td>{{collab.civility?.label}}</td>
+                                            <td> {{collab.entryDate | date}} </td>
+                                            <td> {{collab?.endContractDate | date}} </td>
+
+                                            <td *ngIf="collab.qualification?.libelle">
+                                                {{collab.qualification?.libelle}} {{collab.qualification?.sousQualification}}
+                                            </td>
+                                            <td *ngIf="!collab.qualification?.libelle">
+                                                -
+                                            </td>
+
+                                            <td class="row colonneWidth" *ngIf="collab.function?.libelle  && enableEditIndex != i">
+
+                                                <div class="col-10">
+                                                    {{collab.function?.libelle}}
+                                                </div>
+                                                <div class="col-2">
+                                                    <nb-icon class="icon" icon="edit-outline" (click)="switchEditMode(i)"></nb-icon>
+                                                </div>
+
+                                            </td>
+
+                                            <td class="row" *ngIf="collab.function?.libelle &&  enableEditIndex == i && closeDropDown==false">
+                                                <!-- (keyup.enter)="onFormSubmit()" -->
+                                                <p-dropdown class="col-lg-sm-9" styleClass="ui-dropdown" [options]="this.functions" [(ngModel)]="selectedFunction" placeholder="{{collab.function?.libelle}}" optionLabel="libelle" [showClear]="true">
+                                                </p-dropdown>
+                                                <button class="col-lg-sm-2" class="confirmButton" nbButton size="small" (click)="cancel()">
+                                                    <nb-icon icon="close-outline" class="cancelIcon"></nb-icon>
+                                                </button>
+
+                                                <button class="col-lg-sm-1" class="confirmButton" nbButton size="small" [disabled]="selectedFunction==null" (click)="onSubmit(collab.id, selectedFunction?.libelle)">
+                                                    <nb-icon icon="checkmark-outline" class="confirmIcon"></nb-icon>
+                                                </button>
+                                            </td>
+                                            <td class="row" *ngIf="!collab.function?.libelle &&  enableEditIndex == i && closeDropDown==false">
+                                                <!-- (keyup.enter)="onFormSubmit()" -->
+                                                <p-dropdown class="col-lg-sm-9" styleClass="ui-dropdown" [options]="this.functions" [(ngModel)]="selectedFunction" placeholder="Select collab's function" optionLabel="libelle" [showClear]="true">
+                                                </p-dropdown>
+                                                <button class="col-lg-sm-2" class="confirmButton" nbButton size="small" (click)="cancel()">
+                                                    <nb-icon icon="close-outline" class="cancelIcon"></nb-icon>
+                                                </button>
+
+                                                <button class="col-lg-sm-1" class="confirmButton" nbButton size="small" [disabled]="selectedFunction==null" (click)="onSubmit(collab.id, selectedFunction?.libelle)">
+                                                    <nb-icon icon="checkmark-outline" class="confirmIcon"></nb-icon>
+                                                </button>
+                                            </td>
+
+                                            <td class="row colonneWidth" *ngIf="collab.function?.libelle &&  enableEditIndex == i && closeDropDown==true">
+                                                <div class="col-10">
+                                                    {{collab.function?.libelle}}
+                                                </div>
+                                                <div class="col-2">
+                                                    <nb-icon class="icon" icon="edit-outline" (click)="switchEditMode(i)"></nb-icon>
+                                                </div>
+                                            </td>
+                                            <td class="row colonneWidth" *ngIf="!collab.function?.libelle  && enableEditIndex != i">
+                                                <div class="col-10">
+                                                    -
+                                                </div>
+                                                <div class="col-2">
+                                                    <nb-icon class="icon" icon="edit-outline" (click)="switchEditMode(i)"></nb-icon>
+                                                </div>
+                                            </td>
+                                            <td class="row colonneWidth" *ngIf="!collab.function?.libelle  &&  enableEditIndex == i && closeDropDown==true">
+                                                <div class="col-10">
+                                                    -
+                                                </div>
+                                                <div class="col-2">
+                                                    <nb-icon class="icon" icon="edit-outline" (click)="switchEditMode(i)"></nb-icon>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badgeActive" *ngIf="collab.accountStatus=='ACTIVE'">Active</span>
+                                                <span class="badgeInactive" *ngIf="collab.accountStatus=='INACTIVE'">Inactive</span>
+                                                <span class="badgeSuspended" *ngIf="collab.accountStatus=='SUSPENDED'">Suspended</span>
+                                            </td>
+
+                                        </tr>
+
+                                    </table>
+                                    <pagination-controls class="pagination" (pageChange)="pageChanged($event)">
+                                    </pagination-controls>
+                                </div>
+                            </div>
+                        </nb-card-body>
+                    </nb-card>
+                </div>
+            </div>
+        </div>
+    </nb-layout-column>
+</nb-layout>

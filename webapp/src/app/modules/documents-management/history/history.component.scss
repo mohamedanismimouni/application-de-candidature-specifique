@@ -1,0 +1,164 @@
+@import "~@nebular/theme/styles/global/breakpoints";
+.titleDate {
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+}
+
+.nb-card-header {
+    background-color: var(--text-primary-color);
+}
+
+.card {
+    border-radius: 10px;
+    background-color: var(--header-background-color);
+    color: aliceblue;
+    box-shadow: 0 4px 8px 0 rgba(78, 78, 78, 0.2), 0 6px 20px 0 rgba(150, 147, 147, 0.19);
+    .card-header {
+        border-radius: 10px 10px 0px 0px;
+        background: linear-gradient(90deg, #2CAF93 35%, var(--text-primary-color)100%);
+    }
+}
+
+.container-document {
+    max-width: 1200px;
+    margin-top: 2%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    @include media-breakpoint-down(md) {
+        max-width: 100%;
+    }
+}
+
+.columntype {
+    width: 20%;
+}
+  
+
+.badgeinvalidated {
+    background-color: rgb(245, 186, 171);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 25px;
+    font-size: 13px;
+}
+
+.badgevalidated {
+    background-color: rgb(181, 226, 201);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 25px;
+    font-size: 13px;
+}
+
+.badgevalidatedSysteme {
+    background-color: rgb(190, 220, 229);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 25px;
+    font-size: 13px;
+}
+
+.badgeReceived {
+    background-color: rgb(178, 211, 223);
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 25px;
+    font-size: 13px;
+}
+
+.actionButton {
+    margin-right: 1px;
+    margin-left: 20px;
+    color: var(--text-primary-color)
+}
+
+.cont {
+    margin: 1%;
+}
+
+.h6style {
+    margin-left: 10px;
+}
+
+.stylesearch {
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.cardi {
+    padding: 20px;
+}
+
+.columnwidth {
+    width: 100px;
+    padding: 80px;
+}
+
+.iconmargin {
+    margin-right: 5px;
+}
+
+.iconcolor {
+    color: grey;
+}
+
+.datatable-header {
+    border-bottom: 1px solid var(--divider-color);
+    .datatable-header-content-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        @include media-breakpoint-down(md) {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .datatable-header-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            .search-box {
+                flex: 1;
+                input {
+                    max-width: 30%;
+                    animation: show-and-expand 0.3s ease-in forwards;
+                }
+            }
+            .search-box-control {
+                margin-left: 24px;
+                nb-icon {
+                    color: var(--text-primary-color);
+                    cursor: pointer;
+                }
+            }
+        }
+        .datatable-header-item+.datatable-header-item {
+            margin-left: 24px;
+            @include media-breakpoint-down(md) {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+        .datatable-header-item.full-width {
+            flex: 1;
+        }
+        .datatable-header-item.filters-container {
+            @include media-breakpoint-down(md) {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    }
+}
