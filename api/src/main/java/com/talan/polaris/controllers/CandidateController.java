@@ -12,7 +12,7 @@ import com.talan.polaris.mapper.candidateMapper;
 
 
 import com.talan.polaris.services.CvService;
-import com.talan.polaris.services.MailService;
+//import com.talan.polaris.services.MailService;
 import com.talan.polaris.services.candidateService;
 
 
@@ -46,10 +46,9 @@ public class CandidateController {
     @Autowired
     private CvService cvService;
 
-    @Autowired
-    private MailService mailService;
+//    @Autowired
+//    private MailService mailService;
 
-    @Autowired
     private TestService testService;
     @PostMapping("/indexCv")
     public ResponseEntity<Object> upload(@RequestParam("file") MultipartFile file)throws IOException {

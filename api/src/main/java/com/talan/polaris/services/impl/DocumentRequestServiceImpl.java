@@ -33,7 +33,7 @@ public class DocumentRequestServiceImpl implements DocumentRequestService {
     private final DocumentRequestRepository documentRequestRepository;
     private final RequestStatusService requestStatusService;
 //    private final SessionService sessionService;
-    private final MailService mailService;
+//    private final MailService mailService;
     private final RequestTypeService requestTypeService;
     private final CollaboratorService userService;
     private final GenerateDocumentService generateDocumentService;
@@ -51,7 +51,7 @@ public class DocumentRequestServiceImpl implements DocumentRequestService {
             DocumentRequestRepository repository,
             RequestStatusService requestStatusService,
 //            SessionService sessionService,
-            MailService mailService,
+//            MailService mailService,
             RequestTypeService requestTypeService,
             CollaboratorService userService,
             GenerateDocumentService generateDocumentService,
@@ -64,7 +64,7 @@ public class DocumentRequestServiceImpl implements DocumentRequestService {
         this.documentRequestRepository = repository;
         this.requestStatusService = requestStatusService;
 //        this.sessionService = sessionService;
-        this.mailService = mailService;
+//        this.mailService = mailService;
         this.requestTypeService = requestTypeService;
         this.userService = userService;
         this.generateDocumentService = generateDocumentService;

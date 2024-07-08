@@ -57,7 +57,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
 //    private final SessionService sessionService;
-    private final MailService mailService;
+//    private final MailService mailService;
     private final ObjectMapper objectMapper;
     private final MentorshipService mentorshipService;
     private final CareerPositionService careerPositionService;
@@ -75,7 +75,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
             TeamRepository teamRepository,
             PasswordEncoder passwordEncoder,
 //            SessionService sessionService,
-            MailService mailService,
+//            MailService mailService,
             ObjectMapper objectMapper,
             MentorshipService mentorshipService,
             @Lazy CareerPositionService careerPositionService,
@@ -87,7 +87,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         this.teamRepository =teamRepository;
         this.passwordEncoder = passwordEncoder;
 //        this.sessionService = sessionService;
-        this.mailService = mailService;
+//        this.mailService = mailService;
         this.objectMapper = objectMapper;
         this.mentorshipService = mentorshipService;
         this.careerPositionService = careerPositionService;

@@ -20,7 +20,6 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class testController {
 
-    @Autowired
    private TestService testService;
 
     @Autowired

@@ -21,7 +21,6 @@ public class ResultTestServiceImpl implements ResultTestService {
     @Autowired
     private ResultTestRepository resultTestRepository;
 
-    @Autowired
     private TestService testService;
 
     private TestMapper testMapper;

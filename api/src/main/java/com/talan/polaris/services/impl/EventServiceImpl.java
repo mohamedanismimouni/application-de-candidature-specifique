@@ -33,22 +33,21 @@ public class EventServiceImpl implements EventService {
     private final JobHistoryService jobHistoryService;
     private final CollaboratorService collaboratorService;
     private final EDMService edmService;
-    private final MailService mailService;
+//    private final MailService mailService;
 
     @Autowired
     public EventServiceImpl(EventRepository eventRepository,
                             ScoreService scoreService,
                             JobHistoryService jobHistoryService,
                             EDMService edmService,
-                            CollaboratorService collaboratorService,
-                            MailService mailService) {
+                            CollaboratorService collaboratorService) {
 
         this.eventRepository = eventRepository;
         this.scoreService = scoreService;
         this.jobHistoryService = jobHistoryService;
         this.edmService = edmService;
         this.collaboratorService = collaboratorService;
-        this.mailService = mailService;
+//        this.mailService = mailService;
     }
 
     /**
