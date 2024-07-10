@@ -1,0 +1,85 @@
+pipeline {
+    agent {
+        // Utiliser un agent Docker avec Node.js et Java installés pour faciliter la gestion des environnements
+        docker {
+            image 'node:16.17.0' // Image Docker avec Node.js
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // Pour utiliser Docker dans Docker
+    }
+}
+
+    environment {
+        GIT_CREDENTIALS_ID = 'github-pat'
+        // Définir les variables d'environnement
+        NODE_HOME = tool name: 'NodeJS 16.17.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        JAVA_HOME = tool name: 'OpenJDK 17.0.7', type: 'jdk'
+        PATH = "${env.NODE_HOME}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Extraire le code source de la branche 'main'
+                git branch: 'main', url: 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                script {
+                    dir('webapp') {
+                        // Installer les dépendances
+                        sh 'npm install'
+                        
+                        // Construire l'application Angular
+                        sh 'npm run build'
+                        
+                        // Archiver le build comme artefact
+                        archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                    }
+                }
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                script {
+                    dir('api') {
+                        // Nettoyer le build précédent
+                        sh './mvnw clean'
+
+                        // Construire l'application Spring Boot
+                        sh './mvnw package'
+
+                        // Archiver le build comme artefact
+                        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                    }
+                }
+            }
+        }
+
+        stage('Archive Jenkinsfile') {
+            steps {
+                script {
+                    // Copier le Jenkinsfile en tant qu'artefact
+                    archiveArtifacts artifacts: 'Jenkinsfile', fingerprint: true
+                }
+            }
+        }
+        
+    post {
+        always {
+            // Actions à effectuer à la fin du pipeline, indépendamment du succès ou de l'échec
+            echo 'Pipeline terminé, vérifiez les artefacts.'
+        }
+
+        success {
+            // Actions à effectuer en cas de succès du pipeline
+            echo 'Build réussi, les artefacts ont été archivés avec succès.'
+        }
+
+        failure {
+            // Actions à effectuer en cas d'échec du pipeline
+            echo 'Le build a échoué, veuillez vérifier les logs pour plus de détails.'
+        }
+    }
+}
