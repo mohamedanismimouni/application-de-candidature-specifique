@@ -4,8 +4,8 @@ pipeline {
         docker {
             image 'node:16.17.0' // Image Docker avec Node.js
             args '-v /var/run/docker.sock:/var/run/docker.sock' // Pour utiliser Docker dans Docker
+        }
     }
-}
 
     environment {
         GIT_CREDENTIALS_ID = 'github-pat'
@@ -65,7 +65,8 @@ pipeline {
                 }
             }
         }
-        
+    }
+
     post {
         always {
             // Actions à effectuer à la fin du pipeline, indépendamment du succès ou de l'échec
