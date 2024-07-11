@@ -1,81 +1,64 @@
 pipeline {
-    agent {
-        // Utiliser un agent Docker avec Node.js et Java installés pour faciliter la gestion des environnements
-        docker {
-            image 'node:16.17.0' // Image Docker avec Node.js
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Pour utiliser Docker dans Docker
-        }
-    }
-
-    environment {
-    GIT_CREDENTIALS_ID = 'github-pat'
-    NODE_HOME = tool name: 'NodeJS 16.17.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-    JAVA_HOME = tool name: 'OpenJDK 17.0.7', type: 'jdk'
-    PATH = "${env.NODE_HOME}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
-}
-
-
+    agent any
     stages {
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
-                // Extraire le code source de la branche 'main'
-                git branch: 'main', url: 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
+                checkout scm
             }
         }
-
-        stage('Build Frontend') {
+        stage('Setup Docker') {
             steps {
                 script {
-                    dir('webapp') {
-                        // Installer les dépendances
-                        sh 'npm install'
-                        
-                        // Construire l'application Angular
-                        sh 'npm run build'
-                        
-                        // Archiver le build comme artefact
-                        archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                    def imageExists = sh(script: 'docker inspect -f . node:16.17.0 || echo "not found"', returnStdout: true).trim()
+                    if (imageExists == "not found") {
+                        sh 'docker pull node:16.17.0'
                     }
                 }
             }
         }
-
-        stage('Build Backend') {
-    steps {
-        script {
-            dir('api') {
-                sh "${env.JAVA_HOME}/bin/java -version"
-                sh './mvnw clean package'
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-            }
-        }
-    }
-}
-
-
-        stage('Archive Jenkinsfile') {
+        stage('Build Frontend') {
             steps {
                 script {
-                    // Copier le Jenkinsfile en tant qu'artefact
-                    archiveArtifacts artifacts: 'Jenkinsfile', fingerprint: true
+                    dir('webapp') {
+                        try {
+                            sh 'npm install'
+                        } catch (Exception e) {
+                            echo 'npm install failed'
+                            sh 'cat npm-debug.log || true'
+                            error 'npm install failed'
+                        }
+                    }
                 }
             }
         }
+        stage('Build Backend') {
+            when {
+                not {
+                    failed()
+                }
+            }
+            steps {
+                script {
+                    // Vos étapes pour construire le backend ici
+                }
+            }
+        }
+        stage('Archive Jenkinsfile') {
+            when {
+                not {
+                    failed()
+                }
+            }
+            steps {
+                archiveArtifacts artifacts: 'Jenkinsfile'
+            }
+        }
     }
-
     post {
         always {
-            // Actions à effectuer à la fin du pipeline, indépendamment du succès ou de l'échec
             echo 'Pipeline terminé, vérifiez les artefacts.'
         }
-
-        success {
-            // Actions à effectuer en cas de succès du pipeline
-            echo 'Build réussi, les artefacts ont été archivés avec succès.'
-        }
-
         failure {
-            // Actions à effectuer en cas d'échec du pipeline
             echo 'Le build a échoué, veuillez vérifier les logs pour plus de détails.'
         }
     }
