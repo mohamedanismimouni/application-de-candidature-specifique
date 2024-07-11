@@ -8,12 +8,12 @@ pipeline {
     }
 
     environment {
-        GIT_CREDENTIALS_ID = 'github-pat'
-        // Définir les variables d'environnement
-        NODE_HOME = tool name: 'NodeJS 16.17.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-        JAVA_HOME = tool name: 'OpenJDK 17.0.7', type: 'jdk'
-        PATH = "${env.NODE_HOME}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
-    }
+    GIT_CREDENTIALS_ID = 'github-pat'
+    NODE_HOME = tool name: 'NodeJS 16.17.0', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+    JAVA_HOME = tool name: 'OpenJDK 17.0.7', type: 'jdk'
+    PATH = "${env.NODE_HOME}/bin:${env.JAVA_HOME}/bin:${env.PATH}"
+}
+
 
     stages {
         stage('Checkout') {
@@ -41,21 +41,17 @@ pipeline {
         }
 
         stage('Build Backend') {
-            steps {
-                script {
-                    dir('api') {
-                        // Nettoyer le build précédent
-                        sh './mvnw clean'
-
-                        // Construire l'application Spring Boot
-                        sh './mvnw package'
-
-                        // Archiver le build comme artefact
-                        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                    }
-                }
+    steps {
+        script {
+            dir('api') {
+                sh "${env.JAVA_HOME}/bin/java -version"
+                sh './mvnw clean package'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+    }
+}
+
 
         stage('Archive Jenkinsfile') {
             steps {
