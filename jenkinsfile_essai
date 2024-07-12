@@ -1,26 +1,24 @@
 pipeline {
-
     agent any 
 
     stages {
-
         stage("build") {
-
             steps {
                 echo 'building the application...'
             }
+        } // Ferme le stage "build"
 
-         stage("test") {
-
+        stage("test") {
             steps {
                 echo 'testing the application...'
             }
+        } // Ferme le stage "test"
 
-         stage("deploy") {
-
+        stage("deploy") {
             steps {
                 echo 'deploying the application...'
             }
-        }
-    }
-}
+        } // Ferme le stage "deploy"
+    } // Ferme les stages
+} // Ferme le pipeline
+
