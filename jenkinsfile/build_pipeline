@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+environment {
+        GIT_CREDENTIALS = credentials('mcb')  
+    }
+
     stages {
         stage('Checkout') {
             steps {
