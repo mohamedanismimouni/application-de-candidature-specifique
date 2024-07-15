@@ -12,7 +12,7 @@ pipeline {
             steps {
                 dir('webapp') {
                     sh 'npm install'
-                    sh 'npm run build'
+                    sh 'ng serve'
                 }
             }
         }
