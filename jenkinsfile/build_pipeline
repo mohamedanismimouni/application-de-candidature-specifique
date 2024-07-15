@@ -12,7 +12,7 @@ pipeline {
             steps {
                 dir('webapp') {
                     sh 'npm install'
-                    sh '/var/jenkins_home/.npm-global/bin/ng'
+                    sh '/var/jenkins_home/.npm-global/bin/ng build'
                 }
             }
         }
