@@ -19,7 +19,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                dir('backend') {
+                dir('api') {
                     sh './mvnw clean install'
                 }
             }
