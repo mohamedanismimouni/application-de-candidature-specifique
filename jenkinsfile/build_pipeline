@@ -83,4 +83,9 @@ pipeline {
     post {
         failure {
             emailext attachLog: true, body: 'Problème de compilation sur le projet Appli-RH', subject: "Jenkins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
-        
+        }
+        changed {
+            emailext attachLog: true, body: "Job '${env.JOB_NAME}' corrigé!", subject: "Jenkins > FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
+        }
+    }
+}
