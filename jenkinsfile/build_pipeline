@@ -9,17 +9,20 @@ pipeline {
     }
 
     stages {
-        stage('Git Checkout') {
-            steps {
-                git credentialsId: '300b475b-68d2-4762-a744-ff7fcd6505d9', branch: "${brancheName}", url: 'http://gitlab.dom.tti/java-rd/applirh.git'
-                emailext (
-                    subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                    body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-                    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                    recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-                )
+       stages {
+    stage('Git Checkout') {
+        steps {
+            script {
+                def gitUrl = 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
+                def credentialsId = 'mcb' 
+
+                git credentialsId: credentialsId, branch: "${env.main}", url: gitUrl
+                
             }
         }
+    }
+}
+
 
         stage('Build Backend') {
             steps {
