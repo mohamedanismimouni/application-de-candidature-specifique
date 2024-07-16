@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                bat script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
+                sh script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
             }
         }
 
@@ -34,13 +34,13 @@ pipeline {
                 }
             }
             steps {
-                bat script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${BaseURL}"
+                sh script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${BaseURL}"
             }
         }
 
         stage('Preparing artifacts') {
             steps {
-                bat script: 'powershell.exe -File scripts/zip-webapp.ps1'
+                sh script: 'powershell.exe -File scripts/zip-webapp.ps1'
                 archiveArtifacts artifacts: 'applirh-front.zip, **/target/*.jar', followSymlinks: false
             }
         }
@@ -53,7 +53,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv("tti-sonar") {
-                    bat script: "${scannerCMD}"
+                    sh script: "${scannerCMD}"
                 }
             }
         }
