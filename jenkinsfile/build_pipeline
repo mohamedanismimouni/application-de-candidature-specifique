@@ -25,12 +25,12 @@ pipeline {
        stage('Build Backend') {
     steps {
          echo 'building the backend...'
+         sh '''
+         mvn -f ./pom.xml clean install -DskipTests
+        '''
     }
 }
-
-       
-
-
+    
 }
 }
         
