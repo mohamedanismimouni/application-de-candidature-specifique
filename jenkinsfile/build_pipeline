@@ -6,7 +6,7 @@ pipeline {
         mvnCMD = "${tool 'Maven 3.9.8'}/bin/mvn"
 
         scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-        scannerCMD = "${scannerHome}/bin/sonar-scanner.bat"
+        scannerCMD = "${scannerHome}/bin/sonar-scanner"
     }
 
     stages {
@@ -34,14 +34,14 @@ pipeline {
                 }
             }
             steps {
-                sh script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${BaseURL}"
+                sh script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${env.BaseURL}"
             }
         }
 
         stage('Preparing artifacts') {
             steps {
-                sh script: 'powershell.exe -File scripts/zip-webapp.ps1'
-                archiveArtifacts artifacts: 'applirh-front.zip, **/target/*.jar', followSymlinks: false
+                sh script: 'zip -r applirh-front.zip webapp/target/*.jar'
+                archiveArtifacts artifacts: 'applirh-front.zip', followSymlinks: false
             }
         }
 
@@ -52,7 +52,7 @@ pipeline {
                 }
             }
             steps {
-                withSonarQubeEnv("tti-sonar") {
+                withSonarQubeEnv('tti-sonar') {
                     sh script: "${scannerCMD}"
                 }
             }
@@ -62,9 +62,9 @@ pipeline {
             agent { label 'tti140' }
             steps {
                 sh label: 'Curl', script: "cd /home/byblos/jenkins/docker-images/applirh && ./get-artifact.sh"
-                sh label: 'Copy Back', script: "cd /home/byblos/jenkins/docker-images/applirh && cp *.jar /home/byblos/jenkins/docker-images/applirh/api"
-                sh label: 'Copy Front', script: "cd /home/byblos/jenkins/docker-images/applirh && cp *.zip /home/byblos/jenkins/docker-images/applirh/nginx"
-                sh label: 'Unzip front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && rm -r webapp && unzip applirh-front.zip"
+                sh label: 'Copy Back', script: "cp /home/byblos/jenkins/docker-images/applirh/*.jar /home/byblos/jenkins/docker-images/applirh/api"
+                sh label: 'Copy Front', script: "cp /home/byblos/jenkins/docker-images/applirh/*.zip /home/byblos/jenkins/docker-images/applirh/nginx"
+                sh label: 'Unzip front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && rm -rf webapp && unzip -o ../applirh-front.zip"
                 sh label: 'Build image', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && docker build -t rd.talan.com:5443/appli-rh/front ."
             }
         }
@@ -72,20 +72,19 @@ pipeline {
         stage('Docker build push') {
             agent { label 'tti140' }
             steps {
-                sh label: 'Build image front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && docker build -t rd.talan.com:5443/appli-rh/front ."
+                sh label: 'Build image API', script: "cd /home/byblos/jenkins/docker-images/applirh/api && docker build --no-cache -t rd.talan.com:5443/appli-rh/appli-rh-api ."
+                sh label: 'Push image API', script: "docker push rd.talan.com:5443/appli-rh/appli-rh-api"
                 sh label: 'Push image front', script: "docker push rd.talan.com:5443/appli-rh/front"
-                sh label: 'Build image front', script: "cd /home/byblos/jenkins/docker-images/applirh/api && docker build --no-cache -t rd.talan.com:5443/appli-rh/appli-rh-api ."
-                sh label: 'Push image front', script: "docker push rd.talan.com:5443/appli-rh/appli-rh-api"
             }
         }
     }
 
     post {
         failure {
-            emailext attachLog: true, body: 'Problème de compilation sur le projet Appli-RH', subject: "Jenkins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
+            emailext attachLog: true, body: 'Problème de compilation sur le projet Appli-RH', subject: "Jenkins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: env.MAILING_LIST
         }
         changed {
-            emailext attachLog: true, body: "Job '${env.JOB_NAME}' corrigé!", subject: "Jenkins > FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
+            emailext attachLog: true, body: "Job '${env.JOB_NAME}' corrigé!", subject: "Jenkins > FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: env.MAILING_LIST
         }
     }
 }
