@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                sh script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
+                sh script: "${mvnCMD} --version"
             }
         }
 
