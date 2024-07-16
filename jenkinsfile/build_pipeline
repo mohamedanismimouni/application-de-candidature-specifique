@@ -22,8 +22,11 @@ pipeline {
         }
 
         stage('Build Backend') {
-            steps {
+             steps {
+                sh script: "echo 'Maven Home: ${mvnHome}'"
+                sh script: "echo 'Maven Command: ${mvnCMD}'"
                 sh script: "${mvnCMD} --version"
+                sh script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
             }
         }
 
