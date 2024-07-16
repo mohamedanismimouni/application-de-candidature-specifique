@@ -1,8 +1,9 @@
 pipeline {
     agent any
     environment {
-        mvnHome = tool name: 'maven_3.9.8', type: 'maven'
-        mvnCMD = "${mvnHome}/bin/mvn"
+        mvnHome = tool name: 'Maven 3.9.8', type: 'maven'
+        mvnCMD = "${tool 'Maven 3.9.8'}/bin/mvn"
+
         scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         scannerCMD = "${scannerHome}/bin/sonar-scanner.bat"
     }
