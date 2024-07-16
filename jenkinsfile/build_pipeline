@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     environment {
         mvnHome = tool name: 'Maven 3.9.8', type: 'maven'
         mvnCMD = "${tool 'Maven 3.9.8'}/bin/mvn"
@@ -9,24 +10,20 @@ pipeline {
     }
 
     stages {
-       stages {
-    stage('Git Checkout') {
-        steps {
-            script {
-                def gitUrl = 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
-                def credentialsId = 'mcb' 
+        stage('Git Checkout') {
+            steps {
+                script {
+                    def gitUrl = 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
+                    def credentialsId = 'mcb'
 
-                git credentialsId: credentialsId, branch: "${env.main}", url: gitUrl
-                
+                    git credentialsId: credentialsId, branch: "${env.BRANCH_NAME}", url: gitUrl
+                }
             }
         }
-    }
-}
-
 
         stage('Build Backend') {
             steps {
-                bat label: '', script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
+                bat script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
             }
         }
 
@@ -37,13 +34,13 @@ pipeline {
                 }
             }
             steps {
-                bat label: '', script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${BaseURL}"
+                bat script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${BaseURL}"
             }
         }
 
         stage('Preparing artifacts') {
             steps {
-                bat script: 'powershell.exe -File scripts/zip-webapp.ps1' // Utilisation d'un script PowerShell pour zipper
+                bat script: 'powershell.exe -File scripts/zip-webapp.ps1'
                 archiveArtifacts artifacts: 'applirh-front.zip, **/target/*.jar', followSymlinks: false
             }
         }
@@ -56,7 +53,7 @@ pipeline {
             }
             steps {
                 withSonarQubeEnv("tti-sonar") {
-                    bat label: '', script: "${scannerCMD}"
+                    bat script: "${scannerCMD}"
                 }
             }
         }
@@ -85,10 +82,5 @@ pipeline {
 
     post {
         failure {
-            emailext attachLog: true, body: 'Pb de comilpactipn sur le projet Aplli-RH', subject: "Jankins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
-        }
-        changed {
-            emailext attachLog: true, body: "Job '${env.JOB_NAME} fixed!", subject: "Jankins > FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
-        }
-    }
-}
+            emailext attachLog: true, body: 'Problème de compilation sur le projet Appli-RH', subject: "Jenkins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
+        
