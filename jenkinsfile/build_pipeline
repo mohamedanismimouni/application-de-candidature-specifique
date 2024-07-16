@@ -20,71 +20,9 @@ pipeline {
                 }
             }
         }
-
-        stage('Build Backend') {
-            steps {
-                sh script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
-            }
-        }
-
-        stage('Build Frontend') {
-            when {
-                expression {
-                    return params.buildFront == true
-                }
-            }
-            steps {
-                sh script: "${mvnCMD} -f webapp/pom.xml clean install -DbuildDomain=${env.BaseURL}"
-            }
-        }
-
-        stage('Preparing artifacts') {
-            steps {
-                sh script: 'zip -r applirh-front.zip webapp/target/*.jar'
-                archiveArtifacts artifacts: 'applirh-front.zip', followSymlinks: false
-            }
-        }
-
-        stage('Sonar Code Quality Check') {
-            when {
-                expression {
-                    return params.analyseSonar == true
-                }
-            }
-            steps {
-                withSonarQubeEnv('tti-sonar') {
-                    sh script: "${scannerCMD}"
-                }
-            }
-        }
-
-        stage('Getting Artifacts On server') {
-            agent { label 'tti140' }
-            steps {
-                sh label: 'Curl', script: "cd /home/byblos/jenkins/docker-images/applirh && ./get-artifact.sh"
-                sh label: 'Copy Back', script: "cp /home/byblos/jenkins/docker-images/applirh/*.jar /home/byblos/jenkins/docker-images/applirh/api"
-                sh label: 'Copy Front', script: "cp /home/byblos/jenkins/docker-images/applirh/*.zip /home/byblos/jenkins/docker-images/applirh/nginx"
-                sh label: 'Unzip front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && rm -rf webapp && unzip -o ../applirh-front.zip"
-                sh label: 'Build image', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && docker build -t rd.talan.com:5443/appli-rh/front ."
-            }
-        }
-
-        stage('Docker build push') {
-            agent { label 'tti140' }
-            steps {
-                sh label: 'Build image API', script: "cd /home/byblos/jenkins/docker-images/applirh/api && docker build --no-cache -t rd.talan.com:5443/appli-rh/appli-rh-api ."
-                sh label: 'Push image API', script: "docker push rd.talan.com:5443/appli-rh/appli-rh-api"
-                sh label: 'Push image front', script: "docker push rd.talan.com:5443/appli-rh/front"
-            }
-        }
-    }
-
-    post {
-        failure {
-            emailext attachLog: true, body: 'Problème de compilation sur le projet Appli-RH', subject: "Jenkins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: env.MAILING_LIST
-        }
-        changed {
-            emailext attachLog: true, body: "Job '${env.JOB_NAME}' corrigé!", subject: "Jenkins > FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: env.MAILING_LIST
-        }
-    }
 }
+}
+        
+      
+      
+   
