@@ -1,41 +1,35 @@
 pipeline {
     agent any
     environment {
-		mvnHome = tool name: 'maven_3.9.8', type: 'maven'
+        mvnHome = tool name: 'maven_3.9.8', type: 'maven'
         mvnCMD = "${mvnHome}/bin/mvn"
-
         scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         scannerCMD = "${scannerHome}/bin/sonar-scanner.bat"
-	}
+    }
 
     stages {
         stage('Git Checkout') {
             steps {
-                //cleanWs()
                 git credentialsId: '300b475b-68d2-4762-a744-ff7fcd6505d9', branch: "${brancheName}", url: 'http://gitlab.dom.tti/java-rd/applirh.git'
-
-                // send to email
-              emailext (
-                  subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                  body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+                emailext (
+                    subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                    body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
                     <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-                  recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                    recipientProviders: [[$class: 'DevelopersRecipientProvider']]
                 )
             }
         }
 
         stage('Build Backend') {
             steps {
-                // -P prod
                 bat label: '', script: "${mvnCMD} -f api/pom.xml clean install -DskipTests"
             }
         }
 
         stage('Build Frontend') {
-            //when { branch pattern: "release-\\d+", comparator: "REGEXP"}
             when {
                 expression {
-                   return params.buildFront == true
+                    return params.buildFront == true
                 }
             }
             steps {
@@ -45,38 +39,36 @@ pipeline {
 
         stage('Preparing artifacts') {
             steps {
-                //, overwrite: true
-                zip zipFile: 'applirh-front.zip', archive: true, overwrite: true, dir: 'webapp/dist'
-                archiveArtifacts artifacts: 'applirh-front.zip, **/target/*.jar, ', followSymlinks: false
+                bat script: 'powershell.exe -File scripts/zip-webapp.ps1' // Utilisation d'un script PowerShell pour zipper
+                archiveArtifacts artifacts: 'applirh-front.zip, **/target/*.jar', followSymlinks: false
             }
         }
 
-       stage('Sonar Code Quality Check') {
-           //when { branch pattern: "release-\\d+", comparator: "REGEXP"}
-           when {
+        stage('Sonar Code Quality Check') {
+            when {
                 expression {
-                   return params.analyseSonar == true
+                    return params.analyseSonar == true
                 }
             }
-           steps {
-               withSonarQubeEnv("tti-sonar") {
+            steps {
+                withSonarQubeEnv("tti-sonar") {
                     bat label: '', script: "${scannerCMD}"
-               }
-           }
+                }
+            }
         }
 
-        stage ('Getting Artifacts On server') {
+        stage('Getting Artifacts On server') {
             agent { label 'tti140' }
             steps {
                 sh label: 'Curl', script: "cd /home/byblos/jenkins/docker-images/applirh && ./get-artifact.sh"
                 sh label: 'Copy Back', script: "cd /home/byblos/jenkins/docker-images/applirh && cp *.jar /home/byblos/jenkins/docker-images/applirh/api"
                 sh label: 'Copy Front', script: "cd /home/byblos/jenkins/docker-images/applirh && cp *.zip /home/byblos/jenkins/docker-images/applirh/nginx"
-                sh label: 'Unzip front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && rm -r webapp  && unzip applirh-front.zip"
+                sh label: 'Unzip front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && rm -r webapp && unzip applirh-front.zip"
                 sh label: 'Build image', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && docker build -t rd.talan.com:5443/appli-rh/front ."
             }
         }
 
-        stage ('Docker build push') {
+        stage('Docker build push') {
             agent { label 'tti140' }
             steps {
                 sh label: 'Build image front', script: "cd /home/byblos/jenkins/docker-images/applirh/nginx && docker build -t rd.talan.com:5443/appli-rh/front ."
@@ -85,9 +77,9 @@ pipeline {
                 sh label: 'Push image front', script: "docker push rd.talan.com:5443/appli-rh/appli-rh-api"
             }
         }
-   }
+    }
 
-   post {
+    post {
         failure {
             emailext attachLog: true, body: 'Pb de comilpactipn sur le projet Aplli-RH', subject: "Jankins > FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
         }
@@ -95,5 +87,4 @@ pipeline {
             emailext attachLog: true, body: "Job '${env.JOB_NAME} fixed!", subject: "Jankins > FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", to: params.mailingList
         }
     }
-
 }
