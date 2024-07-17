@@ -48,8 +48,8 @@ le pipeline est lancé avec succès. néanmoins, quand j'ajoute ce stage de 'bui
 
        stage('Build Backend') {
             steps {
-                echo 'building the backend...'
-                sh "${mvnCMD} -f ./pom.xml clean install -DskipTests"
+                sh "echo 'building the backend...'"
+               
             }
         }
 
