@@ -20,38 +20,39 @@ pipeline {
                 }
             }
         }
+}
+}
+le pipeline est lancé avec succès. néanmoins, quand j'ajoute ce stage de 'build backend' et je lance ce pipeline: pipeline {
+    agent any
 
-        stage('Verify Maven Path') {
-            steps {
-                script {
-                    sh "echo Maven Home: ${mvnHome}"
-                    sh "ls -la ${mvnHome}"
-                }
-            }
-        }
+    environment {
+        mvnHome = tool name: 'Maven 3.9.8', type: 'maven'
+        mvnCMD = "${tool 'Maven 3.9.8'}/bin/mvn"
 
-        stage('Verify pom.xml') {
-            steps {
-                script {
-                    sh "ls -la ./pom.xml"
-                }
-            }
-        }
-
-        stage('Test Maven Command') {
-            steps {
-                script {
-                    sh "${mvnCMD} -version"
-                }
-            }
-        }
-
-        stage('Build Backend') {
-            steps {
-                script {
-                    sh "${mvnCMD} -f ./pom.xml clean install -DskipTests"
-                }
-            }
-        }
+        scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        scannerCMD = "${scannerHome}/bin/sonar-scanner"
     }
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                script {
+                    def gitUrl = 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
+                    def credentialsId = 'mcb'
+
+                    git credentialsId: credentialsId, branch: "${env.BRANCH_NAME}", url: gitUrl
+                }
+            }
+        }
+
+
+       stage('Build Backend') {
+            steps {
+                echo 'building the backend...'
+                sh "${mvnCMD} -f ./pom.xml clean install -DskipTests"
+            }
+        }
+
+    
+}
 }
