@@ -25,7 +25,7 @@ pipeline {
        stage('Build Backend') {
             steps {
                 echo 'building the backend...'
-                sh "${mvnCMD} -f ./pom.xml clean install -DskipTests"
+                sh 'echo Hello World'
             }
         }
 
