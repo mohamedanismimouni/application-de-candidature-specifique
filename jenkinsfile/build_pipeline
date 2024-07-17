@@ -21,21 +21,12 @@ pipeline {
             }
         }
 
-
-        stage('Print Agent Name') {
-            steps {
-                script {
-                    echo "Running on agent: ${env.NODE_NAME}"
-                }
-            }
-        }
-
         stage('Build Backend') {
             steps {
                 echo 'building the backend...'
             }
         }
-    }
+    
 
 }
 }
