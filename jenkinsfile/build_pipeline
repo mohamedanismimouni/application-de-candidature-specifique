@@ -21,18 +21,37 @@ pipeline {
             }
         }
 
-
-       stage('Build Backend') {
+        stage('Verify Maven Path') {
             steps {
-                echo 'building the backend...'
-
+                script {
+                    sh "echo Maven Home: ${mvnHome}"
+                    sh "ls -la ${mvnHome}"
+                }
             }
         }
 
-    
+        stage('Verify pom.xml') {
+            steps {
+                script {
+                    sh "ls -la ./pom.xml"
+                }
+            }
+        }
+
+        stage('Test Maven Command') {
+            steps {
+                script {
+                    sh "${mvnCMD} -version"
+                }
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                script {
+                    sh "${mvnCMD} -f ./pom.xml clean install -DskipTests"
+                }
+            }
+        }
+    }
 }
-}
-        
-      
-      
-   
