@@ -25,7 +25,7 @@ pipeline {
                 dir("api"){
                 echo 'building the backend...'
                 // Build the Spring Boot application
-                sh './mvnw clean package' // Adjust the build command as per your project setup
+                sh '../mvnw clean package' // Adjust the build command as per your project setup
                 }
             }
         }
