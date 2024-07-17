@@ -1,9 +1,6 @@
 .DS_Store
 HELP.md
 target/
-.mvn/
-mvnw
-mvnw.cmd
 !**/src/main/**/target/
 !**/src/test/**/target/
 
