@@ -22,13 +22,14 @@ pipeline {
         stage('Build Backend') {
             steps {
                 script {
+                dir("api"){
                 echo 'building the backend...'
                 // Build the Spring Boot application
                 sh './mvnw clean package' // Adjust the build command as per your project setup
                 }
             }
         }
-    
+    }
 
 }
 }
