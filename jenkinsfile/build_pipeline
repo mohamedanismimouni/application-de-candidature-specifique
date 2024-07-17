@@ -16,7 +16,7 @@ pipeline {
                     def gitUrl = 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
                     def credentialsId = 'mcb'
 
-                    git credentialsId: credentialsId, branch: "${env.BRANCH_NAME}", url: gitUrl
+                    git credentialsId: credentialsId, branch: "main", url: gitUrl
                 }
             }
         }
