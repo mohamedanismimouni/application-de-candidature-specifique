@@ -25,7 +25,7 @@ pipeline {
        stage('Build Backend') {
             steps {
                 echo 'building the backend...'
-                sh 'echo Hello World'
+                bash 'echo Hello World'
             }
         }
 
