@@ -13,10 +13,8 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 script {
-                    def gitUrl = 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
-                    def credentialsId = 'mcb'
-
-                    git credentialsId: credentialsId, branch: "main", url: gitUrl
+                     // Checkout the code from GitHub
+                    git branch: 'main', credentialsId: 'mcb', url: 'https://github.com/mohamedanismimouni/application-de-candidature-specifique.git'
                 }
             }
         }
@@ -25,7 +23,8 @@ pipeline {
             steps {
                 script {
                 echo 'building the backend...'
-                sh "${mvnCMD} -f ./pom.xml clean install -DskipTests"
+                // Build the Spring Boot application
+                sh './mvnw clean package' // Adjust the build command as per your project setup
                 }
             }
         }
